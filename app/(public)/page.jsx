@@ -1,229 +1,213 @@
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link'
+import Image from 'next/image'
 
 export const metadata = {
-  title: "La Maison en Paille — Formations construction naturelle",
-  description:
-    "Apprenez à construire, rénover et chauffer avec des matériaux naturels. Stages Paille Terre Chaux, Poêle de masse, Photovoltaïque animés par André de Bouter. Charente (16).",
-};
+  title: 'La Maison en Paille — Formations : Paille Terre Chaux / Poêle de masse',
+  description: 'Formations en construction naturelle animées par André de Bouter depuis 25 ans. Paille Terre Chaux, Poêle de masse, Photovoltaïque. Charente (16).',
+}
 
-const formations = [
+// Images Wixstatic extraites du site réel
+const IMG_PAILLE = 'https://static.wixstatic.com/media/3e33e8_c7ce8044bc594a609f7c72f370d79c9c~mv2.jpg/v1/crop/x_59,y_0,w_1122,h_1748/fill/w_314,h_413,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Fonds3.jpg'
+const IMG_TERRE  = 'https://static.wixstatic.com/media/3e33e8_d95d5a776364461ab0e8f33345cb57f1~mv2.jpg/v1/crop/x_59,y_0,w_1122,h_1748/fill/w_309,h_413,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Fonds2.jpg'
+const IMG_BANDEAU = 'https://static.wixstatic.com/media/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg/v1/fill/w_381,h_1920,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg'
+const IMG_PORTE  = 'https://static.wixstatic.com/media/f4c673_bfb45c777c99497f897266941e875ff9~mv2.png/v1/fill/w_475,h_285,al_c,q_85,enc_avif,quality_auto/f4c673_bfb45c777c99497f897266941e875ff9~mv2.png'
+const IMG_GIF    = 'https://static.wixstatic.com/media/f4c673_9e107a544f7a4064a4a68de072001bac~mv2.gif'
+
+// Les 3 cartes formations — couleurs exactes des screenshots
+const FORMATIONS = [
   {
-    slug: "paille-terre-chaux",
-    titre: "Paille, Terre & Chaux",
-    sousTitre: "Construire / Rénover / Isoler / Décorer",
-    duree: "Stage 6 jours",
-    tarif: "660 €",
-    description:
-      "Apprenez les clés pour réaliser votre projet durable, performant et confortable.",
-    couleur: "bg-amber-100",
-    accent: "#8b6c47",
+    slug: 'paille-terre-chaux',
+    titre: 'Paille,\nTerre\n& Chaux',
+    sousTitre: 'Construire / Rénover /\nIsoler / Décorer',
+    duree: 'Stage 6 jours',
+    desc: 'Apprenez les clés pour réaliser votre projet durable, performant et confortable.',
+    img: IMG_PAILLE,
+    // Couleur de fond de la partie haute de la carte (screenshot : jaune doré)
+    cardBg: '#c8a040',
   },
   {
-    slug: "poele-de-masse",
-    titre: "Poêle de Masse",
-    sousTitre: "1 heure de feu = 24h de confort",
-    duree: "Stage 3 jours",
-    tarif: "380 €",
-    description:
-      "Les apports du stage vous permettent de construire ensuite votre poêle personnalisé. Optionnel : four, eau chaude, banc chauffé.",
-    couleur: "bg-orange-100",
-    accent: "#c8603e",
+    slug: 'poele-de-masse',
+    titre: 'Poêle\nde Masse',
+    sousTitre: '1 heure de feu =\n24h de confort',
+    duree: 'Stage 3 jours',
+    desc: "Les apports du stage vous permettent de construire ensuite votre poêle personnalisé. Optionnel : four, eau chaude, banc chauffé.",
+    img: IMG_TERRE,
+    cardBg: '#c06030',
   },
   {
-    slug: "photovoltaique",
-    titre: "Autonomie Photovoltaïque",
-    sousTitre: "Être plus autonome en énergie",
-    duree: "Stage 2 jours",
-    tarif: "Nous contacter",
-    description: `Pour toute personne désirant être davantage autonome, résiliente et économe dans sa consommation d'énergie.`,
-    couleur: "bg-yellow-50",
-    accent: "#5a6e4a",
+    slug: 'photovoltaique',
+    titre: 'Autonomie\nPhotovoltaïque',
+    sousTitre: 'Par Sébastien Deroo\nÊtre plus autonome en énergie',
+    duree: 'Stage 2 jours',
+    desc: "Pour toute personne désirant être davantage autonome, résiliente et économe dans sa consommation d'énergie.",
+    img: null,
+    cardBg: '#6a8e9a',
   },
-];
+]
 
 export default function HomePage() {
   return (
-    <>
-      {/* Hero */}
-      <section className="relative bg-[#3d2b1f] text-white overflow-hidden min-h-[70vh] flex items-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#3d2b1f] via-[#5a3e2b] to-[#2a1d15] opacity-90" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <p className="text-[#c8a96e] text-xs tracking-widest uppercase font-bold mb-6">
-            Formations 2026 — Charente (16)
+    // Fond principal : grande texture paille via l'image du site
+    <div
+      className="relative min-h-screen"
+      style={{
+        backgroundImage: `url(${IMG_BANDEAU})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
+      {/* Overlay très léger pour lisibilité */}
+      <div className="absolute inset-0 bg-[#c8824a]/60 pointer-events-none" />
+
+      <div className="relative z-10">
+
+        {/* ── Bandeau newsletter ── */}
+        <div className="bg-white/95 py-3 px-6 flex items-center justify-end gap-4 max-w-5xl mx-auto mt-6 rounded-sm">
+          <p className="font-raleway text-sm text-[#3d1a0e]">
+            Restons en contact avec les <strong>Nouv&apos;d&apos;André</strong>
           </p>
-          <h1 className="font-serif text-5xl md:text-7xl leading-tight mb-8 max-w-3xl">
-            Construisez avec
-            <br />
-            <span className="text-[#c8a96e]">la nature.</span>
-          </h1>
-          <p className="text-stone-300 text-lg max-w-xl leading-relaxed mb-10">
-            Vous souhaitez construire, rénover ou vous chauffer autrement ?
-            André de Bouter vous transmet les clés de compréhension et le
-            savoir-faire pour réaliser vos projets avec confiance.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Link
-              href="/contact"
-              className="inline-block bg-[#c8a96e] text-[#3d2b1f] text-xs tracking-widest uppercase px-8 py-4 font-bold hover:bg-white transition-colors"
-            >
-              Je m'inscris
-            </Link>
-            <Link
-              href="/formations/paille-terre-chaux"
-              className="inline-block border-2 border-stone-400 text-stone-200 text-xs tracking-widest uppercase px-8 py-4 font-bold hover:border-white hover:text-white transition-colors"
-            >
-              Voir les formations
-            </Link>
+          <Link href="/contact" className="btn-newsletter">
+            Je m&apos;abonne
+          </Link>
+        </div>
+
+        {/* ── Titre FORMATIONS 2026 ── */}
+        <div className="text-center py-10">
+          <div className="flex items-center justify-center gap-4">
+            <div className="flex-1 max-w-[120px] h-px bg-white/60" />
+            <h1 className="font-raleway font-black text-white tracking-[0.12em] uppercase"
+                style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+              Formations &nbsp; 2026
+            </h1>
+            <div className="flex-1 max-w-[120px] h-px bg-white/60" />
           </div>
         </div>
-      </section>
 
-      {/* Formations */}
-      <section className="py-24 bg-[#f5f0e8]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <p className="text-[#8b6c47] text-xs tracking-widest uppercase font-bold mb-4">
-              Programme
-            </p>
-            <h2 className="font-serif text-4xl text-[#3d2b1f]">
-              Formations 2026
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {formations.map((f) => (
-              <article
-                key={f.slug}
-                className="bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col"
+        {/* ── Grille 3 formations ── */}
+        <div className="max-w-5xl mx-auto px-6 pb-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+          {FORMATIONS.map((f) => (
+            <Link
+              key={f.slug}
+              href={`/formations/${f.slug}`}
+              className="group flex flex-col overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
+            >
+              {/* Partie haute colorée : image OU fond couleur + texte titre */}
+              <div
+                className="relative flex flex-col items-center justify-center text-center px-5 py-8 min-h-[260px]"
+                style={{ backgroundColor: f.cardBg }}
               >
-                {/* Image placeholder */}
-                <div className={`${f.couleur} h-56 flex items-end p-6`}>
-                  <span
-                    className="inline-block text-xs tracking-widest uppercase font-bold px-3 py-1 text-white"
-                    style={{ backgroundColor: f.accent }}
+                {/* Image de fond de la carte */}
+                {f.img && (
+                  <Image
+                    src={f.img}
+                    alt={f.titre}
+                    fill
+                    className="object-cover opacity-80"
+                    unoptimized
+                  />
+                )}
+                {/* Overlay pour lisibilité du texte */}
+                <div className="absolute inset-0" style={{ backgroundColor: `${f.cardBg}99` }} />
+
+                {/* Titres sur la carte */}
+                <div className="relative z-10 flex flex-col items-center gap-3">
+                  <h2
+                    className="font-raleway font-black text-white uppercase leading-tight"
+                    style={{
+                      fontSize: 'clamp(1.4rem, 2.5vw, 2rem)',
+                      letterSpacing: '0.04em',
+                      textShadow: '0 2px 6px rgba(0,0,0,0.4)',
+                      whiteSpace: 'pre-line',
+                    }}
                   >
+                    {f.titre}
+                  </h2>
+                  <p
+                    className="font-raleway font-bold text-white uppercase"
+                    style={{
+                      fontSize: '0.6rem',
+                      letterSpacing: '0.15em',
+                      whiteSpace: 'pre-line',
+                      textShadow: '0 1px 4px rgba(0,0,0,0.4)',
+                    }}
+                  >
+                    {f.sousTitre}
+                  </p>
+                  {/* Bouton terracotta arrondi */}
+                  <span className="btn-terracotta mt-2">
                     {f.duree}
                   </span>
                 </div>
+              </div>
 
-                <div className="p-8 flex flex-col flex-1">
-                  <h3 className="font-serif text-2xl text-[#3d2b1f] mb-2">
-                    {f.titre}
-                  </h3>
-                  <p className="text-xs tracking-widest uppercase text-[#8b6c47] font-bold mb-4">
-                    {f.sousTitre}
-                  </p>
-                  <p className="text-stone-600 text-sm leading-relaxed flex-1">
-                    {f.description}
-                  </p>
-
-                  <div className="mt-8 flex items-center justify-between">
-                    <span className="font-serif text-xl text-[#3d2b1f]">
-                      {f.tarif}
-                    </span>
-                    <Link
-                      href={`/formations/${f.slug}`}
-                      className="text-xs tracking-widest uppercase font-bold text-[#8b6c47] hover:text-[#3d2b1f] transition-colors border-b-2 border-[#8b6c47] hover:border-[#3d2b1f] pb-0.5"
-                    >
-                      En savoir plus →
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Encart André */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Photo placeholder */}
-            <div className="bg-stone-200 h-96 flex items-center justify-center text-stone-400 font-serif text-lg">
-              Photo André de Bouter
-            </div>
-            <div>
-              <p className="text-[#8b6c47] text-xs tracking-widest uppercase font-bold mb-4">
-                Le formateur
-              </p>
-              <h2 className="font-serif text-4xl text-[#3d2b1f] mb-6">
-                André de Bouter
-              </h2>
-              <p className="text-stone-600 leading-relaxed mb-6">
-                Depuis 25 ans, André anime des stages de construction naturelle
-                dans sa ferme éco-rénovée en Charente. Sa maison en paille,
-                chauffée au poêle de masse, est à la fois le lieu de formation
-                et la démonstration vivante de ce qu'il enseigne.
-              </p>
-              <p className="text-stone-600 leading-relaxed mb-8">
-                Son approche : vous transmettre des compréhensions solides et un
-                savoir-faire pratique pour que vous puissiez réaliser vos
-                projets avec confiance et plaisir.
-              </p>
-              <Link
-                href="/andre-de-bouter"
-                className="inline-block border-2 border-[#8b6c47] text-[#8b6c47] text-xs tracking-widest uppercase px-8 py-3 font-bold hover:bg-[#8b6c47] hover:text-white transition-colors"
-              >
-                Découvrir André
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Lieu / Infos pratiques */}
-      <section className="py-24 bg-[#3d2b1f] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <p className="text-[#c8a96e] text-xs tracking-widest uppercase font-bold mb-4">
-              Pratique
-            </p>
-            <h2 className="font-serif text-4xl">Le lieu de formation</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "",
-                titre: "Hébergement",
-                texte:
-                  "Terrain pour camper, parking van/camping-car, dortoir et petite cuisine d'été à votre disposition.",
-              },
-              {
-                icon: "",
-                titre: "Repas",
-                texte:
-                  "Pour le stage Poêle de masse, les repas végétariens sont préparés en commun et cuits dans le poêle Oxa-Libre.",
-              },
-              {
-                icon: "",
-                titre: "Adresse",
-                texte:
-                  "21, rue des Chaumes — Les Pellières, 16120 MOSNAC - SAINT-SIMEUX. À 14 km à l'ouest d'Angoulême.",
-              },
-            ].map((item) => (
-              <div key={item.titre} className="border border-stone-600 p-8">
-                <span className="text-4xl block mb-4">{item.icon}</span>
-                <h3 className="font-serif text-xl text-[#c8a96e] mb-3">
-                  {item.titre}
-                </h3>
-                <p className="text-stone-400 text-sm leading-relaxed">
-                  {item.texte}
+              {/* Partie basse blanche : description */}
+              <div className="bg-white px-5 py-5 flex-1">
+                <p className="text-center text-sm text-[#4a4a4a] leading-relaxed">
+                  {f.desc}
                 </p>
               </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Link
-              href="/contact"
-              className="inline-block bg-[#c8a96e] text-[#3d2b1f] text-xs tracking-widest uppercase px-10 py-4 font-bold hover:bg-white transition-colors"
-            >
-              Nous contacter
             </Link>
+          ))}
+        </div>
+
+        {/* ── Texte central ── */}
+        <div className="max-w-3xl mx-auto px-6 pb-14 text-center">
+          <p className="text-white text-sm leading-relaxed" style={{ textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}>
+            Vous souhaitez vous former pour pouvoir concrétiser votre projet ? Vous voulez vous assurer de réaliser votre rêve dans de bonnes conditions ? Je vous transmets les clés de compréhension et le savoir faire pour réaliser vos projets avec confiance et plaisir.
+          </p>
+        </div>
+
+        {/* ── Section Porte Ouverte — fond terracotta ── */}
+        <div className="bg-[#c4613a] py-12 px-6">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+
+            {/* Image journée nationale */}
+            <div className="flex justify-center">
+              <Image
+                src={IMG_PORTE}
+                alt="Journée nationale du Poêle de Masse — Porte ouverte 14 mars 2026"
+                width={380}
+                height={228}
+                className="object-contain w-full max-w-[380px]"
+                unoptimized
+              />
+            </div>
+
+            {/* Texte porte ouverte */}
+            <div className="text-center">
+              <h2
+                className="font-raleway font-black text-white uppercase underline underline-offset-4 decoration-2"
+                style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)', letterSpacing: '0.06em' }}
+              >
+                Porte<br />Ouverte
+              </h2>
+              <p className="text-white text-sm leading-relaxed mt-4">
+                Venez découvrir le confort du poêle de masse auto-construit.
+              </p>
+              <p className="text-white text-sm mt-3">
+                Samedi 14 mars<br />
+                <span className="underline underline-offset-2">Sur réservation</span><br />
+                (places limitées)
+              </p>
+            </div>
+
+            {/* GIF thermique */}
+            <div className="flex justify-center">
+              <Image
+                src={IMG_GIF}
+                alt="Vidéo thermique poêle de masse"
+                width={280}
+                height={210}
+                className="object-contain"
+                unoptimized
+              />
+            </div>
+
           </div>
         </div>
-      </section>
-    </>
-  );
+
+      </div>
+    </div>
+  )
 }

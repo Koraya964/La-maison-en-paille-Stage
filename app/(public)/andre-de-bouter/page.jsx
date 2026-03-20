@@ -1,104 +1,57 @@
-import Link from "next/link";
+import Link from 'next/link'
 
 export const metadata = {
-  title: "André de Bouter — Formateur",
-  description:
-    "André de Bouter anime des stages de construction naturelle depuis 25 ans. Paille, terre, chaux et poêle de masse à Saint-Simeux (Charente).",
-};
+  title: 'André de Bouter — Formateur | La Maison en Paille',
+  description: 'André de Bouter anime des stages de construction naturelle depuis 25 ans. Paille, terre, chaux et poêle de masse à Saint-Simeux (Charente).',
+}
 
-export default function AndreDeBouter() {
+const IMG_BANDEAU = 'https://static.wixstatic.com/media/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg/v1/fill/w_381,h_1920,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg'
+
+export default function AndreDeBouterPage() {
   return (
-    <>
-      <section className="bg-[#3d2b1f] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <p className="text-[#c8a96e] text-xs tracking-widest uppercase font-bold mb-4">
-            Le formateur
-          </p>
-          <h1 className="font-serif text-5xl md:text-6xl mb-4">
+    <div className="relative min-h-screen"
+      style={{ backgroundImage: `url(${IMG_BANDEAU})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
+      <div className="absolute inset-0 bg-[#c8824a]/55 pointer-events-none" />
+      <div className="relative z-10">
+        <div className="text-center py-14">
+          <h1 className="font-raleway font-black text-white uppercase tracking-[0.1em]"
+              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', textShadow: '0 2px 8px rgba(0,0,0,0.4)' }}>
             André de Bouter
           </h1>
-          <p className="text-stone-400 text-lg max-w-xl">
-            Praticien et formateur en construction naturelle depuis plus de 25
-            ans.
-          </p>
         </div>
-      </section>
-
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-            {/* Photo */}
-            <div className="lg:col-span-1">
-              <div className="bg-stone-200 h-96 flex items-center justify-center text-stone-400 font-serif text-lg">
-                Photo André de Bouter
-              </div>
+        <div className="bg-white/95 py-14 px-6">
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="bg-[#f0e8d8] h-80 flex items-center justify-center text-[#8b3a2a] font-raleway font-bold text-xs tracking-wider uppercase">
+              Photo André de Bouter
             </div>
-
-            {/* Bio */}
-            <div className="lg:col-span-2 space-y-6 text-stone-600 leading-relaxed">
-              <p>
-                André de Bouter vit et travaille dans sa ferme de Charente,
-                éco-rénovée avec les matériaux qu'il enseigne. Sa maison en
-                paille, isolée et enduite de terre et de chaux, chauffée au
-                poêle de masse Oxalis, est à la fois son lieu de vie et la
-                démonstration vivante de ce qu'il transmet.
-              </p>
-              <p>
-                Depuis plus de 25 ans, il anime des stages de construction
-                naturelle — paille, terre, chaux, poêle de masse — pour des
-                centaines de participants venus de toute la France et d'Europe.
-              </p>
-              <p>
-                Son approche pédagogique repose sur la pratique et la
-                transmission des compréhensions : comprendre pourquoi avant de
-                savoir comment. Il accompagne chacun selon son projet, qu'il
-                s'agisse d'une première rénovation ou d'un chantier
-                d'autoconstruction ambitieux.
-              </p>
-              <p>
-                André est membre de l'AFPMA (Association Française des
-                Professionnels du Poêle de Masse) et du RFCP (Réseau Français de
-                la Construction en Paille).
-              </p>
-
-              <div className="flex flex-wrap gap-4 mt-8">
-                <Link
-                  href="/formations/paille-terre-chaux"
-                  className="btn-primary"
-                >
-                  Voir les formations
-                </Link>
-                <Link href="/contact" className="btn-outline">
+            <div className="md:col-span-2 space-y-5 text-sm text-[#4a4a4a] leading-relaxed">
+              <h2 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.08em] text-xl">Le formateur</h2>
+              <p>Depuis 25 ans, André de Bouter anime des stages de construction naturelle dans sa ferme éco-rénovée en Charente. Sa maison en paille, chauffée au poêle de masse, est à la fois son lieu de vie et la démonstration vivante de ce qu'il enseigne.</p>
+              <p>Son approche : vous transmettre des compréhensions solides et un savoir-faire pratique pour que vous puissiez réaliser vos projets avec confiance et plaisir.</p>
+              <p>André est membre de l'AFPMA (Association Française des Professionnels du Poêle de Masse) et du RFCP (Réseau Français de la Construction en Paille).</p>
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Link href="/formations/paille-terre-chaux" className="btn-terracotta">Voir les formations</Link>
+                <Link href="/contact" className="font-raleway font-bold text-[10px] tracking-[0.15em] uppercase px-6 py-3 border border-[#8b3a2a] text-[#8b3a2a] hover:bg-[#8b3a2a] hover:text-white transition-colors">
                   Contacter André
                 </Link>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Chiffres clés */}
-      <section className="py-16 bg-[#f5f0e8]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 mt-14 text-center">
             {[
-              { chiffre: "25+", label: `années d'expérience` },
-              { chiffre: "1000+", label: "stagiaires formés" },
-              { chiffre: "3", label: "formations au programme" },
-              { chiffre: "6 jours", label: "stage phare Paille Terre Chaux" },
-            ].map((item) => (
-              <div key={item.label}>
-                <p className="font-serif text-4xl text-[#8b6c47] mb-2">
-                  {item.chiffre}
-                </p>
-                <p className="text-xs tracking-widest uppercase text-stone-500">
-                  {item.label}
-                </p>
+              { n: '25+', l: "années d'expérience" },
+              { n: '1000+', l: 'stagiaires formés' },
+              { n: '3', l: 'formations au programme' },
+              { n: '6 jours', l: 'stage phare Paille Terre Chaux' },
+            ].map(({ n, l }) => (
+              <div key={l}>
+                <p className="font-raleway font-black text-[#8b3a2a] text-3xl">{n}</p>
+                <p className="font-raleway font-bold text-[9px] tracking-[0.12em] uppercase text-[#4a4a4a] mt-1">{l}</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
-    </>
-  );
+      </div>
+    </div>
+  )
 }

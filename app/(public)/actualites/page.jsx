@@ -1,89 +1,67 @@
 import { query } from '@/lib/db'
 
 export const metadata = {
-  title: 'Actualités',
-  description: 'Les dernières nouvelles de La Maison en Paille : dates de stage, portes ouvertes, articles et ressources.',
+  title: 'Actualités | La Maison en Paille',
+  description: 'Les dernières nouvelles de La Maison en Paille.',
 }
 
-// Cette fonction s'exécute côté serveur — accès direct à la BDD
+const IMG_BANDEAU = 'https://static.wixstatic.com/media/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg/v1/fill/w_381,h_1920,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg'
+
 async function getActualites() {
   try {
-    return await query(
-      'SELECT * FROM actualites WHERE publie = TRUE ORDER BY created_at DESC'
-    )
+    return await query('SELECT * FROM actualites WHERE publie = TRUE ORDER BY created_at DESC')
   } catch {
-    // En développement, retourner des données fictives si la BDD n'est pas connectée
-    return [
-      {
-        id: 1,
-        titre: 'Porte ouverte Poêle de masse — Samedi 14 mars 2026',
-        contenu: 'Venez découvrir le confort du poêle de masse auto-construit. Sur réservation, places limitées.',
-        image_url: null,
-        created_at: new Date('2026-02-01'),
-      },
-      {
-        id: 2,
-        titre: 'Nouvelles dates de stage 2026 disponibles',
-        contenu: 'Les inscriptions pour les stages Paille Terre Chaux, Poêle de masse et Photovoltaïque 2026 sont ouvertes.',
-        image_url: null,
-        created_at: new Date('2026-01-15'),
-      },
-    ]
+    return []
   }
 }
 
 function formatDate(date) {
-  return new Date(date).toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+  return new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 export default async function ActualitesPage() {
   const actualites = await getActualites()
 
   return (
-    <>
-      <section className="bg-[#f5f0e8] border-b border-stone-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <p className="text-[#8b6c47] text-xs tracking-widest uppercase font-bold mb-4">Nouvelles</p>
-          <h1 className="font-serif text-5xl text-[#3d2b1f]">Actualités</h1>
+    <div className="relative min-h-screen"
+      style={{ backgroundImage: `url(${IMG_BANDEAU})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
+      <div className="absolute inset-0 bg-[#c8824a]/55 pointer-events-none" />
+      <div className="relative z-10">
+        <div className="text-center py-14">
+          <h1 className="font-raleway font-black text-white uppercase tracking-[0.1em]"
+              style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', textShadow: '0 2px 8px rgba(0,0,0,0.4)' }}>
+            Actualités
+          </h1>
         </div>
-      </section>
-
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {actualites.length === 0 ? (
-            <p className="text-stone-500 text-center py-16 font-serif text-lg">
-              Aucune actualité pour le moment.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {actualites.map((news) => (
-                <article key={news.id} className="border border-stone-100 hover:border-[#c8a96e] transition-colors p-8 flex flex-col">
-                  {news.image_url && (
-                    <div className="h-48 bg-stone-100 mb-6 overflow-hidden">
-                      <img
-                        src={news.image_url}
-                        alt={news.titre}
-                        className="w-full h-full object-cover"
-                      />
+        <div className="bg-white/95 py-12 px-6">
+          <div className="max-w-5xl mx-auto">
+            {actualites.length === 0 ? (
+              <p className="text-center font-raleway text-[#4a4a4a] py-16">Aucune actualité pour le moment.</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {actualites.map((news) => (
+                  <article key={news.id} className="bg-white border border-[#f0e8d8] hover:shadow-md transition-shadow">
+                    {news.image_url && (
+                      <div className="aspect-video overflow-hidden">
+                        <img src={news.image_url} alt={news.titre} className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <p className="font-raleway font-bold text-[9px] tracking-[0.15em] uppercase text-[#8b3a2a] mb-2">
+                        {formatDate(news.created_at)}
+                      </p>
+                      <h2 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.05em] text-base mb-3 leading-tight">
+                        {news.titre}
+                      </h2>
+                      <p className="text-sm text-[#4a4a4a] leading-relaxed line-clamp-4">{news.contenu}</p>
                     </div>
-                  )}
-                  <p className="text-xs text-stone-400 uppercase tracking-wider mb-3">
-                    {formatDate(news.created_at)}
-                  </p>
-                  <h2 className="font-serif text-xl text-[#3d2b1f] mb-3">{news.titre}</h2>
-                  <p className="text-stone-600 text-sm leading-relaxed flex-1 line-clamp-4">
-                    {news.contenu}
-                  </p>
-                </article>
-              ))}
-            </div>
-          )}
+                  </article>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </section>
-    </>
+      </div>
+    </div>
   )
 }

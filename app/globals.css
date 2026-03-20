@@ -1,45 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&family=Open+Sans:wght@300;400;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --color-paille: #c8a96e;
-    --color-terre: #8b6c47;
-    --color-chaux: #f5f0e8;
-    --color-mousse: #5a6e4a;
-    --color-bois: #3d2b1f;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
+  html { scroll-behavior: smooth; }
   body {
-    font-family: 'Lato', sans-serif;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Open Sans', sans-serif;
+    color: #4a4a4a;
+    background-color: #c8824a;
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply inline-block bg-[#8b6c47] text-white px-8 py-3 text-sm tracking-widest uppercase font-bold hover:bg-[#3d2b1f] transition-colors duration-300;
+  /* Bouton terracotta arrondi */
+  .btn-terracotta {
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: white;
+    background-color: #8b3a2a;
+    padding: 10px 24px;
+    border-radius: 20px;
+    transition: background-color 0.2s;
   }
+  .btn-terracotta:hover { background-color: #6a2818; }
 
-  .btn-outline {
-    @apply inline-block border-2 border-[#8b6c47] text-[#8b6c47] px-8 py-3 text-sm tracking-widest uppercase font-bold hover:bg-[#8b6c47] hover:text-white transition-colors duration-300;
+  /* Bouton newsletter */
+  .btn-newsletter {
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: white;
+    background-color: #8b3a2a;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
   }
+  .btn-newsletter:hover { background-color: #6a2818; }
 
-  .section-title {
-    @apply font-display text-3xl md:text-4xl text-[#3d2b1f] mb-6;
+  .nav-link {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: white;
+    transition: color 0.2s;
   }
-
-  .tag-label {
-    @apply inline-block bg-[#c8a96e] text-white text-xs tracking-widest uppercase px-3 py-1 mb-4;
-  }
+  .nav-link:hover { color: #f0c080; }
 }

@@ -4,153 +4,135 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const navItems = [
+const LOGO = 'https://static.wixstatic.com/media/3e33e8_e863ef51ae0a4110a5bddcbebff85137~mv2.png/v1/crop/x_0,y_18,w_518,h_417/fill/w_176,h_138,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo-web.png'
+
+const nav = [
   {
     label: 'Formations',
     children: [
       { label: 'Paille, Terre & Chaux', href: '/formations/paille-terre-chaux' },
-      { label: 'Poêle de masse', href: '/formations/poele-de-masse' },
-      { label: 'Photovoltaïque', href: '/formations/photovoltaique' },
+      { label: 'Poêle de Masse',        href: '/formations/poele-de-masse' },
+      { label: 'Photovoltaïque',        href: '/formations/photovoltaique' },
     ],
   },
   {
     label: 'Ressources',
     children: [
-      { label: 'Actualités', href: '/actualites' },
-      { label: 'Réalisations', href: '/realisations' },
-      { label: 'Ressources', href: '/ressources' },
+      { label: 'Porte ouverte : Poêle de masse', href: '/ressources' },
+      { label: 'Livres & DVDs',                   href: '/ressources' },
+      { label: 'Poêle de masse',                  href: '/ressources' },
+      { label: 'Vos réalisations',                href: '/realisations' },
     ],
   },
+  { label: 'Blog',             href: '/actualites' },
   { label: 'André de Bouter', href: '/andre-de-bouter' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Contact',          href: '/contact' },
 ]
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState(null)
+  const [openDrop, setOpenDrop] = useState(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-[#f5f0e8] border-b border-stone-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            {/* Placeholder logo — remplacer par next/image avec le vrai logo */}
-            <div className="w-14 h-14 bg-[#8b6c47] rounded-full flex items-center justify-center">
-              <span className="text-white font-serif text-xs text-center leading-tight px-1">MP</span>
-            </div>
-            <span className="font-serif text-[#3d2b1f] text-sm uppercase tracking-wider hidden sm:block">
-              La Maison<br />en Paille
-            </span>
-          </Link>
+    <header className="bg-[#3d1a0e] sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 flex items-center h-[80px] gap-10">
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) =>
-              item.children ? (
-                <div
-                  key={item.label}
-                  className="relative group"
-                  onMouseEnter={() => setOpenDropdown(item.label)}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
-                  <button className="text-xs tracking-widest uppercase text-stone-600 hover:text-[#8b6c47] transition-colors font-bold flex items-center gap-1">
-                    {item.label}
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {openDropdown === item.label && (
-                    <div className="absolute top-full left-0 mt-1 bg-white shadow-lg border border-stone-100 min-w-48 z-50">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          className="block px-5 py-3 text-xs tracking-wider uppercase text-stone-600 hover:bg-[#f5f0e8] hover:text-[#8b6c47] transition-colors"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-xs tracking-widest uppercase text-stone-600 hover:text-[#8b6c47] transition-colors font-bold"
-                >
+        {/* Logo carré blanc */}
+        <Link href="/" className="flex-shrink-0 bg-white p-2 block" style={{ lineHeight: 0 }}>
+          <Image
+            src={LOGO}
+            alt="La Maison en Paille"
+            width={100}
+            height={80}
+            className="object-contain"
+            style={{ width: 'auto', height: '64px' }}
+            unoptimized
+          />
+        </Link>
+
+        {/* Séparateur vertical */}
+        <div className="hidden lg:block w-px h-10 bg-white/20" />
+
+        {/* Nav desktop */}
+        <nav className="hidden lg:flex items-center gap-8 flex-1">
+          {nav.map((item) =>
+            item.children ? (
+              <div
+                key={item.label}
+                className="relative"
+                onMouseEnter={() => setOpenDrop(item.label)}
+                onMouseLeave={() => setOpenDrop(null)}
+              >
+                <button className="nav-link flex items-center gap-1.5">
                   {item.label}
-                </Link>
-              )
-            )}
-          </nav>
+                  <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 6">
+                    <path d="M1 1l4 4 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </button>
+                {openDrop === item.label && (
+                  <div className="absolute top-full left-0 mt-1 bg-[#3d1a0e] border border-white/10 shadow-xl min-w-[240px] z-50">
+                    {item.children.map((c) => (
+                      <Link
+                        key={c.label}
+                        href={c.href}
+                        className="block px-5 py-3 font-raleway font-700 text-[10px] tracking-[0.15em] uppercase text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                      >
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link key={item.href} href={item.href} className="nav-link">
+                {item.label}
+              </Link>
+            )
+          )}
+        </nav>
 
-          {/* CTA */}
-          <Link
-            href="/contact"
-            className="hidden lg:inline-block bg-[#8b6c47] text-white text-xs tracking-widest uppercase px-5 py-2 font-bold hover:bg-[#3d2b1f] transition-colors"
-          >
-            Je m'inscris
-          </Link>
-
-          {/* Mobile hamburger */}
-          <button
-            className="lg:hidden text-stone-600"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {menuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
+        {/* Séparateurs nav style site */}
+        <div className="hidden lg:flex items-center gap-0">
+          {/* Les séparateurs | entre items nav sont dans le nav lui-même via CSS */}
         </div>
+
+        {/* Mobile burger */}
+        <button
+          className="lg:hidden ml-auto text-white"
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            {mobileOpen
+              ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+              : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
+            }
+          </svg>
+        </button>
       </div>
 
       {/* Mobile menu */}
-      {menuOpen && (
-        <div className="lg:hidden bg-white border-t border-stone-200">
-          <nav className="px-4 py-4 flex flex-col gap-1">
-            {navItems.map((item) =>
-              item.children ? (
-                <div key={item.label}>
-                  <p className="text-xs tracking-widest uppercase text-stone-400 font-bold px-2 py-2 mt-2">
-                    {item.label}
-                  </p>
-                  {item.children.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      className="block px-4 py-2 text-sm text-stone-600 hover:text-[#8b6c47]"
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {child.label}
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="block px-2 py-2 text-xs tracking-widest uppercase font-bold text-stone-600 hover:text-[#8b6c47]"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
-            <Link
-              href="/contact"
-              className="mt-4 block text-center bg-[#8b6c47] text-white text-xs tracking-widest uppercase px-5 py-3 font-bold"
-              onClick={() => setMenuOpen(false)}
-            >
-              Je m'inscris
-            </Link>
-          </nav>
+      {mobileOpen && (
+        <div className="lg:hidden bg-[#3d1a0e] border-t border-white/10 px-6 py-4">
+          {nav.map((item) =>
+            item.children ? (
+              <div key={item.label} className="mb-4">
+                <p className="font-raleway font-800 text-[10px] tracking-[0.18em] uppercase text-white/40 mb-2">{item.label}</p>
+                {item.children.map((c) => (
+                  <Link key={c.label} href={c.href}
+                    className="block py-2 font-raleway font-700 text-[10px] tracking-[0.15em] uppercase text-white/70 hover:text-white"
+                    onClick={() => setMobileOpen(false)}>
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <Link key={item.href} href={item.href}
+                className="block mb-3 font-raleway font-700 text-[10px] tracking-[0.18em] uppercase text-white/80 hover:text-white"
+                onClick={() => setMobileOpen(false)}>
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
       )}
     </header>
