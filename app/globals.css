@@ -1,11 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&family=Open+Sans:wght@300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     font-family: 'Open Sans', sans-serif;
     color: #4a4a4a;
@@ -14,6 +17,7 @@
 }
 
 @layer components {
+
   /* Bouton terracotta arrondi */
   .btn-terracotta {
     display: inline-block;
@@ -28,7 +32,10 @@
     border-radius: 20px;
     transition: background-color 0.2s;
   }
-  .btn-terracotta:hover { background-color: #6a2818; }
+
+  .btn-terracotta:hover {
+    background-color: #6a2818;
+  }
 
   /* Bouton newsletter */
   .btn-newsletter {
@@ -44,7 +51,10 @@
     border-radius: 4px;
     transition: background-color 0.2s;
   }
-  .btn-newsletter:hover { background-color: #6a2818; }
+
+  .btn-newsletter:hover {
+    background-color: #6a2818;
+  }
 
   .nav-link {
     font-family: 'Raleway', sans-serif;
@@ -55,5 +65,8 @@
     color: white;
     transition: color 0.2s;
   }
-  .nav-link:hover { color: #f0c080; }
+
+  .nav-link:hover {
+    color: #f0c080;
+  }
 }
