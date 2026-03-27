@@ -1,5 +1,5 @@
 import PageBackground from "@/components/public/PageBackground";
-import InscriptionForm from "@/components/public/InscriptionForm";
+import InscriptionForm from "@/components/public/inscription/InscriptionForm";
 
 export const metadata = {
   title: "S'inscrire à une formation | La Maison en Paille",
