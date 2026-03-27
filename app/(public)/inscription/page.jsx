@@ -36,7 +36,7 @@ export default function InscriptionPage() {
 
       {/* Contact alternatif */}
       <div className="bg-[#3d1a0e] py-10 px-6 text-center">
-        <p className="font-raleway font-bold text-[10px] tracking-[0.2em] uppercase text-white/40 mb-3">
+        <p className="font-raleway font-bold text-[10px] tracking-[0.2em] uppercase text-white mb-3">
           Vous préférez nous contacter directement ?
         </p>
         <p className="text-white/70 text-sm">
@@ -44,14 +44,14 @@ export default function InscriptionPage() {
             href="tel:0545662768"
             className="text-[#c8a040] hover:text-white transition-colors font-bold"
           >
-            05 45 66 27 68
+            Par téléphone : 05 45 66 27 68
           </a>
           &nbsp;·&nbsp;
           <a
             href="mailto:contact@lamaisonenpaille.com?subject=INSCRIPTION"
             className="text-[#c8a040] hover:text-white transition-colors font-bold"
           >
-            contact@lamaisonenpaille.com
+            Par email : contact@lamaisonenpaille.com
           </a>
         </p>
       </div>

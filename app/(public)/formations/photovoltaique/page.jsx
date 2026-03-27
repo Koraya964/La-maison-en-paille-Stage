@@ -46,7 +46,10 @@ export default function PhotovoltaiquePage() {
           >
             Être plus autonome en énergie
           </p>
-          <Link href="/contact" className="btn-terracotta mt-6 inline-block">
+          <Link
+            href="/inscription"
+            className="btn-terracotta mt-6 inline-block"
+          >
             Je m&apos;inscris
           </Link>
         </div>

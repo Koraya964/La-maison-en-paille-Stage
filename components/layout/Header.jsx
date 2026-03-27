@@ -28,8 +28,8 @@ const nav = [
     ],
   },
   { label: "Livres", href: "/livres" },
-  { label: "Blog", href: "/actualites" },
   { label: "André de Bouter", href: "/andre-de-bouter" },
+  { label: "S'inscrire", href: "/inscription" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -39,20 +39,20 @@ export default function Header() {
 
   return (
     <header className="bg-[#3d1a0e] sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 flex items-center h-[80px] gap-10">
+      <div className="max-w-7xl mx-auto px-6 flex items-center h-[80px] gap-10 rounded-xl">
         {/* Logo carré blanc */}
         <Link
           href="/"
-          className="flex-shrink-0 bg-white p-2 block"
+          className="flex-shrink-0 bg-transparent  block"
           style={{ lineHeight: 0 }}
         >
           <Image
             src={LOGO}
             alt="La Maison en Paille"
-            width={100}
-            height={80}
-            className="object-contain"
-            style={{ width: "auto", height: "64px" }}
+            width={450}
+            height={400}
+            className="object-contain rounded-xl mt-12"
+            style={{ width: "auto", height: "120px" }}
             unoptimized
           />
         </Link>
