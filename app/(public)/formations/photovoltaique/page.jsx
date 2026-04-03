@@ -4,138 +4,191 @@ import Image from "next/image";
 export const metadata = {
   title: "Stage Autonomie Photovoltaïque — 2 jours | La Maison en Paille",
   description:
-    "Stage 2 jours pour être plus autonome en énergie. Par Sébastien Deroo. Saint-Simeux, Charente (16).",
+    "Maîtrisez votre production d'énergie. Stage de 2 jours sur le photovoltaïque autonome avec Sébastien Deroo.",
 };
 
-const IMG_BANDEAU =
-  "https://static.wixstatic.com/media/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg/v1/fill/w_381,h_1920,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg";
+const IMG_HERO =
+  "https://static.wixstatic.com/media/3e33e8_31acae3ecc7d4c1ab32197337fb25806~mv2.jpg/v1/fill/w_604,h_378,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/3e33e8_31acae3ecc7d4c1ab32197337fb25806~mv2.jpg";
 
 export default function PhotovoltaiquePage() {
   return (
-    <div
-      className="relative min-h-screen"
-      style={{
-        backgroundImage: `url(${IMG_BANDEAU})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
-      <div className="absolute inset-0 bg-[#c8824a]/55 pointer-events-none" />
-      <div className="relative z-10">
-        {/* Hero */}
-        <div className="bg-[#6a8e9a]/90 py-20 px-6 text-center">
-          <p className="font-raleway font-bold text-[10px] tracking-[0.25em] uppercase text-white/80 mb-3">
-            Stage 2 jours — Par Sébastien Deroo
-          </p>
-          <h1
-            className="font-raleway font-black text-white uppercase leading-tight"
-            style={{
-              fontSize: "clamp(2rem, 6vw, 4rem)",
-              letterSpacing: "0.06em",
-              textShadow: "0 2px 8px rgba(0,0,0,0.4)",
-            }}
-          >
-            Autonomie
-            <br />
-            Photovoltaïque
+    <div className="bg-[#F9F6F1] text-[#2D2D2D] font-sans selection:bg-[#E3A019] selection:text-white">
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+        <Image
+          src={IMG_HERO}
+          alt="Panneaux photovoltaïques"
+          fill
+          className="object-cover brightness-[0.45]"
+          priority
+          unoptimized
+        />
+        <div className="relative z-10 max-w-4xl px-6 text-center">
+          <span className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] uppercase bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full">
+            Énergie Durable & Résilience
+          </span>
+          <h1 className="font-raleway text-5xl md:text-7xl font-light text-white mb-6 leading-[1.1]">
+            L&apos;Autonomie{" "}
+            <span className="italic font-serif">Photovoltaïque</span>
           </h1>
-          <p
-            className="font-raleway font-bold text-white uppercase mt-3"
-            style={{ fontSize: "0.6rem", letterSpacing: "0.2em" }}
-          >
-            Être plus autonome en énergie
+          <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+            Un stage technique de 2 jours pour concevoir, dimensionner et
+            installer votre propre système solaire autonome.
           </p>
-          <Link
-            href="/inscription"
-            className="btn-terracotta mt-6 inline-block"
-          >
-            Je m&apos;inscris
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/inscription"
+              className="px-8 py-4 bg-[#E3A019] hover:bg-[#C98A15] text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-xl active:scale-95"
+            >
+              Réserver ma place
+            </Link>
+            <a
+              href="#programme"
+              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 rounded-xl font-bold transition-all"
+            >
+              Voir le programme
+            </a>
+          </div>
         </div>
+      </section>
 
-        {/* Contenu */}
-        <div className="bg-white/95 py-14 px-6">
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+      {/* ── CONTENU & INFOS ── */}
+      <section id="programme" className="py-24 px-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+          {/* Colonne Gauche : Programme */}
+          <div className="space-y-10">
             <div>
-              <h2 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.08em] text-xl mb-6">
-                Contenu du stage
+              <h2 className="text-4xl font-bold text-[#1A2E35] mb-6">
+                Au programme
               </h2>
-              <ul className="space-y-3">
-                {[
-                  "Comprendre le fonctionnement d'une installation photovoltaïque autonome",
-                  "Dimensionner l'installation selon vos besoins réels",
-                  "Choisir les bons composants (panneaux, batteries, onduleurs)",
-                  "Gérer la consommation et les priorités de charge",
-                  "Sécurité électrique et bonnes pratiques",
-                  "Retours d'expérience et cas concrets",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="flex gap-3 text-sm text-[#4a4a4a] leading-relaxed"
-                  >
-                    <span className="text-[#8b3a2a] font-bold flex-shrink-0">
-                      —
-                    </span>{" "}
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                De la théorie à la pratique, apprenez à devenir producteur de
+                votre propre électricité, que vous soyez en site isolé ou
+                raccordé au réseau.
+              </p>
             </div>
-            <div className="space-y-5">
+
+            <div className="space-y-4">
+              {[
+                "Comprendre la physique du photovoltaïque",
+                "Dimensionnement précis selon vos besoins réels",
+                "Choix technologiques : panneaux, batteries, onduleurs",
+                "Câblage, protection et mise en sécurité",
+                "Gérer les priorités de charge et la domotique douce",
+                "Études de cas et retours d'expérience concrets",
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className="w-6 h-6 rounded-full bg-[#E3A019]/20 flex items-center justify-center text-[#C98A15] flex-shrink-0 mt-1">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-gray-700 font-medium">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Colonne Droite : Fiche Technique */}
+          <div className="bg-white rounded-[2rem] p-10 lg:p-14 shadow-xl border border-gray-100 self-start">
+            <h3 className="text-2xl font-bold mb-8 text-[#1A2E35]">
+              Fiche technique
+            </h3>
+
+            <div className="space-y-8">
               {[
                 {
                   t: "Formateur",
-                  v: `Sébastien Deroo, praticien de l'autonomie énergétique.`,
+                  v: "Sébastien Deroo, spécialiste en systèmes énergétiques résilients.",
                 },
                 {
-                  t: "Public visé",
-                  v: "Particuliers souhaitant une installation hors réseau ou hybride, auto-constructeurs.",
+                  t: "Public",
+                  v: "Autoconstructeurs, curieux, projets de vie en site isolé ou hybride.",
                 },
                 {
-                  t: "Lieu",
+                  t: "Lieu du stage",
                   v: "21, rue des Chaumes — 16120 Saint-Simeux (Charente)",
                 },
-                { t: "Tarif", v: "Nous contacter pour les dates et tarifs." },
-              ].map(({ t, v }) => (
-                <div key={t} className="border-b border-[#f0e8d8] pb-4">
-                  <h3 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.12em] text-xs mb-1">
-                    {t}
-                  </h3>
-                  <p className="text-sm text-[#4a4a4a] leading-relaxed">{v}</p>
+                {
+                  t: "Tarif & Dates",
+                  v: "Nous consulter pour les prochaines sessions et tarifs personnalisés.",
+                },
+              ].map((item, i) => (
+                <div key={i} className="group">
+                  <h4 className="text-[10px] uppercase tracking-[0.2em] text-[#E3A019] font-black mb-2">
+                    {item.t}
+                  </h4>
+                  <p className="text-gray-700 leading-relaxed group-hover:text-black transition-colors">
+                    {item.v}
+                  </p>
                 </div>
               ))}
-              <Link
-                href="/contact"
-                className="btn-terracotta inline-block mt-2"
-              >
-                Nous contacter
-              </Link>
             </div>
+
+            <Link
+              href="/contact"
+              className="mt-12 w-full py-5 bg-[#1A2E35] text-center text-white rounded-2xl font-bold hover:bg-[#253D46] transition-all inline-block shadow-lg shadow-black/5"
+            >
+              Demander un devis ou une date
+            </Link>
           </div>
         </div>
+      </section>
 
-        {/* Autres formations */}
-        <div className="bg-[#3d1a0e] py-10 px-6 text-center">
-          <p className="font-raleway font-bold text-[10px] tracking-[0.2em] uppercase text-white/40 mb-5">
-            Toutes les formations
-          </p>
-          <div className="flex justify-center gap-4 flex-wrap">
+      {/* ── NAVIGATION FORMATIONS ── */}
+      <section className="bg-[#1A2E35] py-20 px-6 overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#E3A019]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-white font-raleway text-2xl mb-10 font-light tracking-wide">
+            Découvrez nos autres expertises
+          </h2>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-6">
             {[
-              ["Paille, Terre & Chaux", "/formations/paille-terre-chaux"],
-              ["Poêle de Masse", "/formations/poele-de-masse"],
-            ].map(([label, href]) => (
+              {
+                label: "Paille, Terre & Chaux",
+                href: "/formations/paille-terre-chaux",
+              },
+              { label: "Poêle de Masse", href: "/formations/poele-de-masse" },
+            ].map((link) => (
               <Link
-                key={href}
-                href={href}
-                className="font-raleway font-bold text-[10px] tracking-[0.15em] uppercase px-6 py-3 border border-[#c8a040] text-[#c8a040] hover:bg-[#c8a040] hover:text-[#3d1a0e] transition-colors"
+                key={link.href}
+                href={link.href}
+                className="group px-8 py-4 border border-white/20 text-white/80 rounded-xl hover:border-[#E3A019] hover:text-white transition-all flex items-center justify-center gap-3"
               >
-                {label}
+                <span className="font-medium tracking-wide">{link.label}</span>
+                <svg
+                  className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
               </Link>
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

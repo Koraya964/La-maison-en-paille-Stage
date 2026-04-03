@@ -32,8 +32,17 @@ export default function StepCoordonnees({
   inscription,
   onBack,
 }) {
-  const { form, errors, submitting, serverError, handleChange, submit } =
-    inscription;
+  // ✅ plus de useState local — tout vient du hook
+  const {
+    form,
+    errors,
+    submitting,
+    serverError,
+    handleChange,
+    submit,
+    isEntreprise,
+    setIsEntreprise,
+  } = inscription;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -53,8 +62,7 @@ export default function StepCoordonnees({
           </p>
           <p className="text-xs text-[#4a4a4a] mt-0.5">
             {formatDate(selectedStage?.date_debut)} →{" "}
-            {formatDate(selectedStage?.date_fin)}
-            &nbsp;·&nbsp;{formation?.tarif}
+            {formatDate(selectedStage?.date_fin)}&nbsp;·&nbsp;{formation?.tarif}
           </p>
         </div>
         <button
@@ -89,11 +97,7 @@ export default function StepCoordonnees({
               value={form[name]}
               onChange={handleChange}
               placeholder={placeholder}
-              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${
-                errors[name]
-                  ? "border-red-400 bg-red-50"
-                  : "border-stone-200 focus:border-[#8b3a2a]"
-              }`}
+              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors[name] ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
             />
             {errors[name] && (
               <p className="text-red-600 text-xs mt-1">{errors[name]}</p>
@@ -113,11 +117,7 @@ export default function StepCoordonnees({
           value={form.email}
           onChange={handleChange}
           placeholder="votre@email.com"
-          className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${
-            errors.email
-              ? "border-red-400 bg-red-50"
-              : "border-stone-200 focus:border-[#8b3a2a]"
-          }`}
+          className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.email ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
         />
         {errors.email && (
           <p className="text-red-600 text-xs mt-1">{errors.email}</p>
@@ -127,10 +127,7 @@ export default function StepCoordonnees({
       {/* ── Téléphone ── */}
       <div>
         <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
-          Téléphone{" "}
-          <span className="text-stone-400 normal-case tracking-normal font-normal">
-            (optionnel)
-          </span>
+          Téléphone *
         </label>
         <input
           type="tel"
@@ -138,16 +135,232 @@ export default function StepCoordonnees({
           value={form.telephone}
           onChange={handleChange}
           placeholder="06 12 34 56 78"
-          className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${
-            errors.telephone
-              ? "border-red-400 bg-red-50"
-              : "border-stone-200 focus:border-[#8b3a2a]"
-          }`}
+          className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.telephone ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
         />
         {errors.telephone && (
           <p className="text-red-600 text-xs mt-1">{errors.telephone}</p>
         )}
       </div>
+
+      {/* ── Adresse + Code Postal ── */}
+      <div>
+        <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
+          Adresse *
+        </label>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            name="adresse"
+            value={form.adresse}
+            onChange={handleChange}
+            placeholder="Votre adresse"
+            className={`w-2/3 border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.adresse ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+          />
+          <input
+            type="text"
+            name="cedex"
+            value={form.cedex}
+            onChange={handleChange}
+            placeholder="Code postal"
+            className={`w-1/3 border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.cedex ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+          />
+        </div>
+        {errors.adresse && (
+          <p className="text-red-600 text-xs mt-1">{errors.adresse}</p>
+        )}
+        {errors.cedex && (
+          <p className="text-red-600 text-xs mt-1">{errors.cedex}</p>
+        )}
+      </div>
+
+      {/* ── Ville ── */}
+      <div>
+        <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
+          Ville *
+        </label>
+        <input
+          type="text"
+          name="city"
+          value={form.city}
+          onChange={handleChange}
+          placeholder="Paris"
+          className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.city ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+        />
+        {errors.city && (
+          <p className="text-red-600 text-xs mt-1">{errors.city}</p>
+        )}
+      </div>
+
+      {/* ── Section entreprise ── */}
+      <div className="bg-[#3d1a0e] p-4">
+        <p className="font-bold text-[12px] tracking-[0.1em] uppercase text-white mb-1">
+          Pour les Entreprises
+        </p>
+      </div>
+
+      {/* ── Toggle entreprise ── */}
+      <div
+        onClick={() => setIsEntreprise((p) => !p)}
+        className="flex items-center justify-between px-4 py-3 border border-stone-200 rounded-lg bg-stone-50 cursor-pointer select-none"
+      >
+        <div>
+          <p className="text-sm font-medium text-[#3d1a0e]">
+            Inscrire au nom d'une entreprise
+          </p>
+          <p className="text-xs text-stone-500">
+            Renseigner les coordonnées professionnelles
+          </p>
+        </div>
+        <div
+          className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${isEntreprise ? "bg-[#3d1a0e]" : "bg-stone-300"}`}
+        >
+          <div
+            className={`absolute top-[3px] left-[3px] w-[18px] h-[18px] bg-white rounded-full transition-transform duration-200 ${isEntreprise ? "translate-x-5" : ""}`}
+          />
+        </div>
+      </div>
+
+      {/* ── Bloc entreprise (conditionnel) ── */}
+      {isEntreprise && (
+        <div className="border border-stone-200 rounded-lg p-4 space-y-4">
+          <p className="text-[10px] tracking-widest uppercase text-stone-400 border-b border-stone-100 pb-2">
+            Informations entreprise
+          </p>
+
+          {/* ── Nom entreprise ── */}
+          <div>
+            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
+              Nom de l'entreprise *
+            </label>
+            <input
+              type="text"
+              name="entreprise_name"
+              value={form.entreprise_name}
+              onChange={handleChange}
+              placeholder="Nom de l'entreprise"
+              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.entreprise_name ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+            />
+            {errors.entreprise_name && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.entreprise_name}
+              </p>
+            )}
+          </div>
+
+          {/* ── Email entreprise ── */}
+          <div>
+            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
+              Email de l'entreprise *
+            </label>
+            <input
+              type="email"
+              name="entreprise_email"
+              value={form.entreprise_email}
+              onChange={handleChange}
+              placeholder="entreprise@email.com"
+              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.entreprise_email ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+            />
+            {errors.entreprise_email && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.entreprise_email}
+              </p>
+            )}
+          </div>
+
+          {/* ── SIRET ── */}
+          <div>
+            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
+              SIRET *
+            </label>
+            <input
+              type="text"
+              name="siret"
+              value={form.siret}
+              onChange={handleChange}
+              placeholder="14 chiffres"
+              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.siret ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+            />
+            {errors.siret && (
+              <p className="text-red-600 text-xs mt-1">{errors.siret}</p>
+            )}
+          </div>
+
+          {/* ── Téléphone entreprise ── */}
+          <div>
+            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
+              Téléphone *
+            </label>
+            <input
+              type="tel"
+              name="entreprise_telephone"
+              value={form.entreprise_telephone}
+              onChange={handleChange}
+              placeholder="06 12 34 56 78"
+              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.entreprise_telephone ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+            />
+            {errors.entreprise_telephone && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.entreprise_telephone}
+              </p>
+            )}
+          </div>
+
+          {/* ── Adresse entreprise + Code postal ── */}
+          <div>
+            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
+              Adresse *
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                name="entreprise_adress"
+                value={form.entreprise_adress}
+                onChange={handleChange}
+                placeholder="Adresse de l'entreprise"
+                className={`w-2/3 border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.entreprise_adress ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+              />
+              <input
+                type="text"
+                name="entreprise_cedex"
+                value={form.entreprise_cedex}
+                onChange={handleChange}
+                placeholder="Code postal"
+                className={`w-1/3 border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.entreprise_cedex ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+              />
+            </div>
+            {errors.entreprise_adress && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.entreprise_adress}
+              </p>
+            )}
+            {errors.entreprise_cedex && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.entreprise_cedex}
+              </p>
+            )}
+          </div>
+
+          {/* ── Ville entreprise ── */}
+          <div>
+            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
+              Ville *
+            </label>
+            <input
+              type="text"
+              name="entreprise_city"
+              value={form.entreprise_city}
+              onChange={handleChange}
+              placeholder="Paris"
+              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.entreprise_city ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+            />
+            {errors.entreprise_city && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.entreprise_city}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── Message ── */}
       <div>
@@ -163,11 +376,7 @@ export default function StepCoordonnees({
           onChange={handleChange}
           rows={4}
           placeholder="Votre projet, vos questions…"
-          className={`w-full border px-4 py-3 text-sm focus:outline-none resize-none transition-colors ${
-            errors.message
-              ? "border-red-400 bg-red-50"
-              : "border-stone-200 focus:border-[#8b3a2a]"
-          }`}
+          className={`w-full border px-4 py-3 text-sm focus:outline-none resize-none transition-colors ${errors.message ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
         />
         <div className="flex justify-between mt-1">
           {errors.message ? (

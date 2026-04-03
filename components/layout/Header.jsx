@@ -22,15 +22,15 @@ const nav = [
   {
     label: "Découvrir",
     children: [
+      { label: "André de Bouter", href: "/andre-de-bouter" },
       { label: "Porte ouverte : Poêle de masse", href: "/ressources" },
       { label: "Poêle de masse", href: "/ressources" },
       { label: "Vos réalisations", href: "/realisations" },
+      { label: "Livres", href: "/livres" },
     ],
   },
-  { label: "Livres", href: "/livres" },
-  { label: "André de Bouter", href: "/andre-de-bouter" },
-  { label: "S'inscrire", href: "/inscription" },
-  { label: "Contact", href: "/contact" },
+  { label: "S'inscrire", href: "/inscription", groupLabel: "S'inscrire" },
+  { label: "Coordonnées", href: "/contact", groupLabel: "Contact" },
 ];
 
 export default function Header() {
@@ -40,10 +40,10 @@ export default function Header() {
   return (
     <header className="bg-[#3d1a0e] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 flex items-center h-[80px] gap-10 rounded-xl">
-        {/* Logo carré blanc */}
+        {/* Logo */}
         <Link
           href="/"
-          className="flex-shrink-0 bg-transparent  block"
+          className="flex-shrink-0 bg-transparent block"
           style={{ lineHeight: 0 }}
         >
           <Image
@@ -103,11 +103,6 @@ export default function Header() {
           )}
         </nav>
 
-        {/* Séparateurs nav style site */}
-        <div className="hidden lg:flex items-center gap-0">
-          {/* Les séparateurs | entre items nav sont dans le nav lui-même via CSS */}
-        </div>
-
         {/* Mobile burger */}
         <button
           className="lg:hidden ml-auto text-white"
@@ -140,7 +135,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-[#3d1a0e] border-t border-white/10 px-6 py-4">
+        <div className="lg:hidden bg-[#3d1a0e] border-t border-white/10 px-6 py-4 mt-12">
           {nav.map((item) =>
             item.children ? (
               <div key={item.label} className="mb-4">
@@ -159,14 +154,20 @@ export default function Header() {
                 ))}
               </div>
             ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="block mb-3 font-raleway font-700 text-[10px] tracking-[0.18em] uppercase text-white/80 hover:text-white"
-                onClick={() => setMobileOpen(false)}
-              >
-                {item.label}
-              </Link>
+              <div key={item.href} className="mb-4">
+                {item.groupLabel && (
+                  <p className="font-raleway font-800 text-[10px] tracking-[0.18em] uppercase text-white/40 mb-2">
+                    {item.groupLabel}
+                  </p>
+                )}
+                <Link
+                  href={item.href}
+                  className="block py-2 font-raleway font-700 text-[10px] tracking-[0.15em] uppercase text-white/70 hover:text-white"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </div>
             ),
           )}
         </div>

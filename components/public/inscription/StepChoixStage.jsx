@@ -112,8 +112,11 @@ export default function StepChoixStage({
           ) : (
             <div className="space-y-2">
               {stages.map((s) => {
-                const statut = STATUT_LABELS[s.statut] || STATUT_LABELS.ouvert;
-                const dispo = s.statut === "ouvert";
+                const statut =
+                  STATUT_LABELS[s.statut] ||
+                  STATUT_LABELS.ouvert ||
+                  STATUT_LABELS.liste_attente;
+                const dispo = s.statut === "ouvert" || "liste_attente";
                 const checked = selectedStage?.id === s.id;
 
                 return (

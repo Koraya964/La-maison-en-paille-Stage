@@ -4,17 +4,14 @@ import Image from "next/image";
 export const metadata = {
   title: "Stage Poêle de Masse — 3 jours | La Maison en Paille",
   description:
-    "1 heure de feu = 24h de confort. Stage 3 jours pour construire votre poêle de masse. André de Bouter, Charente (16). 380 €.",
+    "Construisez votre autonomie énergétique. Stage de 3 jours sur le poêle de masse Oxa-Libre avec André de Bouter.",
 };
 
+// ── CONSTANTES D'IMAGES ──
 const IMG_BG =
   "https://static.wixstatic.com/media/3e33e8_d95d5a776364461ab0e8f33345cb57f1~mv2.jpg/v1/fill/w_1240,h_1748,al_c,q_90,enc_avif,quality_auto/3e33e8_d95d5a776364461ab0e8f33345cb57f1~mv2.jpg";
-const IMG_BANDEAU =
-  "https://static.wixstatic.com/media/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg/v1/fill/w_381,h_1920,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg";
 const IMG_GIF =
   "https://static.wixstatic.com/media/f4c673_9e107a544f7a4064a4a68de072001bac~mv2.gif";
-const IMG_PORTE =
-  "https://static.wixstatic.com/media/f4c673_bfb45c777c99497f897266941e875ff9~mv2.png/v1/fill/w_475,h_285,al_c,q_85,enc_avif,quality_auto/f4c673_bfb45c777c99497f897266941e875ff9~mv2.png";
 
 const PHOTOS = [
   "https://static.wixstatic.com/media/457787_0ad1e98972b741d88fc67ca7f6fcbe84~mv2_d_3264_2176_s_2.jpg/v1/fill/w_980,h_653,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/457787_0ad1e98972b741d88fc67ca7f6fcbe84~mv2_d_3264_2176_s_2.jpg",
@@ -27,159 +24,183 @@ const PHOTOS = [
 
 export default function PoeleDeMassePage() {
   return (
-    <div
-      className="relative min-h-screen"
-      style={{
-        backgroundImage: `url(${IMG_BANDEAU})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
-      <div className="absolute inset-0 bg-[#c8824a]/55 pointer-events-none" />
-      <div className="relative z-10">
-        {/* ── Hero ── */}
-        <div className="relative overflow-hidden" style={{ maxHeight: "60vh" }}>
-          <Image
-            src={IMG_BG}
-            alt="Poêle de Masse"
-            width={1240}
-            height={700}
-            className="w-full object-cover"
-            style={{ maxHeight: "60vh" }}
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-[#c06030]/70 flex flex-col items-center justify-center text-center px-6">
-            <p className="font-raleway font-bold text-[10px] tracking-[0.25em] uppercase text-white/80 mb-3">
-              Stage 3 jours — 380 €
-            </p>
-            <h1
-              className="font-raleway font-black text-white uppercase leading-tight"
-              style={{
-                fontSize: "clamp(2rem, 6vw, 4rem)",
-                letterSpacing: "0.06em",
-                textShadow: "0 2px 8px rgba(0,0,0,0.4)",
-              }}
+    <div className="bg-[#F9F6F1] text-[#2D2D2D] font-sans selection:bg-[#A35C44] selection:text-white">
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        <Image
+          src={IMG_BG}
+          alt="Poêle de masse en brique"
+          fill
+          className="object-cover brightness-[0.4]"
+          priority
+          unoptimized
+        />
+        <div className="relative z-10 max-w-4xl px-6 text-center">
+          <span className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] uppercase bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full">
+            Autonomie Énergétique
+          </span>
+          <h1 className="font-raleway text-5xl md:text-7xl font-light text-white mb-6 leading-[1.1]">
+            Maîtriser la <span className="italic">chaleur</span> rayonnante
+          </h1>
+          <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+            Un stage immersif de 3 jours pour concevoir et bâtir votre propre
+            poêle de masse Oxa-Libre.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/inscription"
+              className="px-8 py-4 bg-[#A35C44] hover:bg-[#8B4A35] text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-xl active:scale-95"
             >
-              Poêle de Masse
-            </h1>
-            <p
-              className="font-raleway font-bold text-white uppercase mt-3"
-              style={{ fontSize: "0.6rem", letterSpacing: "0.2em" }}
-            >
-              1 heure de feu = 24h de confort
-            </p>
-            <Link href="/inscription" className="btn-terracotta mt-6">
-              Je m&apos;inscris
+              Réserver ma place — 380€
             </Link>
+            <a
+              href="#details"
+              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 rounded-xl font-bold transition-all"
+            >
+              Découvrir le programme
+            </a>
           </div>
         </div>
+      </section>
 
-        {/* ── Intro + GIF thermique ── */}
-        <div className="bg-white/95 py-12 px-6">
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div>
-              <h2 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.08em] text-xl mb-4">
-                Construisez votre propre poêle
-              </h2>
-              <p className="text-sm text-[#4a4a4a] leading-relaxed mb-4">
-                Les apports du stage vous permettent de construire ensuite votre
-                poêle personnalisé. Optionnel : four à pain, production
-                d&apos;eau chaude, banc chauffé.
-              </p>
-              <ul className="space-y-2">
-                {[
-                  "Rendement thermique > 85 %",
-                  "2 à 3× moins de bois qu'un insert classique",
-                  "Chaleur douce et rayonnante sur 12 à 24 heures",
-                  "Repas préparés en commun dans le poêle Oxa-Libre",
-                ].map((item) => (
-                  <li key={item} className="flex gap-2 text-sm text-[#4a4a4a]">
-                    <span className="text-[#8b3a2a] font-bold flex-shrink-0">
-                      —
-                    </span>{" "}
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src={IMG_GIF}
-                alt="Vidéo thermique poêle de masse"
-                width={320}
-                height={240}
-                className="object-contain"
-                unoptimized
-              />
+      {/* ── ARGUMENTS CLÉS ── */}
+      <section id="details" className="py-24 px-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="relative group">
+            <div className="absolute -inset-4 bg-[#A35C44]/10 rounded-2xl scale-95 group-hover:scale-100 transition-transform duration-500" />
+            <Image
+              src={IMG_GIF}
+              alt="Efficacité thermique"
+              width={500}
+              height={400}
+              className="relative rounded-xl shadow-2xl z-10 object-cover w-full"
+              unoptimized
+            />
+          </div>
+
+          <div className="space-y-8">
+            <h2 className="text-4xl font-bold text-[#3D1A0E] leading-tight">
+              Pourquoi choisir le poêle de masse Oxa-Libre ?
+            </h2>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              Plus qu'un simple chauffage, c'est un outil de résilience. Conçu
+              pour maximiser l'énergie du bois, il offre une inertie thermique
+              inégalée.
+            </p>
+
+            <div className="grid gap-6">
+              {[
+                {
+                  title: "Efficience Maximale",
+                  desc: "Rendement > 85% avec 3x moins de bois.",
+                },
+                {
+                  title: "Inertie Durable",
+                  desc: "1h de chauffe diffuse 12h à 24h de chaleur douce.",
+                },
+                {
+                  title: "Polyvalence",
+                  desc: "Option four à pain, eau chaude et banc chauffant.",
+                },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex gap-4 p-4 rounded-xl bg-white border border-gray-100 shadow-sm"
+                >
+                  <div className="w-12 h-12 rounded-lg bg-[#A35C44]/10 flex items-center justify-center text-[#A35C44] font-bold">
+                    0{i + 1}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">{item.title}</h3>
+                    <p className="text-sm text-gray-500">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
+      </section>
 
-        {/* ── Galerie ── */}
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-1 bg-[#c4613a] p-1">
+      {/* ── GALERIE ── */}
+      <section className="bg-[#F2EDE4] py-20 px-6">
+        <div className="max-w-7xl mx-auto mb-12">
+          <h2 className="text-3xl font-bold">L'expérience en images</h2>
+          <p className="text-gray-500">
+            Chantiers participatifs et réalisations
+          </p>
+        </div>
+        <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
           {PHOTOS.map((src, i) => (
-            <div key={i} className="relative overflow-hidden aspect-square">
+            <div
+              key={i}
+              className="break-inside-avoid overflow-hidden rounded-2xl group relative"
+            >
               <Image
                 src={src}
-                alt=""
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-500"
+                alt={`Photo stage ${i}`}
+                width={400}
+                height={500}
+                className="w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 unoptimized
               />
             </div>
           ))}
         </div>
+      </section>
 
-        {/* ── Porte ouverte + Dates ── */}
-        <div className="bg-[#c4613a] py-12 px-6">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <Image
-              src={IMG_PORTE}
-              alt="Journée nationale poêle de masse"
-              width={380}
-              height={228}
-              className="w-full max-w-[380px] object-contain"
-              unoptimized
-            />
-            <div className="bg-white/95 p-8">
-              <h2 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.08em] text-xl mb-6">
-                Prochaines dates
-              </h2>
+      {/* ── DATES & CTA FINAL ── */}
+      <section className="py-24 px-6">
+        <div className="max-w-5xl mx-auto bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row border border-gray-100">
+          <div className="md:w-1/2 p-10 lg:p-16 space-y-6 bg-[#2D2D2D] text-white">
+            <h2 className="text-4xl font-bold italic">Prêt à bâtir ?</h2>
+            <p className="text-gray-400 font-light leading-relaxed">
+              Les stages se déroulent en Charente (16) avec André de Bouter.
+              Petit groupe de 10 personnes maximum pour un suivi personnalisé.
+            </p>
+            <div className="pt-6 border-t border-white/10">
+              <p className="text-sm uppercase tracking-widest text-[#A35C44] font-bold">
+                Tarif Inclusif
+              </p>
+              <span className="text-5xl font-light">380 €</span>
+              <p className="text-xs text-gray-500 mt-2">
+                Formation + déjeuners végétariens inclus.
+              </p>
+            </div>
+          </div>
+
+          <div className="md:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
+            <div className="space-y-4 mb-10">
               {[
-                { d: "Mars 2026", s: "complet" },
+                { d: "Mars 2026", s: "FINI" },
                 { d: "Juin 2026", s: "ouvert" },
                 { d: "Octobre 2026", s: "ouvert" },
-              ].map(({ d, s }) => (
+              ].map(({ d, s }, i) => (
                 <div
-                  key={d}
-                  className="flex items-center justify-between border-b border-[#f0e8d8] py-2"
+                  key={i}
+                  className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100"
                 >
-                  <span className="font-raleway font-bold text-sm text-[#3d1a0e]">
-                    {d}
-                  </span>
+                  <span className="font-medium text-gray-700">{d}</span>
                   <span
-                    className={`font-raleway font-bold text-[9px] tracking-[0.15em] uppercase px-2 py-1 ${
+                    className={`text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full ${
                       s === "complet"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-[#4a6741] text-white"
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-green-100 text-green-700"
                     }`}
                   >
-                    {s === "complet" ? "Complet" : "Ouvert"}
+                    {s}
                   </span>
                 </div>
               ))}
-              <p className="text-xs text-[#4a4a4a] mt-4 mb-5">
-                Durée 3 jours &nbsp;·&nbsp; Repas végétariens inclus
-                &nbsp;·&nbsp; Tarif <strong>380 €</strong>
-              </p>
-              <Link href="/contact" className="btn-terracotta">
-                Je m&apos;inscris
-              </Link>
             </div>
+            <Link
+              href="/inscription"
+              className="w-full py-5 bg-[#A35C44] text-center text-white rounded-2xl font-bold shadow-lg shadow-[#A35C44]/20 hover:-translate-y-1 transition-all"
+            >
+              Réserver ma session
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

@@ -1,53 +1,86 @@
-import { NextResponse } from 'next/server'
-import { query } from '@/lib/db'
+import { NextResponse } from 'next/server';
+import { query } from '@/lib/db';
 
-// GET /api/inscriptions — liste (admin)
-export async function GET() {
-  try {
-    const inscriptions = await query(
-      `SELECT i.*, s.date_debut, s.date_fin, f.titre as formation_titre
-       FROM inscriptions i
-       JOIN stages s ON i.stage_id = s.id
-       JOIN formations f ON s.formation_id = f.id
-       ORDER BY i.created_at DESC`
-    )
-    return NextResponse.json(inscriptions)
-  } catch (error) {
-    console.error('[GET /api/inscriptions]', error)
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
-  }
-}
-
-// POST /api/inscriptions — nouvelle demande d'inscription (public)
 export async function POST(request) {
   try {
-    const { stage_id, nom, prenom, email, telephone, message } = await request.json()
+    // 1. Récupérer les données envoyées par le formulaire
+    const body = await request.json();
+    const {
+      stage_id, nom, prenom, email, telephone, message,
+      adresse, cedex, city, is_entreprise, entreprise_name,
+      entreprise_email, entreprise_telephone, entreprise_adress,
+      entreprise_cedex, entreprise_city, siret
+    } = body;
 
-    if (!stage_id || !nom || !prenom || !email) {
-      return NextResponse.json(
-        { error: 'stage_id, nom, prénom et email sont requis' },
-        { status: 400 }
-      )
-    }
-
-    // Vérifier que le stage existe et a des places
+    // 2. Vérifier si le stage existe et récupérer ses places actuelles
     const stages = await query(
-      'SELECT * FROM stages WHERE id = ? AND statut = "ouvert" AND places_dispo > 0',
+      'SELECT * FROM stages WHERE id = ? AND statut IN ("ouvert", "liste_attente")',
       [stage_id]
-    )
-    if (!stages.length) {
-      return NextResponse.json({ error: 'Stage complet ou introuvable' }, { status: 409 })
+    );
+
+    if (!stages || stages.length === 0) {
+      return NextResponse.json({ error: 'Stage introuvable ou fermé' }, { status: 404 });
     }
 
-    // Créer l'inscription
-    const result = await query(
-      'INSERT INTO inscriptions (stage_id, nom, prenom, email, telephone, message) VALUES (?, ?, ?, ?, ?, ?)',
-      [stage_id, nom, prenom, email, telephone || null, message || null]
-    )
+    const stage = stages[0];
 
-    return NextResponse.json({ id: result.insertId, success: true }, { status: 201 })
+    // 3. Détermine le statut de l'inscription selon les places restantes en BDD
+    const statutInscription = stage.places_dispo > 0 ? 'en_attente' : 'liste_attente';
+
+    // 4. Insertion de l'inscription dans la base de données
+    const result = await query(
+      `INSERT INTO inscriptions (
+        stage_id, nom, prenom, email, telephone, message,
+        adresse, cedex, city,
+        is_entreprise,
+        entreprise_name, entreprise_email, entreprise_telephone,
+        entreprise_adress, entreprise_cedex, entreprise_city,
+        entreprise_quality, siret,
+        statut
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        stage_id, nom, prenom, email,
+        telephone || null, message || null,
+        adresse || null, cedex || null, city || null,
+        is_entreprise ? 1 : 0,
+        entreprise_name || null, entreprise_email || null, entreprise_telephone || null,
+        entreprise_adress || null, entreprise_cedex || null, entreprise_city || null,
+        null, siret || null,
+        statutInscription,
+      ]
+    );
+
+    // 5. MISE À JOUR DU STAGE (Décompte des places)
+    if (statutInscription === 'en_attente') {
+      // On décrémente les places disponibles
+      await query(
+        'UPDATE stages SET places_dispo = places_dispo - 1 WHERE id = ? AND places_dispo > 0',
+        [stage_id]
+      );
+
+      // OPTIONNEL : Si après décompte il n'y a plus de place, on change le statut du stage
+      if (stage.places_dispo === 1) {
+        await query(
+          'UPDATE stages SET statut = "liste_attente" WHERE id = ?',
+          [stage_id]
+        );
+      }
+    }
+
+    // 6. Réponse de succès
+    return NextResponse.json({
+      message: statutInscription === 'liste_attente'
+        ? 'Inscription enregistrée sur liste d\'attente'
+        : 'Inscription réussie',
+      id: result.insertId,
+      statut: statutInscription
+    }, { status: 201 });
+
   } catch (error) {
-    console.error('[POST /api/inscriptions]', error)
-    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+    console.error('Erreur API Inscriptions:', error);
+    return NextResponse.json(
+      { error: 'Une erreur est survenue lors de l\'inscription.' },
+      { status: 500 }
+    );
   }
 }

@@ -2,15 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata = {
-  title: "Stage Paille, Terre & Chaux — 6 jours",
+  title: "Stage Paille, Terre & Chaux — 6 jours | La Maison en Paille",
   description:
-    "Stage 6 jours pour apprendre à construire, rénover et isoler avec de la paille, de la terre et de la chaux. André de Bouter, Saint-Simeux (16). 660 €.",
+    "Apprenez à bâtir sainement. Stage pratique de 6 jours sur la paille, la terre et la chaux avec André de Bouter.",
 };
 
-const IMG_BG =
-  "https://static.wixstatic.com/media/3e33e8_c7ce8044bc594a609f7c72f370d79c9c~mv2.jpg/v1/fill/w_1240,h_1748,al_c,q_90,enc_avif,quality_auto/3e33e8_c7ce8044bc594a609f7c72f370d79c9c~mv2.jpg";
-const IMG_BANDEAU =
-  "https://static.wixstatic.com/media/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg/v1/fill/w_381,h_1920,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3e33e8_d74efc6c8f1f4e95800c902d07a36027~mv2.jpg";
+const IMG_HERO =
+  "https://static.wixstatic.com/media/457787_636791b4baad4907b60f835956955fc3~mv2.jpg/v1/fill/w_980,h_653,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/457787_636791b4baad4907b60f835956955fc3~mv2.jpg";
 
 const PHOTOS = [
   "https://static.wixstatic.com/media/457787_636791b4baad4907b60f835956955fc3~mv2.jpg/v1/fill/w_980,h_653,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/457787_636791b4baad4907b60f835956955fc3~mv2.jpg",
@@ -23,195 +21,228 @@ const PHOTOS = [
 
 export default function PailleTerreChauxPage() {
   return (
-    <div
-      className="relative min-h-screen"
-      style={{
-        backgroundImage: `url(${IMG_BANDEAU})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
-      <div className="absolute inset-0 bg-[#c8824a]/55 pointer-events-none" />
-
-      <div className="relative z-10">
-        {/* ── Hero ── */}
-        <div className="relative overflow-hidden" style={{ maxHeight: "60vh" }}>
-          <Image
-            src={IMG_BG}
-            alt="Paille Terre Chaux"
-            width={1240}
-            height={700}
-            className="w-full object-cover"
-            style={{ maxHeight: "60vh" }}
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-[#c8a040]/70 flex flex-col items-center justify-center text-center px-6">
-            <p className="font-raleway font-bold text-[10px] tracking-[0.25em] uppercase text-white/80 mb-3">
-              Stage 6 jours — 660 €
-            </p>
-            <h1
-              className="font-raleway font-black text-white uppercase leading-tight"
-              style={{
-                fontSize: "clamp(2rem, 6vw, 4rem)",
-                letterSpacing: "0.06em",
-                textShadow: "0 2px 8px rgba(0,0,0,0.4)",
-              }}
+    <div className="bg-[#F9F6F1] text-[#2D2D2D] font-sans selection:bg-[#BC8A5F] selection:text-white">
+      {/* ── HERO SECTION ── */}
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+        <Image
+          src={IMG_HERO}
+          alt="Mur en paille et terre"
+          fill
+          className="object-cover brightness-[0.4]"
+          priority
+          unoptimized
+        />
+        <div className="relative z-10 max-w-4xl px-6 text-center">
+          <span className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] uppercase bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full">
+            Bioconstruction & Transmission
+          </span>
+          <h1 className="font-raleway text-5xl md:text-7xl font-light text-white mb-6 leading-[1.1]">
+            Paille, Terre <span className="italic font-serif">&</span> Chaux
+          </h1>
+          <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+            Un stage immersif de 6 jours pour maîtriser les techniques de
+            l&apos;habitat sain et durable.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/inscription"
+              className="px-8 py-4 bg-[#BC8A5F] hover:bg-[#A6754D] text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-xl active:scale-95"
             >
-              Paille, Terre &amp; Chaux
-            </h1>
-            <p
-              className="font-raleway font-bold text-white uppercase mt-3"
-              style={{
-                fontSize: "0.6rem",
-                letterSpacing: "0.2em",
-                textShadow: "0 1px 4px rgba(0,0,0,0.4)",
-              }}
-            >
-              Construire / Rénover / Isoler / Décorer
-            </p>
-            <Link href="/inscription" className="btn-terracotta mt-6">
-              Je m&apos;inscris
+              Réserver ma place — 660€
             </Link>
+            <a
+              href="#programme"
+              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 rounded-xl font-bold transition-all"
+            >
+              Voir le programme
+            </a>
           </div>
         </div>
+      </section>
 
-        {/* ── Intro ── */}
-        <div className="bg-white/95 py-12 px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.08em] text-2xl mb-4">
-              Les clés pour réaliser un projet durable, performant et
-              confortable
-            </h2>
-            <p className="text-sm text-[#4a4a4a] leading-relaxed">
-              Ce stage pratique, que j&apos;anime depuis 25 ans, est conçu pour
-              passer une semaine passionnante ensemble, vous permettant
-              d&apos;acquérir les compréhensions et compétences nécessaires pour
-              la conception et réalisation de votre projet.
-            </p>
-          </div>
-        </div>
-
-        {/* ── Galerie ── */}
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-1 bg-[#c4613a] p-1">
-          {PHOTOS.map((src, i) => (
-            <div key={i} className="relative overflow-hidden aspect-square">
-              <Image
-                src={src}
-                alt=""
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-500"
-                unoptimized
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* ── Contenu ── */}
-        <div className="bg-white/95 py-14 px-6">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+      {/* ── CONTENU & INFOS ── */}
+      <section id="programme" className="py-24 px-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+          {/* Colonne Gauche : Programme */}
+          <div className="space-y-10">
             <div>
-              <h2 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.08em] text-xl mb-6">
-                Contenu de la formation
+              <h2 className="text-4xl font-bold text-[#3D1A0E] mb-6">
+                Au programme
               </h2>
-              <ul className="space-y-3">
-                {[
-                  "Réalisation des murs en paille porteuse (Nebraska) et remplissages d'ossatures bois",
-                  "Choix du système constructif et parements",
-                  "Enduits terre : couche d'accroche, corps d'enduit et finitions",
-                  "Cloisons : torchis, torchis allégé, pisé et adobes",
-                  "Sols en béton de terre crue",
-                  "Différents types de chaux et leurs applications",
-                  "Peinture à l'argile ou à la chaux avec ou sans pigments",
-                  "Physique du bâtiment : isolation, inertie, vapeur d'eau",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="flex gap-3 text-sm text-[#4a4a4a] leading-relaxed"
-                  >
-                    <span className="text-[#8b3a2a] font-bold flex-shrink-0 mt-0.5">
-                      —
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                Depuis 25 ans, ce stage pratique vous transmet les clés pour
+                réaliser un projet durable, performant et confortable.
+              </p>
             </div>
 
-            <div className="space-y-8">
-              <div>
-                <h2 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.1em] text-base mb-4">
-                  Dates 2026
-                </h2>
+            <div className="space-y-4">
+              {[
+                "Paille porteuse (Nebraska) et ossature bois",
+                "Systèmes constructifs et choix des parements",
+                "Enduits terre : accroche, corps d'enduit et finitions",
+                "Cloisons : torchis, pisé, adobes et torchis allégé",
+                "Réalisation de sols en béton de terre crue",
+                "Usage des chaux et leurs applications spécifiques",
+                "Peintures naturelles à l'argile et à la chaux",
+                "Physique du bâtiment : isolation, inertie et vapeur",
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className="w-6 h-6 rounded-full bg-[#BC8A5F]/20 flex items-center justify-center text-[#A6754D] flex-shrink-0 mt-1">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-gray-700 font-medium">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Colonne Droite : Fiche Technique & Dates */}
+          <div className="space-y-8 self-start">
+            <div className="bg-white rounded-[2rem] p-10 lg:p-14 shadow-xl border border-gray-100">
+              <h3 className="text-2xl font-bold mb-8 text-[#3D1A0E]">
+                Dates 2026
+              </h3>
+              <div className="space-y-4 mb-10">
                 {[
                   "12 – 17 Avril",
                   "10 – 15 Mai",
                   "12 – 17 Juillet",
                   "16 – 21 Août",
-                ].map((d) => (
+                ].map((date, i) => (
                   <div
-                    key={d}
-                    className="flex items-center justify-between border-b border-[#f0e8d8] py-2"
+                    key={i}
+                    className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100"
                   >
-                    <span className="font-raleway font-bold text-sm text-[#3d1a0e]">
-                      {d} 2026
+                    <span className="font-medium text-gray-700">
+                      {date} 2026
                     </span>
-                    <span className="font-raleway font-bold text-[9px] tracking-[0.15em] uppercase text-white bg-[#4a6741] px-2 py-1">
+                    <span className="text-[10px] uppercase font-bold tracking-widest px-3 py-1 bg-green-100 text-green-700 rounded-full">
                       Ouvert
                     </span>
                   </div>
                 ))}
-                <p className="text-xs text-[#4a4a4a] mt-3">
-                  Horaires 9h–18h &nbsp;·&nbsp; Tarif <strong>660 €</strong>{" "}
-                  &nbsp;·&nbsp; Formateur : André de Bouter
-                </p>
               </div>
-              {[
-                {
-                  t: "Pré-requis",
-                  v: "Accessible à tous : particuliers et professionnels, bricoleurs et néophytes.",
-                },
-                { t: "Lieu", v: "21 rue des Chaumes — 16120 SAINT-SIMEUX" },
-                {
-                  t: "Hébergement",
-                  v: "Terrain pour camper, dortoir, parking van. Arrivée possible la veille 19h–22h.",
-                },
-              ].map(({ t, v }) => (
-                <div key={t}>
-                  <h3 className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.12em] text-xs mb-1">
-                    {t}
-                  </h3>
-                  <p className="text-xs text-[#4a4a4a] leading-relaxed">{v}</p>
-                </div>
-              ))}
-              <Link href="/contact" className="btn-terracotta inline-block">
-                Je m&apos;inscris
+
+              <div className="space-y-8 border-t border-gray-100 pt-10">
+                {[
+                  {
+                    t: "Formateur",
+                    v: "André de Bouter, expert en bioconstruction.",
+                  },
+                  {
+                    t: "Lieu",
+                    v: "21, rue des Chaumes — 16120 Saint-Simeux (Charente)",
+                  },
+                  {
+                    t: "Hébergement",
+                    v: "Camping, dortoir ou parking van disponible sur place.",
+                  },
+                ].map((item, i) => (
+                  <div key={i} className="group">
+                    <h4 className="text-[10px] uppercase tracking-[0.2em] text-[#BC8A5F] font-black mb-2">
+                      {item.t}
+                    </h4>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {item.v}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href="/inscription"
+                className="mt-12 w-full py-5 bg-[#3D1A0E] text-center text-white rounded-2xl font-bold hover:bg-[#2D130B] transition-all inline-block shadow-lg"
+              >
+                Réserver ma session
               </Link>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* ── Autres formations ── */}
-        <div className="bg-[#3d1a0e] py-10 px-6 text-center">
-          <p className="font-raleway font-bold text-[10px] tracking-[0.2em] uppercase text-white/40 mb-5">
-            Toutes les formations
-          </p>
-          <div className="flex justify-center gap-4 flex-wrap">
+      {/* ── GALERIE ── */}
+      <section className="bg-[#F2EDE4] py-20 px-6">
+        <div className="max-w-7xl mx-auto mb-12 flex justify-between items-end">
+          <div>
+            <h2 className="text-3xl font-bold text-[#3D1A0E]">
+              L'expérience en images
+            </h2>
+            <p className="text-gray-500">
+              Aperçu des chantiers et réalisations
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {PHOTOS.map((src, i) => (
+            <div
+              key={i}
+              className="relative aspect-square overflow-hidden rounded-xl shadow-sm group"
+            >
+              <Image
+                src={src}
+                alt={`Photo stage ${i}`}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                unoptimized
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── NAVIGATION FORMATIONS ── */}
+      <section className="bg-[#3D1A0E] py-20 px-6 overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#BC8A5F]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-white font-raleway text-2xl mb-10 font-light tracking-wide">
+            Explorer d'autres domaines d'autonomie
+          </h2>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-6">
             {[
-              ["Poêle de Masse", "/formations/poele-de-masse"],
-              ["Photovoltaïque", "/formations/photovoltaique"],
-            ].map(([label, href]) => (
+              { label: "Poêle de Masse", href: "/formations/poele-de-masse" },
+              { label: "Photovoltaïque", href: "/formations/photovoltaique" },
+            ].map((link) => (
               <Link
-                key={href}
-                href={href}
-                className="font-raleway font-bold text-[10px] tracking-[0.15em] uppercase px-6 py-3 border border-[#c8a040] text-[#c8a040] hover:bg-[#c8a040] hover:text-[#3d1a0e] transition-colors"
+                key={link.href}
+                href={link.href}
+                className="group px-8 py-4 border border-white/20 text-white/80 rounded-xl hover:border-[#BC8A5F] hover:text-white transition-all flex items-center justify-center gap-3"
               >
-                {label}
+                <span className="font-medium tracking-wide">{link.label}</span>
+                <svg
+                  className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
               </Link>
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
