@@ -26,7 +26,7 @@ const BRUN = "#3d1a0e";
 // ── Config statique par slug ──────────────────────────────────────────────────
 const FORMATION_CONFIG = {
   "paille-terre-chaux": {
-    num: "01",
+    num: "",
     sousTitre: "Construire · Rénover · Isoler · Décorer",
     desc: "Apprenez les clés pour réaliser votre projet durable, performant et confortable. Une formation complète pour passer de la théorie au chantier.",
     detail:
@@ -38,7 +38,7 @@ const FORMATION_CONFIG = {
     patternId: "pat-paille",
   },
   "poele-de-masse": {
-    num: "02",
+    num: "",
     sousTitre: "1 heure de feu = 24h de confort",
     desc: "Construisez votre poêle personnalisé. Les apports du stage vous permettent de réaliser ensuite votre projet en toute autonomie.",
     detail:
@@ -50,7 +50,7 @@ const FORMATION_CONFIG = {
     patternId: "pat-feu",
   },
   photovoltaique: {
-    num: "03",
+    num: "",
     sousTitre: "Par Sébastien Deroo",
     desc: "Pour toute personne désirant être davantage autonome, résiliente et économe dans sa consommation d'énergie.",
     detail:
@@ -396,7 +396,7 @@ function FormationRow({ formation, i }) {
   const config = FORMATION_CONFIG[formation.slug] || {};
   const { Pattern } = config;
 
-  // ✅ Affiche ouvert ET complet
+  //  Affiche ouvert ET complet
   const stagesVisibles = (formation.stages || []).filter(
     (s) => s.statut === "ouvert" || s.statut === "complet",
   );
@@ -639,7 +639,7 @@ export default function HomeClient({ formations = [] }) {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  // ✅ Affiche ouvert ET complet dans le tableau des dates
+  //  Affiche ouvert ET complet dans le tableau des dates
   const prochainsDates = formations.map((f) => {
     const config = FORMATION_CONFIG[f.slug] || {};
     const stagesVisibles = (f.stages || []).filter(
@@ -824,7 +824,7 @@ export default function HomeClient({ formations = [] }) {
                         >
                           {formatPlage(s.date_debut, s.date_fin)}
                         </span>
-                        {/* ✅ passe statut ET places */}
+                        {/*  passe statut ET places */}
                         <PlacesBadge
                           places={s.places_dispo}
                           statut={s.statut}
@@ -951,8 +951,7 @@ export default function HomeClient({ formations = [] }) {
               className="font-raleway text-[9px] tracking-[0.18em] uppercase"
               style={{ color: "#a89070" }}
             >
-              Témoignages recueillis auprès de nos stagiaires · À remplacer par
-              vos vrais retours
+              Témoignages placeholder, on remplacera par les vrais plus tard.
             </p>
           </div>
         </div>
@@ -992,15 +991,6 @@ export default function HomeClient({ formations = [] }) {
           </div>
         </div>
       </section>
-
-      {/* ══ DÉGRADÉ ══ */}
-      <div
-        style={{
-          background: `linear-gradient(to bottom, ${BEIGE} 0%, ${BRUN} 100%)`,
-          height: "80px",
-        }}
-        aria-hidden="true"
-      />
 
       {/* ══ PORTE OUVERTE ══ */}
       <section

@@ -32,7 +32,7 @@ export default function StepCoordonnees({
   inscription,
   onBack,
 }) {
-  // ✅ plus de useState local — tout vient du hook
+  // plus de useState local — tout vient du hook
   const {
     form,
     errors,
