@@ -1,17 +1,18 @@
-import { query } from "@/lib/db";
-import InscriptionTable from "@/frontend/components/admin/InscriptionTable";
+import { cookies } from "next/headers";
+import InscriptionTable from "@/components/admin/InscriptionTable";
 
 export const metadata = { title: "Inscriptions" };
 
+const API = process.env.NEXT_PUBLIC_API_URL;
+
 async function getInscriptions() {
   try {
-    return await query(`
-      SELECT i.*, s.date_debut, s.date_fin, f.titre as formation_titre
-      FROM inscriptions i
-      JOIN stages s ON i.stage_id = s.id
-      JOIN formations f ON s.formation_id = f.id
-      ORDER BY i.created_at DESC
-    `);
+    const cookieHeader = cookies().toString();
+    const res = await fetch(`${API}/api/inscriptions`, {
+      headers: { Cookie: cookieHeader },
+      cache: "no-store",
+    });
+    return res.ok ? res.json() : [];
   } catch {
     return [];
   }

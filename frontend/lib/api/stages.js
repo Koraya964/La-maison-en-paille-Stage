@@ -1,3 +1,4 @@
+// lib/api/stages.js
 const API = process.env.NEXT_PUBLIC_API_URL;
 
 export async function fetchStages(formationId = null) {
@@ -53,10 +54,9 @@ export async function deleteStage(id, cookieHeader) {
   return res.json();
 }
 
-
 export async function fetchFormationsWithStages() {
   const res = await fetch(`${API}/api/stages/formations`, {
-    next: { cache: 'no-store' },
+    cache: 'no-store',
   });
   if (!res.ok) throw new Error('Erreur fetchFormationsAvecStages');
   return res.json();

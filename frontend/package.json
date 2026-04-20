@@ -10,12 +10,14 @@
     "create-admin": "node scripts/createAdmin.js"
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^2.0.2",
+    "argon2": "^0.31.2",
+    "jose": "^6.2.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.9.7",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18",
-    "mysql2": "^3.9.7",
-    "jsonwebtoken": "^9.0.2",
-    "argon2": "^0.31.2"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

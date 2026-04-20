@@ -11,7 +11,12 @@ export function useStages(formationId) {
         setLoading(true)
         fetch(`${API}/api/stages?formation_id=${formationId}`)
             .then(r => r.json())
-            .then(data => setStages(Array.isArray(data) ? data : []))
+            .then(data => {
+                const filtered = Array.isArray(data)
+                    ? data.filter(s => s.statut !== 'annule' && s.statut !== 'termine')
+                    : [];
+                setStages(filtered);
+            })
             .catch(() => setStages([]))
             .finally(() => setLoading(false))
     }, [formationId])

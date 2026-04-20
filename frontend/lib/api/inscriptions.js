@@ -55,3 +55,13 @@ export async function deleteInscription(id, cookieHeader) {
   if (!res.ok) throw new Error('Erreur deleteInscription');
   return res.json();
 }
+
+
+export async function fetchInscriptionsByStage(stageId, cookieHeader) {
+  const res = await fetch(`${API}/api/inscriptions/stage/${stageId}`, {
+    headers: { Cookie: cookieHeader },
+    cache: 'no-store',
+  });
+  if (!res.ok) throw new Error('Erreur fetchInscriptionsByStage');
+  return res.json();
+}

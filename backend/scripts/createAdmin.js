@@ -10,9 +10,9 @@
 
 import argon2 from 'argon2';
 
-const MOT_DE_PASSE = 'ChangezMoiAvantExecution!';
+const MOT_DE_PASSE = 'Testtest12345';
 
-const hash = await argon2.hash(MOT_DE_PASSE, 10);
+const hash = await argon2.hash(MOT_DE_PASSE);
 
 console.log('Hash argon2 à insérer en BDD :');
 console.log(hash);

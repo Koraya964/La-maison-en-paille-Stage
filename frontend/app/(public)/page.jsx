@@ -1,6 +1,6 @@
 // app/(public)/page.jsx
 import HomeClient from "./HomeClient";
-import { fetchFormationsWithStages } from "@/frontend/lib/api/stages";
+import { fetchFormationsWithStages } from "@/lib/api/stages"; // ← corrigé
 
 export const metadata = {
   title: "La Maison en Paille — Formations 2026",

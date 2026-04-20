@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 const INITIAL = {
     prenom: '', nom: '', email: '', telephone: '',
@@ -30,6 +30,10 @@ export function useInscriptionForm(onSuccess) {
     const [serverError, setServerError] = useState(null)
     const [isEntreprise, setIsEntreprise] = useState(false)
 
+    // hCaptcha
+    const captchaRef = useRef(null)
+    const [hcaptchaToken, setHcaptchaToken] = useState(null)
+
     function handleChange(e) {
         const { name, value } = e.target
         if (value.length > 500) return
@@ -43,55 +47,44 @@ export function useInscriptionForm(onSuccess) {
             Object.entries(form).map(([k, v]) => [k, sanitize(String(v ?? ''))])
         )
 
-        // Informations personnelles
         if (!REGEX.nom.test(f.prenom))
             e.prenom = 'Prénom invalide (2-50 caractères, lettres uniquement)'
-
         if (!REGEX.nom.test(f.nom))
             e.nom = 'Nom invalide (2-50 caractères, lettres uniquement)'
-
         if (!REGEX.email.test(f.email))
             e.email = 'Email invalide'
-
         if (!validateTel(f.telephone))
             e.telephone = 'Numéro invalide (10 chiffres requis)'
-
         if (!REGEX.texte.test(f.adresse) || f.adresse.length < 10)
             e.adresse = 'Adresse invalide (10 caractères min)'
-
         if (!REGEX.cedex.test(f.cedex))
             e.cedex = 'Code postal invalide (5 chiffres)'
-
         if (!REGEX.texte.test(f.city))
             e.city = 'Ville invalide'
 
-        // Entreprise (optionnel pour le client)
         if (isEntreprise) {
             if (f.entreprise_name.trim().length < 3 || f.entreprise_name.trim().length > 100)
                 e.entreprise_name = "Nom d'entreprise requis (3-100 caractères)"
-
             if (!REGEX.email.test(f.entreprise_email))
                 e.entreprise_email = 'Email entreprise invalide'
-
             if (!validateTel(f.entreprise_telephone))
                 e.entreprise_telephone = 'Numéro entreprise invalide (10 chiffres requis)'
-
             if (!REGEX.texte.test(f.entreprise_adress) || f.entreprise_adress.length < 10)
                 e.entreprise_adress = 'Adresse entreprise invalide (10 caractères min)'
-
             if (!REGEX.cedex.test(f.entreprise_cedex))
                 e.entreprise_cedex = 'Code postal entreprise invalide (5 chiffres)'
-
             if (!REGEX.texte.test(f.entreprise_city))
                 e.entreprise_city = 'Ville entreprise invalide'
-
             if (!REGEX.siret.test(f.siret))
                 e.siret = 'SIRET invalide (14 chiffres)'
         }
 
-        // Message
         if (f.message.length > 2000)
             e.message = '2000 caractères max'
+
+        // Vérification captcha
+        if (!hcaptchaToken)
+            e.captcha = 'Veuillez compléter la vérification anti-bot'
 
         setErrors(e)
         return Object.keys(e).length === 0
@@ -108,17 +101,30 @@ export function useInscriptionForm(onSuccess) {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/inscriptions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ stage_id: stageId, is_entreprise: isEntreprise, ...sanitizedForm }),
+                body: JSON.stringify({
+                    stage_id: stageId,
+                    is_entreprise: isEntreprise,
+                    hcaptchaToken,
+                    ...sanitizedForm,
+                }),
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data.error || 'Erreur serveur')
             onSuccess(data.statut)
         } catch (err) {
             setServerError(err.message)
+            // Reset le captcha en cas d'erreur
+            captchaRef.current?.resetCaptcha()
+            setHcaptchaToken(null)
         } finally {
             setSubmitting(false)
         }
     }
 
-    return { form, errors, submitting, serverError, handleChange, submit, isEntreprise, setIsEntreprise }
+    return {
+        form, errors, submitting, serverError,
+        handleChange, submit,
+        isEntreprise, setIsEntreprise,
+        captchaRef, hcaptchaToken, setHcaptchaToken,
+    }
 }

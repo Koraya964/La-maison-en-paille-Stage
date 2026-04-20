@@ -1,13 +1,17 @@
 import { notFound } from "next/navigation";
-import { query } from "@/lib/db";
-import NewsForm from "@/frontend/components/admin/NewsForm";
+import NewsForm from "@/components/admin/NewsForm";
 
 export const metadata = { title: "Modifier une actualité" };
 
+const API = process.env.NEXT_PUBLIC_API_URL;
+
 async function getActualite(id) {
   try {
-    const rows = await query("SELECT * FROM actualites WHERE id = ?", [id]);
-    return rows[0] || null;
+    const res = await fetch(`${API}/api/actualites/${id}`, {
+      credentials: "include",
+      cache: "no-store",
+    });
+    return res.ok ? res.json() : null;
   } catch {
     return null;
   }

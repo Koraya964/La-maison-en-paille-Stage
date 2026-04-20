@@ -1,8 +1,7 @@
 const API = process.env.NEXT_PUBLIC_API_URL;
 
-// Public
+//Public
 
-// Liste des actualités publiées (revalidée toutes les 60s)
 export async function fetchActualites() {
   const res = await fetch(`${API}/api/actualites`, {
     next: { revalidate: 60 },
@@ -19,9 +18,8 @@ export async function fetchActualiteById(id) {
   return res.json();
 }
 
-// Dashboard (routes protégées — cookie transmis)
+// Dashboard 
 
-// Toutes les actualités y compris brouillons
 export async function fetchActualitesAdmin(cookieHeader) {
   const res = await fetch(`${API}/api/actualites/all`, {
     headers: { Cookie: cookieHeader },
@@ -31,30 +29,32 @@ export async function fetchActualitesAdmin(cookieHeader) {
   return res.json();
 }
 
-export async function createActualite(data, cookieHeader) {
+export async function createActualite(data) {
   const res = await fetch(`${API}/api/actualites`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Cookie: cookieHeader },
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error('Erreur createActualite');
   return res.json();
 }
 
-export async function updateActualite(id, data, cookieHeader) {
+export async function updateActualite(id, data) {
   const res = await fetch(`${API}/api/actualites/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json', Cookie: cookieHeader },
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error('Erreur updateActualite');
   return res.json();
 }
 
-export async function deleteActualite(id, cookieHeader) {
+export async function deleteActualite(id) {
   const res = await fetch(`${API}/api/actualites/${id}`, {
     method: 'DELETE',
-    headers: { Cookie: cookieHeader },
+    credentials: 'include',
   });
   if (!res.ok) throw new Error('Erreur deleteActualite');
   return res.json();

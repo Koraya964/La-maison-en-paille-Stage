@@ -1,6 +1,9 @@
 "use client";
 
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { formatDate } from "./constants";
+
+const SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY;
 
 function Spinner() {
   return (
@@ -32,7 +35,6 @@ export default function StepCoordonnees({
   inscription,
   onBack,
 }) {
-  // plus de useState local — tout vient du hook
   const {
     form,
     errors,
@@ -42,6 +44,8 @@ export default function StepCoordonnees({
     submit,
     isEntreprise,
     setIsEntreprise,
+    captchaRef,
+    setHcaptchaToken,
   } = inscription;
 
   function handleSubmit(e) {
@@ -198,7 +202,6 @@ export default function StepCoordonnees({
         </p>
       </div>
 
-      {/* ── Toggle entreprise ── */}
       <div
         onClick={() => setIsEntreprise((p) => !p)}
         className="flex items-center justify-between px-4 py-3 border border-stone-200 rounded-lg bg-stone-50 cursor-pointer select-none"
@@ -220,92 +223,54 @@ export default function StepCoordonnees({
         </div>
       </div>
 
-      {/* ── Bloc entreprise (conditionnel) ── */}
       {isEntreprise && (
         <div className="border border-stone-200 rounded-lg p-4 space-y-4">
           <p className="text-[10px] tracking-widest uppercase text-stone-400 border-b border-stone-100 pb-2">
             Informations entreprise
           </p>
-
-          {/* ── Nom entreprise ── */}
-          <div>
-            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
-              Nom de l'entreprise *
-            </label>
-            <input
-              type="text"
-              name="entreprise_name"
-              value={form.entreprise_name}
-              onChange={handleChange}
-              placeholder="Nom de l'entreprise"
-              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.entreprise_name ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
-            />
-            {errors.entreprise_name && (
-              <p className="text-red-600 text-xs mt-1">
-                {errors.entreprise_name}
-              </p>
-            )}
-          </div>
-
-          {/* ── Email entreprise ── */}
-          <div>
-            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
-              Email de l'entreprise *
-            </label>
-            <input
-              type="email"
-              name="entreprise_email"
-              value={form.entreprise_email}
-              onChange={handleChange}
-              placeholder="entreprise@email.com"
-              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.entreprise_email ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
-            />
-            {errors.entreprise_email && (
-              <p className="text-red-600 text-xs mt-1">
-                {errors.entreprise_email}
-              </p>
-            )}
-          </div>
-
-          {/* ── SIRET ── */}
-          <div>
-            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
-              SIRET *
-            </label>
-            <input
-              type="text"
-              name="siret"
-              value={form.siret}
-              onChange={handleChange}
-              placeholder="14 chiffres"
-              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.siret ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
-            />
-            {errors.siret && (
-              <p className="text-red-600 text-xs mt-1">{errors.siret}</p>
-            )}
-          </div>
-
-          {/* ── Téléphone entreprise ── */}
-          <div>
-            <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
-              Téléphone *
-            </label>
-            <input
-              type="tel"
-              name="entreprise_telephone"
-              value={form.entreprise_telephone}
-              onChange={handleChange}
-              placeholder="06 12 34 56 78"
-              className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors.entreprise_telephone ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
-            />
-            {errors.entreprise_telephone && (
-              <p className="text-red-600 text-xs mt-1">
-                {errors.entreprise_telephone}
-              </p>
-            )}
-          </div>
-
-          {/* ── Adresse entreprise + Code postal ── */}
+          {[
+            {
+              name: "entreprise_name",
+              label: "Nom de l'entreprise *",
+              type: "text",
+              placeholder: "Nom de l'entreprise",
+            },
+            {
+              name: "entreprise_email",
+              label: "Email de l'entreprise *",
+              type: "email",
+              placeholder: "entreprise@email.com",
+            },
+            {
+              name: "siret",
+              label: "SIRET *",
+              type: "text",
+              placeholder: "14 chiffres",
+            },
+            {
+              name: "entreprise_telephone",
+              label: "Téléphone *",
+              type: "tel",
+              placeholder: "06 12 34 56 78",
+            },
+          ].map(({ name, label, type, placeholder }) => (
+            <div key={name}>
+              <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
+                {label}
+              </label>
+              <input
+                type={type}
+                name={name}
+                value={form[name]}
+                onChange={handleChange}
+                placeholder={placeholder}
+                className={`w-full border px-4 py-3 text-sm focus:outline-none transition-colors ${errors[name] ? "border-red-400 bg-red-50" : "border-stone-200 focus:border-[#8b3a2a]"}`}
+              />
+              {errors[name] && (
+                <p className="text-red-600 text-xs mt-1">{errors[name]}</p>
+              )}
+            </div>
+          ))}
           <div>
             <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
               Adresse *
@@ -339,8 +304,6 @@ export default function StepCoordonnees({
               </p>
             )}
           </div>
-
-          {/* ── Ville entreprise ── */}
           <div>
             <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-2">
               Ville *
@@ -395,6 +358,19 @@ export default function StepCoordonnees({
         </p>
         Par chèque (France) ou virement (étranger) — Acompte 30&nbsp;% à
         l&apos;inscription, solde 70&nbsp;% avant le stage.
+      </div>
+
+      {/* ── hCaptcha ── */}
+      <div className="flex justify-center">
+        <HCaptcha
+          ref={captchaRef}
+          sitekey={SITE_KEY}
+          onVerify={(token) => setHcaptchaToken(token)}
+          onExpire={() => setHcaptchaToken(null)}
+        />
+        {errors.captcha && (
+          <p className="text-red-600 text-xs mt-1">{errors.captcha}</p>
+        )}
       </div>
 
       {/* ── Boutons ── */}

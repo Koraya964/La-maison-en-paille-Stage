@@ -12,8 +12,9 @@ const FORMATIONS = [
 const STATUTS = [
   { value: "ouvert", label: "Ouvert" },
   { value: "complet", label: "Complet" },
-  { value: "liste_attente", label: `Liste d'attente` },
+  { value: "liste_attente", label: "Liste d'attente" },
   { value: "annule", label: "Annulé" },
+  { value: "termine", label: "Terminé" },
 ];
 
 export default function StageForm({ stage = null }) {
@@ -50,6 +51,7 @@ export default function StageForm({ stage = null }) {
 
       const res = await fetch(url, {
         method,
+        credentials: "include", // ← cookie auth_token transmis
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
@@ -85,7 +87,10 @@ export default function StageForm({ stage = null }) {
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/stages/${stage.id}`,
-        { method: "DELETE" },
+        {
+          method: "DELETE",
+          credentials: "include", // ← cookie auth_token transmis
+        },
       );
       if (!res.ok) throw new Error("Erreur lors de la suppression");
       router.push("/dashboard/stages");

@@ -3,10 +3,10 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 // Appelé depuis le formulaire de login (Client Component)
 export async function login(email, password) {
   const res = await fetch(`${API}/api/auth/login`, {
-    method:      'POST',
-    headers:     { 'Content-Type': 'application/json' },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     credentials: 'include', // indispensable pour que le cookie soit posé
-    body:        JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password }),
   });
   if (!res.ok) {
     const err = await res.json();
@@ -17,7 +17,7 @@ export async function login(email, password) {
 
 export async function logout() {
   await fetch(`${API}/api/auth/logout`, {
-    method:      'POST',
+    method: 'POST',
     credentials: 'include',
   });
 }

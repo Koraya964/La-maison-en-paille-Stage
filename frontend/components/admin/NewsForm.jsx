@@ -1,67 +1,66 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  createActualite,
+  updateActualite,
+  deleteActualite,
+} from "@/lib/api/actualites";
 
 export default function NewsForm({ actualite = null }) {
-  const router = useRouter()
-  const isEdit = !!actualite
+  const router = useRouter();
+  const isEdit = !!actualite;
 
   const [form, setForm] = useState({
-    titre: actualite?.titre || '',
-    contenu: actualite?.contenu || '',
-    image_url: actualite?.image_url || '',
+    titre: actualite?.titre || "",
+    contenu: actualite?.contenu || "",
+    image_url: actualite?.image_url || "",
     publie: actualite?.publie ?? false,
-  })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   function handleChange(e) {
-    const { name, value, type, checked } = e.target
-    setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
+    const { name, value, type, checked } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   }
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
     try {
-      const url = isEdit ? `/api/actualites/${actualite.id}` : '/api/actualites'
-      const method = isEdit ? 'PUT' : 'POST'
-
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || 'Erreur serveur')
+      if (isEdit) {
+        await updateActualite(actualite.id, form);
+      } else {
+        await createActualite(form);
       }
-
-      router.push('/dashboard/actualites')
-      router.refresh()
+      router.push("/dashboard/actualites");
+      router.refresh();
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function handleDelete() {
-    if (!confirm('Supprimer cette actualité ? Cette action est irréversible.')) return
-    setLoading(true)
+    if (!confirm("Supprimer cette actualité ? Cette action est irréversible."))
+      return;
+    setLoading(true);
 
     try {
-      const res = await fetch(`/api/actualites/${actualite.id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Erreur lors de la suppression')
-      router.push('/dashboard/actualites')
-      router.refresh()
+      await deleteActualite(actualite.id);
+      router.push("/dashboard/actualites");
+      router.refresh();
     } catch (err) {
-      setError(err.message)
-      setLoading(false)
+      setError(err.message);
+      setLoading(false);
     }
   }
 
@@ -138,7 +137,11 @@ export default function NewsForm({ actualite = null }) {
             disabled={loading}
             className="btn-primary disabled:opacity-50"
           >
-            {loading ? 'Enregistrement…' : isEdit ? 'Enregistrer les modifications' : 'Créer l\'actualité'}
+            {loading
+              ? "Enregistrement…"
+              : isEdit
+                ? "Enregistrer les modifications"
+                : "Créer l'actualité"}
           </button>
           <button
             type="button"
@@ -161,5 +164,5 @@ export default function NewsForm({ actualite = null }) {
         )}
       </div>
     </form>
-  )
+  );
 }

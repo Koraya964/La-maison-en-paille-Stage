@@ -1,4 +1,4 @@
-import NewsForm from "@/frontend/components/admin/NewsForm";
+import NewsForm from "@/components/admin/NewsForm";
 
 export const metadata = { title: "Nouvelle actualité" };
 

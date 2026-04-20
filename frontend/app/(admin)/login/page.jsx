@@ -1,42 +1,31 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { login } from "@/frontend/lib/api/auth";
+import Link from "next/link";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const redirect = searchParams.get('redirect') || '/dashboard'
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/dashboard";
 
-  const [form, setForm] = useState({ email: '', password: '' })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
-
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
     try {
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Identifiants incorrects')
-      }
-
-      router.push(redirect)
-      router.refresh()
+      await login(form.email, form.password);
+      router.push(redirect);
+      router.refresh();
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -46,9 +35,13 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-10">
           <div className="w-16 h-16 bg-[#8b6c47] rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-serif text-xs text-center leading-tight px-1">MP</span>
+            <span className="text-white font-serif text-xs text-center leading-tight px-1">
+              MP
+            </span>
           </div>
-          <h1 className="font-serif text-2xl text-white">La Maison en Paille</h1>
+          <h1 className="font-serif text-2xl text-white">
+            La Maison en Paille
+          </h1>
           <p className="text-stone-400 text-sm mt-1">Espace administration</p>
         </div>
 
@@ -68,7 +61,9 @@ export default function LoginPage() {
             <input
               type="email"
               value={form.email}
-              onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, email: e.target.value }))
+              }
               required
               autoComplete="email"
               className="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-[#8b6c47]"
@@ -83,7 +78,9 @@ export default function LoginPage() {
             <input
               type="password"
               value={form.password}
-              onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, password: e.target.value }))
+              }
               required
               autoComplete="current-password"
               className="w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-[#8b6c47]"
@@ -95,16 +92,19 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full bg-[#8b6c47] text-white text-xs tracking-widest uppercase py-4 font-bold hover:bg-[#3d2b1f] transition-colors disabled:opacity-50"
           >
-            {loading ? 'Connexion…' : 'Se connecter'}
+            {loading ? "Connexion…" : "Se connecter"}
           </button>
         </form>
 
         <div className="text-center mt-6">
-          <Link href="/" className="text-stone-400 text-xs hover:text-stone-200 transition-colors tracking-wider">
+          <Link
+            href="/"
+            className="text-stone-400 text-xs hover:text-stone-200 transition-colors tracking-wider"
+          >
             ← Retour au site public
           </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }
