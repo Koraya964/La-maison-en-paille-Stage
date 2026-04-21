@@ -1,7 +1,6 @@
 import { Stage } from '../lib/models/Stage.js';
 
 // GET /api/stages — liste publique des stages non annulés
-// GET /api/stages?formation_id=1 — filtrés par formation
 export async function getAll(req, res) {
   try {
     const { formation_id } = req.query;

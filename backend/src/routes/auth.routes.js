@@ -6,6 +6,8 @@ const router = Router();
 router.post('/login', login);
 router.post('/logout', logout);
 
+
+// Route pour vérifier l'état de l'utilisateur
 router.get('/me', requireAuth, (req, res) => {
     res.json({ admin: req.admin });
 });

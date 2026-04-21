@@ -1,11 +1,11 @@
 import { verifyToken } from '../lib/auth.js';
 
-/**
- * Middleware de protection des routes admin.
- * Lit le token depuis :
- *   1. le cookie  auth_token  (httpOnly, posé par /api/auth/login)
- *   2. le header  Authorization: Bearer <token>  (pour les clients non-browser)
- */
+
+//   Middleware de protection des routes admin.
+//   Lit le token depuis :
+//   1. le cookie  auth_token  (httpOnly, posé par /api/auth/login)
+//   2. le header  Authorization: Bearer <token>  (pour les clients/tests non-browser)
+
 export function requireAuth(req, res, next) {
   // 1. Cookie httpOnly
   const cookieToken = req.cookies?.auth_token;

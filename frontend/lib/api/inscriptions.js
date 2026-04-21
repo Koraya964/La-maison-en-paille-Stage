@@ -36,7 +36,7 @@ export async function fetchInscriptionById(id, cookieHeader) {
   return res.json();
 }
 
-// Changer le statut : 'en_attente' | 'confirmee' | 'annulee'
+// Changer le statut : 'en_attente' | 'confirmee' | 'annulee' | 'terminee'
 export async function updateInscription(id, statut, cookieHeader) {
   const res = await fetch(`${API}/api/inscriptions/${id}`, {
     method: 'PUT',

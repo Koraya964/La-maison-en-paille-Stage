@@ -160,12 +160,7 @@ export default async function PailleTerreChauxPage() {
                         <span className="font-medium text-gray-800">
                           {formatDate(s.date_debut)} → {formatDate(s.date_fin)}
                         </span>
-                        <p className="text-xs text-gray-400 mt-0.5">
-                          {s.places_dispo} place{s.places_dispo > 1 ? "s" : ""}{" "}
-                          restante{s.places_dispo > 1 ? "s" : ""}
-                        </p>
                       </div>
-                      <StatutBadge statut={s.statut} places={s.places_dispo} />
                     </div>
                   ))
                 ) : (

@@ -1,4 +1,3 @@
-// ✅ server.js corrigé
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';

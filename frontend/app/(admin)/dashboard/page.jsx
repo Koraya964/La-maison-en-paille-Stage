@@ -1,30 +1,34 @@
-// app/(admin)/dashboard/page.jsx
 import Link from "next/link";
 import AuthGuard from "@/components/admin/AuthGuard";
+import { cookies } from "next/headers";
 
 export const metadata = { title: "Vue générale" };
 
 const API = process.env.NEXT_PUBLIC_API_URL;
 
 async function getStats() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("auth_token")?.value;
+
+  const headers = {
+    "Content-Type": "application/json",
+    ...(token && { Cookie: `auth_token=${token}` }),
+  };
+
   try {
     const [inscriptions, stages, actualites, realisations] = await Promise.all([
-      fetch(`${API}/api/inscriptions`, {
-        credentials: "include",
-        cache: "no-store",
-      }).then((r) => r.json()),
-      fetch(`${API}/api/stages/all`, {
-        credentials: "include",
-        cache: "no-store",
-      }).then((r) => r.json()),
-      fetch(`${API}/api/actualites/all`, {
-        credentials: "include",
-        cache: "no-store",
-      }).then((r) => r.json()),
-      fetch(`${API}/api/realisations`, {
-        credentials: "include",
-        cache: "no-store",
-      }).then((r) => r.json()),
+      fetch(`${API}/api/inscriptions`, { headers, cache: "no-store" }).then(
+        (r) => r.json(),
+      ),
+      fetch(`${API}/api/stages/all`, { headers, cache: "no-store" }).then((r) =>
+        r.json(),
+      ),
+      fetch(`${API}/api/actualites/all`, { headers, cache: "no-store" }).then(
+        (r) => r.json(),
+      ),
+      fetch(`${API}/api/realisations`, { headers, cache: "no-store" }).then(
+        (r) => r.json(),
+      ),
     ]);
 
     return {

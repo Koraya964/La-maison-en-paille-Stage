@@ -76,7 +76,7 @@ export async function create(req, res) {
     } = req.body;
 
     // 1. Validation des champs requis
-    if (!stage_id || !nom || !prenom || !email) {
+    if (!stage_id || !nom || !prenom || !email || !telephone) {
       return res.status(400).json({ error: 'stage_id, nom, prenom et email sont requis' });
     }
 

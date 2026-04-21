@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -24,154 +24,259 @@ const nav = [
     children: [
       { label: "André de Bouter", href: "/andre-de-bouter" },
       { label: "Porte ouverte : Poêle de masse", href: "/ressources" },
-      { label: "Poêle de masse", href: "/ressources" },
       { label: "Vos réalisations", href: "/realisations" },
       { label: "Livres", href: "/livres" },
     ],
   },
-  { label: "S'inscrire", href: "/inscription", groupLabel: "S'inscrire" },
-  { label: "Coordonnées", href: "/contact", groupLabel: "Contact" },
+  { label: "Coordonnées", href: "/contact" },
 ];
 
-export default function Header() {
-  const [openDrop, setOpenDrop] = useState(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+function Dropdown({ item, onClose }) {
+  return (
+    <div
+      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 py-2 bg-[#2a1208] border border-white/10 rounded-md shadow-2xl min-w-[220px] z-50"
+      style={{ animation: "fadeDown 0.15s ease" }}
+    >
+      {item.children.map((child) => (
+        <Link
+          key={child.href}
+          href={child.href}
+          onClick={onClose}
+          className="block px-5 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/8 transition-colors tracking-wide"
+        >
+          {child.label}
+        </Link>
+      ))}
+    </div>
+  );
+}
+
+function NavItem({ item }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  // Ferme si on clique dehors
+  useEffect(() => {
+    if (!open) return;
+    function handle(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, [open]);
+
+  if (!item.children) {
+    return (
+      <Link
+        href={item.href}
+        className="text-white/70 hover:text-white text-sm tracking-widest uppercase font-medium transition-colors py-1"
+      >
+        {item.label}
+      </Link>
+    );
+  }
 
   return (
-    <header className="bg-[#3d1a0e] sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 flex items-center h-[80px] gap-10 rounded-xl">
-        {/* Logo */}
-        <Link
-          href="/"
-          className="flex-shrink-0 bg-transparent block"
-          style={{ lineHeight: 0 }}
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-haspopup="true"
+        className="flex items-center gap-1.5 text-white/70 hover:text-white text-sm tracking-widest uppercase font-medium transition-colors py-1 cursor-pointer"
+      >
+        {item.label}
+        <svg
+          className="w-3 h-3 transition-transform duration-200"
+          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+          fill="none"
+          viewBox="0 0 10 6"
         >
-          <Image
-            src={LOGO}
-            alt="La Maison en Paille"
-            width={450}
-            height={400}
-            className="object-contain rounded-xl mt-12"
-            style={{ width: "auto", height: "120px" }}
-            unoptimized
-          />
-        </Link>
-
-        {/* Séparateur vertical */}
-        <div className="hidden lg:block w-px h-10 bg-white/20" />
-
-        {/* Nav desktop */}
-        <nav className="hidden lg:flex items-center gap-8 flex-1">
-          {nav.map((item) =>
-            item.children ? (
-              <div
-                key={item.label}
-                className="relative"
-                onMouseEnter={() => setOpenDrop(item.label)}
-                onMouseLeave={() => setOpenDrop(null)}
-              >
-                <button className="nav-link flex items-center gap-1.5">
-                  {item.label}
-                  <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 6">
-                    <path
-                      d="M1 1l4 4 4-4"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </button>
-                {openDrop === item.label && (
-                  <div className="absolute top-full left-0 mt-1 bg-[#3d1a0e] border border-white/10 shadow-xl min-w-[240px] z-50">
-                    {item.children.map((c) => (
-                      <Link
-                        key={c.label}
-                        href={c.href}
-                        className="block px-5 py-3 font-raleway font-700 text-[10px] tracking-[0.15em] uppercase text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-                      >
-                        {c.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link key={item.href} href={item.href} className="nav-link">
-                {item.label}
-              </Link>
-            ),
-          )}
-        </nav>
-
-        {/* Mobile burger */}
-        <button
-          className="lg:hidden ml-auto text-white"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            viewBox="0 0 24 24"
+          <path
+            d="M1 1l4 4 4-4"
             stroke="currentColor"
-          >
-            {mobileOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
-      </div>
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
+      {open && <Dropdown item={item} onClose={() => setOpen(false)} />}
+    </div>
+  );
+}
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="lg:hidden bg-[#3d1a0e] border-t border-white/10 px-6 py-4 mt-12">
-          {nav.map((item) =>
-            item.children ? (
-              <div key={item.label} className="mb-4">
-                <p className="font-raleway font-800 text-[10px] tracking-[0.18em] uppercase text-white/40 mb-2">
-                  {item.label}
-                </p>
-                {item.children.map((c) => (
+export default function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState(null);
+
+  return (
+    <>
+      <style>{`
+        @keyframes fadeDown {
+          from { opacity: 0; transform: translate(-50%, -6px); }
+          to   { opacity: 1; transform: translate(-50%, 0); }
+        }
+        @keyframes slideDown {
+          from { opacity: 0; max-height: 0; }
+          to   { opacity: 1; max-height: 400px; }
+        }
+        .mobile-submenu { animation: slideDown 0.2s ease; overflow: hidden; }
+      `}</style>
+
+      <header className="bg-[#3d1a0e] sticky top-0 z-50 border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 flex items-center h-[64px] gap-8">
+          {/* Logo — discret et bien proportionné */}
+          <Link href="/" className="flex-shrink-0" style={{ lineHeight: 0 }}>
+            <Image
+              src={LOGO}
+              alt="La Maison en Paille"
+              width={176}
+              height={138}
+              className="object-contain"
+              style={{ width: "auto", height: "44px" }}
+              unoptimized
+            />
+          </Link>
+
+          {/* Séparateur */}
+          <div className="hidden lg:block w-px h-6 bg-white/15 flex-shrink-0" />
+
+          {/* Nav desktop */}
+          <nav
+            className="hidden lg:flex items-center gap-7 flex-1"
+            aria-label="Navigation principale"
+          >
+            {nav.map((item) => (
+              <NavItem key={item.label} item={item} />
+            ))}
+          </nav>
+
+          {/* CTA desktop */}
+          <Link
+            href="/inscription"
+            className="hidden lg:inline-flex items-center px-4 py-2 text-xs tracking-widest uppercase font-semibold text-[#3d1a0e] bg-[#c8a96e] hover:bg-[#d4b87a] rounded transition-colors flex-shrink-0"
+          >
+            S'inscrire
+          </Link>
+
+          {/* Burger mobile */}
+          <button
+            className="lg:hidden ml-auto text-white/80 hover:text-white p-1 transition-colors"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-expanded={mobileOpen}
+            aria-label="Menu"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {mobileOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        {/* Menu mobile */}
+        {mobileOpen && (
+          <nav
+            className="lg:hidden bg-[#2a1208] border-t border-white/10 px-5 py-3"
+            aria-label="Navigation mobile"
+          >
+            {nav.map((item) =>
+              item.children ? (
+                <div
+                  key={item.label}
+                  className="border-b border-white/5 last:border-0"
+                >
+                  <button
+                    className="w-full flex items-center justify-between py-3.5 text-xs tracking-widest uppercase text-white/60 hover:text-white font-medium transition-colors"
+                    onClick={() =>
+                      setMobileExpanded((v) =>
+                        v === item.label ? null : item.label,
+                      )
+                    }
+                    aria-expanded={mobileExpanded === item.label}
+                  >
+                    {item.label}
+                    <svg
+                      className="w-3 h-3 transition-transform duration-200"
+                      style={{
+                        transform:
+                          mobileExpanded === item.label
+                            ? "rotate(180deg)"
+                            : "rotate(0deg)",
+                      }}
+                      fill="none"
+                      viewBox="0 0 10 6"
+                    >
+                      <path
+                        d="M1 1l4 4 4-4"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </button>
+                  {mobileExpanded === item.label && (
+                    <div className="mobile-submenu pb-2 pl-3">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className="block py-2.5 text-sm text-white/60 hover:text-white transition-colors"
+                          onClick={() => {
+                            setMobileOpen(false);
+                            setMobileExpanded(null);
+                          }}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div
+                  key={item.href}
+                  className="border-b border-white/5 last:border-0"
+                >
                   <Link
-                    key={c.label}
-                    href={c.href}
-                    className="block py-2 font-raleway font-700 text-[10px] tracking-[0.15em] uppercase text-white/70 hover:text-white"
+                    href={item.href}
+                    className="block py-3.5 text-xs tracking-widest uppercase text-white/60 hover:text-white font-medium transition-colors"
                     onClick={() => setMobileOpen(false)}
                   >
-                    {c.label}
+                    {item.label}
                   </Link>
-                ))}
-              </div>
-            ) : (
-              <div key={item.href} className="mb-4">
-                {item.groupLabel && (
-                  <p className="font-raleway font-800 text-[10px] tracking-[0.18em] uppercase text-white/40 mb-2">
-                    {item.groupLabel}
-                  </p>
-                )}
-                <Link
-                  href={item.href}
-                  className="block py-2 font-raleway font-700 text-[10px] tracking-[0.15em] uppercase text-white/70 hover:text-white"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              </div>
-            ),
-          )}
-        </div>
-      )}
-    </header>
+                </div>
+              ),
+            )}
+
+            <div className="pt-4 pb-2">
+              <Link
+                href="/inscription"
+                className="block text-center py-3 text-xs tracking-widest uppercase font-semibold text-[#3d1a0e] bg-[#c8a96e] hover:bg-[#d4b87a] rounded transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                S'inscrire
+              </Link>
+            </div>
+          </nav>
+        )}
+      </header>
+    </>
   );
 }
