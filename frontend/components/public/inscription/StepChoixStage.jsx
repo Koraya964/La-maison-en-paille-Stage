@@ -1,6 +1,6 @@
 "use client";
 
-import { FORMATIONS, STATUT_LABELS, formatDate } from "./constants";
+import { STATUT_LABELS, formatDate } from "./constants";
 
 function Spinner() {
   return (
@@ -27,6 +27,8 @@ function Spinner() {
 }
 
 export default function StepChoixStage({
+  formations,
+  loadingFormations,
   formationId,
   setFormationId,
   stages,
@@ -42,50 +44,64 @@ export default function StepChoixStage({
         <label className="block font-raleway font-bold text-[10px] tracking-[0.15em] uppercase text-[#3d1a0e] mb-3">
           Formation *
         </label>
-        <div className="grid grid-cols-1 gap-3">
-          {FORMATIONS.map((f) => {
-            const selected = Number(formationId) === f.id;
-            return (
-              <button
-                key={f.id}
-                type="button"
-                onClick={() => setFormationId(f.id)}
-                className={`text-left p-4 border-2 transition-all ${
-                  selected
-                    ? "border-[#8b3a2a] bg-[#fff8f6]"
-                    : "border-stone-200 hover:border-[#c8a040]"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.06em] text-sm">
-                      {f.titre}
-                    </p>
-                    <p className="font-raleway text-[10px] tracking-wider uppercase text-[#8b3a2a] mt-0.5">
-                      {f.duree}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="font-raleway font-black text-[#c8a040] text-sm">
-                      {f.tarif}
-                    </span>
-                    <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                        selected
-                          ? "border-[#8b3a2a] bg-[#8b3a2a]"
-                          : "border-stone-300"
-                      }`}
-                    >
-                      {selected && (
-                        <div className="w-2 h-2 rounded-full bg-white" />
+
+        {loadingFormations ? (
+          <div className="flex items-center gap-3 py-4 text-[#4a4a4a] text-sm">
+            <Spinner /> Chargement des formations…
+          </div>
+        ) : formations.length === 0 ? (
+          <p className="text-sm text-[#4a4a4a] py-3 border border-stone-200 px-4">
+            Aucune formation disponible pour le moment.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-3">
+            {formations.map((f) => {
+              const selected = Number(formationId) === f.id;
+              return (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => {
+                    setFormationId(f.id);
+                    setSelectedStage(null); // reset stage si on change de formation
+                  }}
+                  className={`text-left p-4 border-2 transition-all ${
+                    selected
+                      ? "border-[#8b3a2a] bg-[#fff8f6]"
+                      : "border-stone-200 hover:border-[#c8a040]"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-raleway font-black text-[#3d1a0e] uppercase tracking-[0.06em] text-sm">
+                        {f.titre}
+                      </p>
+                      {f.duree && (
+                        <p className="font-raleway text-[10px] tracking-wider uppercase text-[#8b3a2a] mt-0.5">
+                          {f.duree}
+                        </p>
                       )}
                     </div>
+                    <div className="flex items-center gap-3">
+                      {f.tarif && (
+                        <span className="font-raleway font-black text-[#c8a040] text-sm">
+                          {f.tarif} €
+                        </span>
+                      )}
+                      <div
+                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${selected ? "border-[#8b3a2a] bg-[#8b3a2a]" : "border-stone-300"}`}
+                      >
+                        {selected && (
+                          <div className="w-2 h-2 rounded-full bg-white" />
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* ── Sélecteur date ── */}
@@ -112,11 +128,9 @@ export default function StepChoixStage({
           ) : (
             <div className="space-y-2">
               {stages.map((s) => {
-                const statut =
-                  STATUT_LABELS[s.statut] ||
-                  STATUT_LABELS.ouvert ||
-                  STATUT_LABELS.liste_attente;
-                const dispo = s.statut === "ouvert" || "liste_attente";
+                const statut = STATUT_LABELS[s.statut] || STATUT_LABELS.ouvert;
+                const dispo =
+                  s.statut === "ouvert" || s.statut === "liste_attente";
                 const checked = selectedStage?.id === s.id;
 
                 return (
@@ -138,7 +152,6 @@ export default function StepChoixStage({
                         {formatDate(s.date_debut)} → {formatDate(s.date_fin)}
                       </p>
                     </div>
-
                     <div className="flex items-center gap-3 flex-shrink-0">
                       <span
                         className={`font-raleway font-bold text-[9px] tracking-[0.12em] uppercase px-2 py-1 ${statut.cls}`}
@@ -147,11 +160,7 @@ export default function StepChoixStage({
                       </span>
                       {dispo && (
                         <div
-                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                            checked
-                              ? "border-[#8b3a2a] bg-[#8b3a2a]"
-                              : "border-stone-300"
-                          }`}
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${checked ? "border-[#8b3a2a] bg-[#8b3a2a]" : "border-stone-300"}`}
                         >
                           {checked && (
                             <div className="w-2 h-2 rounded-full bg-white" />

@@ -35,22 +35,25 @@ function categorieConfig(value) {
   return CATEGORIES.find((c) => c.value === value) ?? CATEGORIES[2];
 }
 
-// Lightbox
+// ─── Lightbox ─────────────────────────────────────────────────────────────────
 
-function Lightbox({ photos, index, onClose, onPrev, onNext }) {
+function Lightbox({ photos, index, onClose, onNavigate }) {
   const photo = photos[index];
+  const cat = categorieConfig(photo?.categorie);
 
+  // Navigation clavier
   useEffect(() => {
     function handleKey(e) {
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") onPrev();
-      if (e.key === "ArrowRight") onNext();
+      if (e.key === "ArrowLeft" && index > 0) onNavigate(index - 1);
+      if (e.key === "ArrowRight" && index < photos.length - 1)
+        onNavigate(index + 1);
     }
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [onClose, onPrev, onNext]);
+  }, [onClose, onNavigate, index, photos.length]);
 
-  // Bloquer le scroll du body
+  // Bloquer le scroll
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -60,24 +63,38 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
 
   if (!photo) return null;
 
-  const cat = categorieConfig(photo.categorie);
-
   return (
     <div
       className="fixed inset-0 z-[90] flex items-center justify-center"
-      style={{ backgroundColor: "rgba(20,8,4,0.93)" }}
+      style={{
+        backgroundColor: "rgba(20,8,4,0.93)",
+        animation: "fadeIn 0.18s ease",
+      }}
       onClick={onClose}
     >
-      {/* Contenu — stopper la propagation pour ne pas fermer au clic sur l'image */}
+      <style>{`@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }`}</style>
+
       <div
         className="relative flex flex-col items-center w-full h-full px-4 py-6 md:px-16 md:py-10"
         style={{ maxWidth: "1100px", margin: "0 auto" }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Bouton fermer */}
+        {/* Bouton fermer — couleurs cohérentes avec le projet */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 md:top-6 md:right-6 flex items-center gap-2 text-[9px] tracking-[0.18em] border uppercase font-bold px-3 py-2 rounded-full transition-colors text-white border-white hover:text-slate-500 hover:border-slate-500"
+          className="absolute top-4 right-4 md:top-6 md:right-6 flex items-center gap-2 text-[9px] tracking-[0.18em] uppercase font-bold px-3 py-2 rounded-full transition-colors"
+          style={{
+            color: "rgba(255,255,255,0.6)",
+            border: "1px solid rgba(255,255,255,0.2)",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "white";
+            e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "rgba(255,255,255,0.6)";
+            e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+          }}
         >
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
             <path
@@ -91,15 +108,17 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
         </button>
 
         {/* Compteur */}
-        <div className="text-[9px] tracking-[0.2em] uppercase font-bold mb-4 text-white">
+        <p
+          className="text-[9px] tracking-[0.2em] uppercase font-bold mb-4"
+          style={{ color: "rgba(255,255,255,0.3)" }}
+        >
           {index + 1} / {photos.length}
-        </div>
+        </p>
 
         {/* Image + navigation */}
         <div className="relative flex items-center justify-center w-full flex-1 min-h-0 gap-4">
-          {/* Précédent */}
           <button
-            onClick={onPrev}
+            onClick={() => onNavigate(index - 1)}
             disabled={index === 0}
             className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full transition-all disabled:opacity-20"
             style={{
@@ -118,7 +137,6 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
             </svg>
           </button>
 
-          {/* Image */}
           <div className="flex-1 flex items-center justify-center min-w-0 min-h-0">
             <img
               src={photo.image_url}
@@ -128,9 +146,8 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
             />
           </div>
 
-          {/* Suivant */}
           <button
-            onClick={onNext}
+            onClick={() => onNavigate(index + 1)}
             disabled={index === photos.length - 1}
             className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full transition-all disabled:opacity-20"
             style={{
@@ -176,7 +193,7 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
           </div>
         </div>
 
-        {/* Miniatures */}
+        {/* Miniatures — navigation directe par index */}
         {photos.length > 1 && (
           <div
             className="flex gap-2 mt-5 overflow-x-auto pb-1"
@@ -185,12 +202,7 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
             {photos.map((p, i) => (
               <button
                 key={p.id}
-                onClick={() => {
-                  // On passe par un hack : recalcule l'index depuis le parent
-                  const diff = i - index;
-                  if (diff > 0) for (let j = 0; j < diff; j++) onNext();
-                  else for (let j = 0; j < Math.abs(diff); j++) onPrev();
-                }}
+                onClick={() => onNavigate(i)}
                 className="flex-shrink-0 rounded-lg overflow-hidden transition-all"
                 style={{
                   width: "48px",
@@ -240,9 +252,10 @@ function CategorieCard({ cat, count, active, firstImage, onClick }) {
           overflow: "hidden",
         }}
       >
+        {/* ✅ firstImage prop — pas d'URL hardcodée */}
         {firstImage && (
           <img
-            src="https://static.wixstatic.com/media/457787_f6badfbbd12f49488f331b78c8f46595~mv2_d_3264_2448_s_4_2.jpg/v1/fill/w_604,h_319,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/457787_f6badfbbd12f49488f331b78c8f46595~mv2_d_3264_2448_s_4_2.jpg"
+            src={firstImage}
             alt={cat.label}
             className="w-full h-full object-cover transition-transform duration-500"
             style={{ transform: active ? "scale(1.05)" : "scale(1)" }}
@@ -336,7 +349,6 @@ function PhotoCard({ r, onClick }) {
               alt={r.titre || "Réalisation"}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            {/* Overlay loupe au survol */}
             <div
               className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
               style={{ backgroundColor: "rgba(61,26,14,0.45)" }}
@@ -458,19 +470,15 @@ export default function RealisationsClient({ realisations }) {
     [realisations, activeCategorie],
   );
 
-  // Reset lightbox quand on change de catégorie
-  const handleCategorie = (value) => {
+  function handleCategorie(value) {
     setActiveCategorie(value);
     setLightboxIndex(null);
-  };
+  }
 
-  const handlePrev = useCallback(() => {
-    setLightboxIndex((i) => (i > 0 ? i - 1 : i));
+  // Navigation directe par index — plus de hack de boucle
+  const handleNavigate = useCallback((newIndex) => {
+    setLightboxIndex(newIndex);
   }, []);
-
-  const handleNext = useCallback(() => {
-    setLightboxIndex((i) => (i < filtered.length - 1 ? i + 1 : i));
-  }, [filtered.length]);
 
   const activeCat = categorieConfig(activeCategorie);
 
@@ -513,10 +521,7 @@ export default function RealisationsClient({ realisations }) {
       <div className="max-w-5xl mx-auto px-6 py-12">
         {/* ── Cards catégories ── */}
         <div className="mb-12">
-          <p
-            className="text-[9px] tracking-[0.22em] uppercase font-bold mb-5"
-            style={{ color: "#c8bfb0" }}
-          >
+          <p className="text-[9px] tracking-[0.22em] uppercase font-bold mb-5 text-black">
             Choisir une catégorie
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -597,8 +602,7 @@ export default function RealisationsClient({ realisations }) {
           photos={filtered}
           index={lightboxIndex}
           onClose={() => setLightboxIndex(null)}
-          onPrev={handlePrev}
-          onNext={handleNext}
+          onNavigate={handleNavigate}
         />
       )}
     </div>

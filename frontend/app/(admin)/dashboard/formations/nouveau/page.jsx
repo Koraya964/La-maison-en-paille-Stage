@@ -7,7 +7,7 @@ export const metadata = { title: "Nouvelle formation" };
 export default function NewFormationPage() {
   return (
     <AuthGuard>
-      <div className="p-6 md:p-8 max-w-2xl">
+      <div className="p-6 md:p-8">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-6">
           <Link

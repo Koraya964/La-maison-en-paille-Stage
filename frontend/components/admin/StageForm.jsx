@@ -3,13 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-// ─── Constantes ───────────────────────────────────────────────────────────────
+const API = process.env.NEXT_PUBLIC_API_URL;
 
-const FORMATIONS = [
-  { id: 1, titre: "Paille, Terre & Chaux", duree: "6 jours", tarif: "660 €" },
-  { id: 2, titre: "Poêle de Masse", duree: "3 jours", tarif: "380 €" },
-  { id: 3, titre: "Autonomie Photovoltaïque", duree: "2 jours", tarif: null },
-];
+// ─── Constantes ───────────────────────────────────────────────────────────────
 
 const STATUTS = [
   {
@@ -156,8 +152,6 @@ function Counter({ value, onChange, min = 0, max = 50 }) {
   );
 }
 
-// ─── Modal suppression ────────────────────────────────────────────────────────
-
 function DeleteModal({ open, onConfirm, onCancel, loading }) {
   if (!open) return null;
   return (
@@ -218,6 +212,10 @@ export default function StageForm({ stage = null }) {
   const router = useRouter();
   const isEdit = !!stage;
 
+  // Formations chargées depuis la BDD
+  const [formations, setFormations] = useState([]);
+  const [formationsLoading, setFormationsLoading] = useState(true);
+
   const [form, setForm] = useState({
     formation_id: stage?.formation_id || "",
     date_debut: stage?.date_debut?.slice(0, 10) || "",
@@ -232,14 +230,34 @@ export default function StageForm({ stage = null }) {
   const [showDelete, setShowDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  // Garde places_dispo <= places_total en permanence
+  // ── Fetch formations ───────────────────────────────────────────────────────
+  useEffect(() => {
+    async function fetchFormations() {
+      try {
+        const res = await fetch(`${API}/api/formations/admin`, {
+          credentials: "include",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setFormations(data);
+        }
+      } catch {
+        // Silencieux — la liste sera vide
+      } finally {
+        setFormationsLoading(false);
+      }
+    }
+    fetchFormations();
+  }, []);
+
+  // Garde places_dispo <= places_total
   useEffect(() => {
     if (form.places_dispo > form.places_total) {
       setForm((prev) => ({ ...prev, places_dispo: prev.places_total }));
     }
   }, [form.places_total, form.places_dispo]);
 
-  // Si date_debut change et devient >= date_fin, on vide date_fin
+  // Reset date_fin si date_debut devient >= date_fin
   useEffect(() => {
     if (form.date_debut && form.date_fin && form.date_fin <= form.date_debut) {
       setForm((prev) => ({ ...prev, date_fin: "" }));
@@ -262,7 +280,6 @@ export default function StageForm({ stage = null }) {
     setLoading(true);
     setError(null);
 
-    // Validation dates
     if (form.date_fin && form.date_debut && form.date_fin <= form.date_debut) {
       setError("La date de fin doit être postérieure à la date de début.");
       setLoading(false);
@@ -270,7 +287,6 @@ export default function StageForm({ stage = null }) {
     }
 
     try {
-      const API = process.env.NEXT_PUBLIC_API_URL;
       const url = isEdit
         ? `${API}/api/stages/${stage.id}`
         : `${API}/api/stages`;
@@ -302,10 +318,10 @@ export default function StageForm({ stage = null }) {
   async function handleDelete() {
     setDeleting(true);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/stages/${stage.id}`,
-        { method: "DELETE", credentials: "include" },
-      );
+      const res = await fetch(`${API}/api/stages/${stage.id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
       if (!res.ok) throw new Error("Erreur lors de la suppression");
       router.push("/dashboard/stages");
       router.refresh();
@@ -320,7 +336,6 @@ export default function StageForm({ stage = null }) {
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {/* ── Erreur ── */}
         {error && (
           <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
             <svg
@@ -344,74 +359,115 @@ export default function StageForm({ stage = null }) {
 
         {/* ── Formation ── */}
         <SectionBlock label="Formation">
-          <div className="flex flex-col gap-2">
-            {FORMATIONS.map((f) => {
-              const active = Number(form.formation_id) === f.id;
-              return (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() =>
-                    setForm((prev) => ({ ...prev, formation_id: f.id }))
-                  }
-                  className="w-full text-left rounded-xl border px-4 py-3 transition-all"
-                  style={{
-                    borderColor: active ? "#8b6c47" : "#e2dbd0",
-                    borderWidth: active ? "2px" : "1px",
-                    backgroundColor: active ? "#fdf8f2" : "white",
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <span
-                      className="text-[10px] tracking-[0.15em] uppercase font-bold"
-                      style={{ color: active ? "#8b6c47" : "#c8bfb0" }}
-                    >
-                      {f.titre}
-                    </span>
-                    {active && (
-                      <svg
-                        width="13"
-                        height="10"
-                        viewBox="0 0 13 10"
-                        fill="none"
-                      >
-                        <path
-                          d="M1 5L4.5 8.5L12 1"
-                          stroke="#8b6c47"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-3 mt-1">
-                    {f.duree && (
+          {formationsLoading ? (
+            <div
+              className="flex items-center gap-2 py-4 px-2"
+              style={{ color: "#c8bfb0" }}
+            >
+              <svg
+                className="animate-spin"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+              >
+                <circle
+                  cx="7"
+                  cy="7"
+                  r="5.5"
+                  stroke="#e2dbd0"
+                  strokeWidth="1.5"
+                />
+                <path
+                  d="M7 1.5A5.5 5.5 0 0 1 12.5 7"
+                  stroke="#9a8070"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span className="text-xs">Chargement des formations…</span>
+            </div>
+          ) : formations.length === 0 ? (
+            <p className="text-xs py-3 px-2" style={{ color: "#c8bfb0" }}>
+              Aucune formation disponible.{" "}
+              <a
+                href="/dashboard/formations/nouvelle"
+                className="underline"
+                style={{ color: "#8b6c47" }}
+              >
+                Créer une formation
+              </a>
+            </p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {formations.map((f) => {
+                const active = Number(form.formation_id) === f.id;
+                return (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() =>
+                      setForm((prev) => ({ ...prev, formation_id: f.id }))
+                    }
+                    className="w-full text-left rounded-xl border px-4 py-3 transition-all"
+                    style={{
+                      borderColor: active ? "#8b6c47" : "#e2dbd0",
+                      borderWidth: active ? "2px" : "1px",
+                      backgroundColor: active ? "#fdf8f2" : "white",
+                    }}
+                  >
+                    <div className="flex items-center justify-between">
                       <span
-                        className="text-[10px]"
-                        style={{ color: active ? "#9a8070" : "#d6d3d1" }}
+                        className="text-[10px] tracking-[0.15em] uppercase font-bold"
+                        style={{ color: active ? "#8b6c47" : "#c8bfb0" }}
                       >
-                        {f.duree}
+                        {f.titre}
                       </span>
-                    )}
-                    {f.tarif && (
-                      <>
-                        <span style={{ color: "#e2dbd0", fontSize: "10px" }}>
-                          ·
-                        </span>
+                      {active && (
+                        <svg
+                          width="13"
+                          height="10"
+                          viewBox="0 0 13 10"
+                          fill="none"
+                        >
+                          <path
+                            d="M1 5L4.5 8.5L12 1"
+                            stroke="#8b6c47"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 mt-1">
+                      {f.duree && (
                         <span
                           className="text-[10px]"
                           style={{ color: active ? "#9a8070" : "#d6d3d1" }}
                         >
-                          {f.tarif}
+                          {f.duree}
                         </span>
-                      </>
-                    )}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+                      )}
+                      {f.tarif && (
+                        <>
+                          <span style={{ color: "#e2dbd0", fontSize: "10px" }}>
+                            ·
+                          </span>
+                          <span
+                            className="text-[10px]"
+                            style={{ color: active ? "#9a8070" : "#d6d3d1" }}
+                          >
+                            {f.tarif} €
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </SectionBlock>
 
         {/* ── Dates ── */}
@@ -451,8 +507,6 @@ export default function StageForm({ stage = null }) {
               />
             </div>
           </div>
-
-          {/* Durée calculée */}
           {duree && (
             <div
               className="flex items-center gap-2 px-3 py-2 rounded-lg"
@@ -512,8 +566,6 @@ export default function StageForm({ stage = null }) {
               />
             </div>
           </div>
-
-          {/* Barre visuelle */}
           <div>
             <div
               className="h-[5px] rounded-full overflow-hidden"
@@ -623,7 +675,6 @@ export default function StageForm({ stage = null }) {
               Annuler
             </button>
           </div>
-
           {isEdit && (
             <button
               type="button"
@@ -647,7 +698,6 @@ export default function StageForm({ stage = null }) {
         </div>
       </form>
 
-      {/* ── Modal suppression ── */}
       <DeleteModal
         open={showDelete}
         onConfirm={handleDelete}

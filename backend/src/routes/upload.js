@@ -1,9 +1,15 @@
 import multer from 'multer'
 import path from 'path'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 import { v4 as uuid } from 'uuid'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 const storage = multer.diskStorage({
-    destination: 'public/images/realisations/',
+    // upload.js est dans src/routes/ — ../public remonte dans src/public
+    destination: join(__dirname, '../public/images/realisations'),
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname)
         cb(null, `${uuid()}${ext}`)

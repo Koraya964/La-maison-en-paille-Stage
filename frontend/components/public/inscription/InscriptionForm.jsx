@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FORMATIONS } from "./constants";
+import { useFormations } from "./hooks/useFormations";
 import { useStages } from "./hooks/useStages";
 import { useInscriptionForm } from "./hooks/useInscriptionForm";
 import ProgressBar from "./ProgressBar";
@@ -14,10 +14,13 @@ export default function InscriptionForm({ preselectedFormationId = null }) {
   const [formationId, setFormationId] = useState(preselectedFormationId);
   const [selectedStage, setSelectedStage] = useState(null);
 
-  const { stages, loading } = useStages(formationId);
+  // Formations depuis la BDD
+  const { formations, loading: loadingFormations } = useFormations();
+
+  const { stages, loading: loadingStages } = useStages(formationId);
   const inscription = useInscriptionForm(() => setStep(3));
 
-  const formation = FORMATIONS.find((f) => f.id === Number(formationId));
+  const formation = formations.find((f) => f.id === Number(formationId));
 
   return (
     <div className="bg-white shadow-lg max-w-2xl mx-auto">
@@ -25,10 +28,12 @@ export default function InscriptionForm({ preselectedFormationId = null }) {
       <div className="p-8">
         {step === 1 && (
           <StepChoixStage
+            formations={formations}
+            loadingFormations={loadingFormations}
             formationId={formationId}
             setFormationId={setFormationId}
             stages={stages}
-            loadingStages={loading}
+            loadingStages={loadingStages}
             selectedStage={selectedStage}
             setSelectedStage={setSelectedStage}
             onNext={() => setStep(2)}

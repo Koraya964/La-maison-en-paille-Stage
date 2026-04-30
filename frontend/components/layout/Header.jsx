@@ -24,7 +24,7 @@ const nav = [
     children: [
       { label: "André de Bouter", href: "/andre-de-bouter" },
       { label: "Porte ouverte : Poêle de masse", href: "/ressources" },
-      { label: "Vos réalisations", href: "/realisations" },
+      { label: "Réalisations", href: "/realisations" },
       { label: "Livres", href: "/livres" },
     ],
   },

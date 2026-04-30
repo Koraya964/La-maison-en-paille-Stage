@@ -129,6 +129,7 @@ export default function PhotoUploader() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    console.log("1. Submit déclenché, selectedFile:", selectedFile);
     if (!selectedFile) {
       setError("Veuillez sélectionner une image.");
       return;
@@ -137,22 +138,26 @@ export default function PhotoUploader() {
     setError(null);
     try {
       const API = process.env.NEXT_PUBLIC_API_URL;
+      console.log("2. API URL:", API);
 
-      // Étape 1 — upload du fichier, récupération de l'URL
       const uploadData = new FormData();
       uploadData.append("image", selectedFile);
+      console.log("3. Envoi vers:", `${API}/api/upload`);
+
       const uploadRes = await fetch(`${API}/api/upload`, {
         method: "POST",
         body: uploadData,
         credentials: "include",
       });
+      console.log("4. Upload status:", uploadRes.status);
+
       if (!uploadRes.ok) {
         const data = await uploadRes.json();
         throw new Error(data.error || "Erreur lors de l'upload de l'image");
       }
       const { url } = await uploadRes.json();
+      console.log("5. URL reçue:", url);
 
-      // Étape 2 — création de la réalisation avec l'URL
       const res = await fetch(`${API}/api/realisations`, {
         method: "POST",
         credentials: "include",
@@ -164,6 +169,8 @@ export default function PhotoUploader() {
           image_url: url,
         }),
       });
+      console.log("6. Réalisation status:", res.status);
+
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Erreur serveur");
@@ -173,6 +180,7 @@ export default function PhotoUploader() {
       reset();
       router.refresh();
     } catch (err) {
+      console.error("ERREUR:", err);
       setError(err.message);
     } finally {
       setLoading(false);
