@@ -146,6 +146,17 @@ export async function update(req, res) {
   }
 }
 
+export async function updateAdmin(req, res) {
+  try {
+    const { numero_convention, note_admin } = req.body;
+    await Inscription.updateAdmin(req.params.id, { numero_convention, note_admin });
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+}
+
 // DELETE /api/inscriptions/:id
 export async function remove(req, res) {
   try {

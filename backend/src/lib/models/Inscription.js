@@ -37,6 +37,7 @@ export const Inscription = {
     if (!stage) {
       throw Object.assign(new Error('Stage introuvable'), { status: 404 });
     }
+    // à voir avec le patron sur ça 
     if (stage.places_dispo <= 0) {
       throw Object.assign(new Error('Plus de places disponibles'), { status: 409 });
     }
@@ -83,10 +84,17 @@ export const Inscription = {
     `, [stage_id]);
   },
 
-  // Seul le statut est modifiable depuis le dashboard
-  updateStatut(id, statut) {
-    return query('UPDATE inscriptions SET statut = ? WHERE id = ?', [statut, id]);
+  updateAdmin(id, { numero_convention, note_admin }) {
+    return query(
+      'UPDATE inscriptions SET numero_convention = ?, note_admin = ? WHERE id = ?',
+      [
+        numero_convention === undefined ? null : numero_convention,
+        note_admin === undefined ? null : note_admin,
+        id
+      ]
+    );
   },
+
 
   delete(id) {
     return query('DELETE FROM inscriptions WHERE id = ?', [id]);

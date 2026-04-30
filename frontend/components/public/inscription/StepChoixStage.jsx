@@ -137,10 +137,6 @@ export default function StepChoixStage({
                       <p className="font-raleway font-bold text-sm text-[#3d1a0e]">
                         {formatDate(s.date_debut)} → {formatDate(s.date_fin)}
                       </p>
-                      <p className="text-xs text-[#4a4a4a] mt-0.5">
-                        {s.places_dispo} place{s.places_dispo > 1 ? "s" : ""}{" "}
-                        restante{s.places_dispo > 1 ? "s" : ""}
-                      </p>
                     </div>
 
                     <div className="flex items-center gap-3 flex-shrink-0">

@@ -2,32 +2,9 @@ import Link from "next/link";
 import AuthGuard from "@/components/admin/AuthGuard";
 import { cookies } from "next/headers";
 import { fetchStagesAdmin } from "@/lib/api/stages";
+import StagesTable from "@/components/admin/StagesTable";
 
-export const metadata = { title: "Stages" };
-
-const statutColors = {
-  ouvert: "bg-green-100 text-green-700",
-  complet: "bg-red-100 text-red-700",
-  liste_attente: "bg-amber-100 text-amber-700",
-  annule: "bg-stone-100 text-stone-500",
-  termine: "bg-gray-100 text-stone-500",
-};
-
-const statutLabels = {
-  ouvert: "Ouvert",
-  complet: "Complet",
-  liste_attente: "Liste d'attente",
-  annule: "Annulé",
-  termine: "Terminé",
-};
-
-function formatDate(date) {
-  return new Date(date).toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
+export const metadata = { title: "Stages — Dashboard" };
 
 export default async function DashboardStagesPage() {
   const cookieStore = cookies();
@@ -41,84 +18,65 @@ export default async function DashboardStagesPage() {
     stages = [];
   }
 
+  const total = stages.length;
+  const ouverts = stages.filter((s) => s.statut === "ouvert").length;
+  const complets = stages.filter((s) => s.statut === "complet").length;
+  const inscrits = stages.reduce((acc, s) => acc + (s.nb_inscriptions || 0), 0);
+
   return (
     <AuthGuard>
-      <div className="p-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="p-6 md:p-8">
+        {/* ── En-tête ── */}
+        <div className="flex items-start justify-between mb-8 gap-4">
           <div>
             <h1 className="font-serif text-3xl text-[#3d2b1f]">Stages</h1>
-            <p className="text-stone-500 mt-1">
-              {stages.length} session(s) programmée(s)
+            <p className="text-stone-500 mt-1 text-sm">
+              {total} session{total > 1 ? "s" : ""} programmée
+              {total > 1 ? "s" : ""}
             </p>
           </div>
-          <Link href="/dashboard/stages/nouveau" className="btn-primary">
-            + Nouveau stage
+          <Link
+            href="/dashboard/stages/nouveau"
+            className="flex items-center gap-2 text-xs tracking-widest uppercase font-bold px-5 py-2.5 rounded-full bg-[#3d2b1f] text-white hover:bg-[#5a3e2b] transition-colors whitespace-nowrap"
+          >
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+              <path
+                d="M5.5 1V10M1 5.5H10"
+                stroke="white"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+            Nouveau stage
           </Link>
         </div>
 
-        <div className="bg-white border border-stone-200 rounded-lg overflow-hidden">
-          {stages.length === 0 ? (
-            <div className="p-16 text-center text-stone-400 font-serif text-lg">
-              Aucun stage programmé.
-            </div>
-          ) : (
-            <table className="w-full text-sm">
-              <thead className="bg-stone-50 border-b border-stone-200">
-                <tr>
-                  <th className="px-6 py-4 text-left text-xs tracking-widest uppercase text-stone-500 font-bold">
-                    Formation
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs tracking-widest uppercase text-stone-500 font-bold">
-                    Dates
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs tracking-widest uppercase text-stone-500 font-bold">
-                    Places
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs tracking-widest uppercase text-stone-500 font-bold">
-                    Statut
-                  </th>
-                  <th className="px-6 py-4 text-right text-xs tracking-widest uppercase text-stone-500 font-bold">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-100">
-                {stages.map((stage) => (
-                  <tr
-                    key={stage.id}
-                    className="hover:bg-stone-50 transition-colors"
-                  >
-                    <td className="px-6 py-4 font-medium text-[#3d2b1f]">
-                      {stage.formation_titre}
-                    </td>
-                    <td className="px-6 py-4 text-stone-500">
-                      {formatDate(stage.date_debut)} →{" "}
-                      {formatDate(stage.date_fin)}
-                    </td>
-                    <td className="px-6 py-4 text-stone-500">
-                      {stage.places_dispo} / {stage.places_total}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`inline-block text-xs tracking-wider uppercase px-2 py-1 ${statutColors[stage.statut]}`}
-                      >
-                        {statutLabels[stage.statut]}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <Link
-                        href={`/dashboard/stages/${stage.id}`}
-                        className="text-xs tracking-widest uppercase font-bold text-[#8b6c47] hover:text-[#3d2b1f] transition-colors"
-                      >
-                        Modifier
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+        {/* ── Métriques ── */}
+        {total > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            {[
+              { label: "Total", value: total, color: "#3d2b1f" },
+              { label: "Ouverts", value: ouverts, color: "#15803d" },
+              { label: "Complets", value: complets, color: "#dc2626" },
+              { label: "Inscrits", value: inscrits, color: "#8b6c47" },
+            ].map(({ label, value, color }) => (
+              <div
+                key={label}
+                className="bg-white border border-stone-200 rounded-xl px-5 py-4"
+              >
+                <p className="text-[10px] tracking-widest uppercase text-stone-400 mb-1">
+                  {label}
+                </p>
+                <p className="text-2xl font-bold" style={{ color }}>
+                  {value}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ── Table interactive ── */}
+        <StagesTable stages={stages} />
       </div>
     </AuthGuard>
   );

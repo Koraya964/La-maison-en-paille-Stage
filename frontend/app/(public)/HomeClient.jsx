@@ -453,7 +453,7 @@ function DateRow({ stage, accent, slug }) {
   );
 }
 
-// ── Section prochaines dates ──────────────────────────────────────────────────
+// Section prochaines dates
 
 function ProchainsDates({ formations }) {
   const rows = formations.map((f) => {
@@ -465,7 +465,7 @@ function ProchainsDates({ formations }) {
   });
 }
 
-// ── Formation row ─────────────────────────────────────────────────────────────
+// Ligne de Formation
 
 function FormationRow({ formation, i }) {
   const isEven = i % 2 === 0;
@@ -936,7 +936,7 @@ export default function HomeClient({ formations = [] }) {
         </div>
       </section>
 
-      {/* ══ PORTE OUVERTE ══ */}
+      {/*  PORTE OUVERTE / Div évent*/}
       <section
         className="py-24 px-6"
         style={{ backgroundColor: BRUN }}
@@ -1053,7 +1053,7 @@ export default function HomeClient({ formations = [] }) {
         </div>
       </section>
 
-      {/* ══ SÉPARATEUR FOOTER ══ */}
+      {/* SÉPARATEUR FOOTER à voir si il reste comme ça  */}
       <div style={{ backgroundColor: BEIGE_DARK }} className="py-6 px-8">
         <div className="max-w-5xl mx-auto flex items-center gap-5">
           <div className="h-px flex-1" style={{ backgroundColor: "#cec5b5" }} />

@@ -14,7 +14,8 @@ const MOT_DE_PASSE = 'Testtest12345';
 
 const hash = await argon2.hash(MOT_DE_PASSE);
 
+const email = 'andre@test.com'
+
 console.log('Hash argon2 à insérer en BDD :');
 console.log(hash);
-console.log('Requête SQL :');
-console.log(`INSERT INTO admin (email, password) VALUES ('andre@lamaisonenpaille.com', '${hash}');`);
+console.log(`INSERT INTO admin (email, password) VALUES ('${email}', '${hash}');`);
