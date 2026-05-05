@@ -191,7 +191,7 @@ export default function PhotoUploader() {
     <form onSubmit={handleSubmit}>
       {/*
         INPUT FILE hors de tout label et hors de la zone drop.
-        Déclenché programmatiquement via fileRef.current.click().
+        Déclenché via fileRef.current.click().
         Pas de double-déclenchement possible.
       */}
       <input

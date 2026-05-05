@@ -105,14 +105,6 @@ export default async function DashboardFormationsPage() {
                 className="group bg-white rounded-2xl border px-6 py-5 flex items-center gap-5 transition-colors hover:border-stone-300"
                 style={{ borderColor: "#e2dbd0" }}
               >
-                {/* Numéro */}
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-black text-sm"
-                  style={{ backgroundColor: "#f7f4ef", color: "#c8bfb0" }}
-                >
-                  {f.id}
-                </div>
-
                 {/* Infos */}
                 <div className="flex-1 min-w-0">
                   <p
