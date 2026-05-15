@@ -95,6 +95,13 @@ export const Inscription = {
     );
   },
 
+  updateStatut(id, statut) {
+    return query(
+      'UPDATE inscriptions SET statut = ? WHERE id = ?',
+      [statut, id]
+    );
+  },
+
 
   delete(id) {
     return query('DELETE FROM inscriptions WHERE id = ?', [id]);

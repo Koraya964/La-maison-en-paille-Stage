@@ -154,7 +154,7 @@ export default async function PailleTerreChauxPage() {
                   stages.map((s) => (
                     <div
                       key={s.id}
-                      className="flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-[#BC8A5F]/30 hover:bg-[#BC8A5F]/5 transition-all"
+                      className="flex items-center justify-between p-4 rounded-xl border border-gray-100  transition-all"
                     >
                       <div>
                         <span className="font-medium text-gray-800">

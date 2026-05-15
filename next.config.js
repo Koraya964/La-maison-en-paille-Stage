@@ -15,6 +15,15 @@ const nextConfig = {
     config.resolve.alias['@'] = path.resolve(__dirname)
     return config
   },
+
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:4000/api/:path*',
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig

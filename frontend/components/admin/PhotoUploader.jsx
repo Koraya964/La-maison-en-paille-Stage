@@ -92,7 +92,7 @@ export default function PhotoUploader() {
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setError("Le fichier dépasse 5 Mo.");
+      setError("Le fichier dépasse 2 Mo.");
       return;
     }
     setError(null);
@@ -361,7 +361,7 @@ export default function PhotoUploader() {
                         : "Cliquez ou glissez une image"}
                     </p>
                     <p className="text-[10px]" style={{ color: "#c8bfb0" }}>
-                      JPG, PNG, WebP · 5 Mo max
+                      JPG, PNG, WebP · 2 Mo max
                     </p>
                   </div>
                 </div>

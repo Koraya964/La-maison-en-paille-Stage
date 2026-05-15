@@ -90,7 +90,7 @@ function ImageUploadZone({ value, onChange, label, hint }) {
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setError("Fichier trop lourd (5 Mo max).");
+      setError("Fichier trop lourd (2 Mo max).");
       return;
     }
     setError(null);
@@ -992,7 +992,7 @@ export default function FormationForm({ formation = null }) {
                   setForm((prev) => ({ ...prev, image_hero: url }))
                 }
                 label="Photo principale"
-                hint="JPG, PNG, WebP · 5 Mo max · Affiché en fond pleine hauteur"
+                hint="JPG, PNG, WebP · 2 Mo max · Affiché en fond pleine hauteur"
               />
             </SectionBlock>
 
