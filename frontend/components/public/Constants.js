@@ -1,9 +1,9 @@
-// ── Couleurs ──────────────────────────────────────────────────────────────────
+// Couleurs 
 export const BEIGE = "#ede8de";
 export const BEIGE_DARK = "#e2dbd0";
 export const BRUN = "#3d1a0e";
 
-// ── Images ────────────────────────────────────────────────────────────────────
+// Images 
 export const IMAGES = {
     paille: "https://static.wixstatic.com/media/457787_636791b4baad4907b60f835956955fc3~mv2.jpg/v1/fill/w_980,h_653,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/457787_636791b4baad4907b60f835956955fc3~mv2.jpg",
     poele: "https://static.wixstatic.com/media/3e33e8_06a3e5044e5143f5932fcc4f69a2eede~mv2.jpg/v1/fill/w_941,h_706,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/3e33e8_06a3e5044e5143f5932fcc4f69a2eede~mv2.jpg",
@@ -14,7 +14,7 @@ export const IMAGES = {
     logo: "https://static.wixstatic.com/media/f4c673_e47b03f2fb7e4abeaefbc943276b6819~mv2.png/v1/fill/w_29,h_29,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/f4c673_e47b03f2fb7e4abeaefbc943276b6819~mv2.png",
 };
 
-// ── Config par formation ──────────────────────────────────────────────────────
+// ── Config par formation 
 export const FORMATION_CONFIG = {
     "paille-terre-chaux": {
         sousTitre: "Construire · Rénover · Isoler · Décorer",
@@ -48,7 +48,7 @@ export const FORMATION_CONFIG = {
     },
 };
 
-// ── Témoignages ───────────────────────────────────────────────────────────────
+//  Témoignages 
 export const TEMOIGNAGES = [
     {
         texte: "Une semaine extraordinaire. André transmet avec une générosité rare — on repart avec les mains dans la terre et la tête pleine de solutions concrètes.",

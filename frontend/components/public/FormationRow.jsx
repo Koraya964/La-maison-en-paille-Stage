@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { BEIGE, BRUN, FORMATION_CONFIG } from "./Constants";
+import { BEIGE, BRUN, FORMATION_CONFIG } from "./constants";
 import { Pattern } from "./Patterns";
 import { IconCalendar, ArrowRight, StatutBadge, BarrePlaces } from "./ui";
 import { useVisible } from "./hooks";

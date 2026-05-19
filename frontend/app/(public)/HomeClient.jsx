@@ -6,7 +6,7 @@ import {
   BEIGE_DARK,
   BRUN,
   IMAGES,
-} from "../../components/public/Constants";
+} from "../../components/public/constants";
 import Hero from "../../components/public/Hero";
 import FormationRow from "../../components/public/FormationRow";
 import Temoignages from "../../components/public/Temoignage";
