@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useMemo } from "react";
 
-// ─── Constantes ───────────────────────────────────────────────────────────────
+//  Constantes
 
 const categorieConfig = {
   poele_de_masse: { label: "Poêle de masse", dot: "#c06030" },
@@ -14,7 +14,7 @@ const categorieConfig = {
 
 const CATEGORIES = Object.keys(categorieConfig);
 
-// ─── Modal suppression ────────────────────────────────────────────────────────
+//  Modal suppression
 
 function DeleteModal({ photo, onConfirm, onCancel, loading }) {
   if (!photo) return null;
@@ -99,7 +99,7 @@ function DeleteModal({ photo, onConfirm, onCancel, loading }) {
   );
 }
 
-// ─── Carte photo ──────────────────────────────────────────────────────────────
+//  Carte photo ──
 
 function PhotoCard({ r, onDeleteClick }) {
   const cat = categorieConfig[r.categorie] ?? categorieConfig.autre;
@@ -223,7 +223,7 @@ function PhotoCard({ r, onDeleteClick }) {
   );
 }
 
-// ─── Composant principal ──────────────────────────────────────────────────────
+//  Composant principal
 
 export default function RealisationsGrid({
   realisations: initialRealisations,

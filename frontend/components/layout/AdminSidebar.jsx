@@ -10,6 +10,7 @@ const navItems = [
   { label: "Stages", href: "/dashboard/stages" },
   { label: "Inscriptions", href: "/dashboard/inscriptions" },
   { label: "Réalisations", href: "/dashboard/realisations" },
+  { label: "Soumissions", href: "/dashboard/soumissions" },
   { label: "Formations", href: "/dashboard/formations" },
 ];
 

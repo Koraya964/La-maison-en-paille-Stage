@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useMemo } from "react";
 
-// ─── Constantes ───────────────────────────────────────────────────────────────
+//  Constantes ─
 
 const statutConfig = {
   ouvert: {
@@ -40,7 +40,7 @@ const statutConfig = {
 
 const STATUTS = Object.keys(statutConfig);
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+//  Helpers
 
 function formatDateCourt(date) {
   return new Date(date).toLocaleDateString("fr-FR", {
@@ -57,7 +57,7 @@ function formatDateLong(date) {
   });
 }
 
-// ─── StatutBadge ──────────────────────────────────────────────────────────────
+//  StatutBadge
 
 function StatutBadge({ statut, size = "md" }) {
   const c = statutConfig[statut] || statutConfig.ouvert;
@@ -76,7 +76,7 @@ function StatutBadge({ statut, size = "md" }) {
   );
 }
 
-// ─── BarrePlaces ──────────────────────────────────────────────────────────────
+//  BarrePlaces
 
 function BarrePlaces({ dispo, total, statut }) {
   const pct =
@@ -106,7 +106,7 @@ function BarrePlaces({ dispo, total, statut }) {
   );
 }
 
-// ─── SortIcon ─────────────────────────────────────────────────────────────────
+//  SortIcon ─
 
 function SortIcon({ active, dir }) {
   return (
@@ -135,7 +135,7 @@ function SortIcon({ active, dir }) {
   );
 }
 
-// ─── Card mobile ──────────────────────────────────────────────────────────────
+//  Card mobile
 
 function StageCard({ stage }) {
   return (
@@ -206,7 +206,7 @@ function StageCard({ stage }) {
   );
 }
 
-// ─── Composant principal ──────────────────────────────────────────────────────
+//  Composant principal
 
 export default function StagesTable({ stages: initialStages }) {
   const [filterStatut, setFilterStatut] = useState("tous");

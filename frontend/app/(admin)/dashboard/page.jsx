@@ -6,7 +6,7 @@ export const metadata = { title: "Vue générale" };
 
 const API = process.env.NEXT_PUBLIC_API_URL;
 
-// ─── Fetch ────────────────────────────────────────────────────────────────────
+//  Fetch
 
 async function getDashboardData() {
   const cookieStore = cookies();
@@ -67,7 +67,7 @@ async function getDashboardData() {
   }
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+//  Helpers
 
 function formatDateCourt(date) {
   return new Date(date).toLocaleDateString("fr-FR", {
@@ -89,7 +89,7 @@ function initiales(prenom, nom) {
   return `${prenom?.[0] ?? ""}${nom?.[0] ?? ""}`.toUpperCase();
 }
 
-// ─── Statut stage ─────────────────────────────────────────────────────────────
+//  Statut stage ─
 
 const stageStatutConfig = {
   ouvert: { dot: "#15803d", label: "Ouvert" },
@@ -113,7 +113,7 @@ const avatarColors = [
   { bg: "#e8d5d5", text: "#7a4a4a" },
 ];
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+//  Page
 
 export default async function DashboardPage() {
   const { stats, prochainStages, dernieresInscriptions } =

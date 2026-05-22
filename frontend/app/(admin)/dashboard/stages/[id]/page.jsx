@@ -14,6 +14,7 @@ async function getStage(id, cookieHeader) {
     const res = await fetch(`${API}/api/stages/${id}`, {
       headers: { Cookie: cookieHeader },
       cache: "no-store",
+      credentials: "include",
     });
     if (!res.ok) return null;
     return res.json();
@@ -34,8 +35,7 @@ function initiales(prenom, nom) {
   return `${prenom?.[0] ?? ""}${nom?.[0] ?? ""}`.toUpperCase();
 }
 
-// ─── Couleurs statut sur fond sombre ─────────────────────────────────────────
-
+//  Couleurs statut sur fond sombre ──
 const statutDark = {
   ouvert: {
     bg: "rgba(21,128,61,0.2)",
@@ -74,8 +74,7 @@ const statutDark = {
   },
 };
 
-// ─── Palette avatars ──────────────────────────────────────────────────────────
-
+//  Palette avatars
 const avatarColors = [
   { bg: "#e8d5be", text: "#8b6c47" },
   { bg: "#d5e8d5", text: "#4a7a4a" },
@@ -106,6 +105,8 @@ export default async function EditStagePage({ params }) {
       : stage.places_dispo <= 3
         ? "#fbbf24"
         : "#4ade80";
+
+  const emailsGroupes = inscrits.map((i) => i.email).join(",");
 
   return (
     <AuthGuard>
@@ -144,42 +145,6 @@ export default async function EditStagePage({ params }) {
           className="relative overflow-hidden rounded-2xl p-7 mb-6"
           style={{ backgroundColor: "#3d1a0e" }}
         >
-          {/* Pattern décoratif */}
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <pattern
-                id="grid-edit"
-                x="0"
-                y="0"
-                width="32"
-                height="32"
-                patternUnits="userSpaceOnUse"
-              >
-                <line
-                  x1="0"
-                  y1="16"
-                  x2="32"
-                  y2="16"
-                  stroke="rgba(255,255,255,0.04)"
-                  strokeWidth="1"
-                />
-                <line
-                  x1="16"
-                  y1="0"
-                  x2="16"
-                  y2="32"
-                  stroke="rgba(255,255,255,0.025)"
-                  strokeWidth="0.5"
-                />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid-edit)" />
-          </svg>
-
           <div className="relative flex flex-col md:flex-row md:items-start justify-between gap-6">
             {/* Infos formation */}
             <div>
@@ -195,7 +160,6 @@ export default async function EditStagePage({ params }) {
               >
                 {stage.formation_titre}
               </h1>
-
               {/* Dates */}
               <div className="flex items-center gap-2 mb-4">
                 <svg width="11" height="12" viewBox="0 0 11 12" fill="none">
@@ -238,7 +202,6 @@ export default async function EditStagePage({ params }) {
                   {formatDateCourt(stage.date_fin)}
                 </span>
               </div>
-
               {/* Badge statut */}
               <span
                 className="inline-flex items-center gap-2 text-[9px] tracking-[0.15em] uppercase font-bold px-3 py-1.5 rounded-full"
@@ -361,23 +324,57 @@ export default async function EditStagePage({ params }) {
                   ({inscrits.length})
                 </span>
               </p>
+
               {inscrits.length > 0 && (
-                <Link
-                  href={`/dashboard/inscriptions?stage=${stage.id}`}
-                  className="flex items-center gap-1.5 text-[9px] tracking-[0.15em] uppercase font-bold transition-colors"
-                  style={{ color: "#8b6c47" }}
-                >
-                  Voir tout
-                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                    <path
-                      d="M1 4H9M9 4L6 1M9 4L6 7"
-                      stroke="currentColor"
-                      strokeWidth="1.1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </Link>
+                <div className="flex items-center gap-3">
+                  {/* ── Bouton email groupé ── */}
+                  <a
+                    href={`mailto:${emailsGroupes}`}
+                    className="flex items-center gap-1.5 text-[9px] tracking-[0.15em] uppercase font-bold px-3 py-1.5 rounded-full transition-opacity hover:opacity-75"
+                    style={{
+                      background: "rgba(139,108,71,0.1)",
+                      border: "1px solid rgba(139,108,71,0.25)",
+                      color: "#8b6c47",
+                    }}
+                    title={`Écrire à tous les inscrits (${inscrits.length})`}
+                  >
+                    <svg width="13" height="10" viewBox="0 0 13 10" fill="none">
+                      <rect
+                        x="0.5"
+                        y="0.5"
+                        width="12"
+                        height="9"
+                        rx="1.5"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                      />
+                      <path
+                        d="M1 1.5L6.5 5.5L12 1.5"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                    Email groupé
+                  </a>
+
+                  <Link
+                    href={`/dashboard/inscriptions?stage=${stage.id}`}
+                    className="flex items-center gap-1.5 text-[9px] tracking-[0.15em] uppercase font-bold transition-colors"
+                    style={{ color: "#8b6c47" }}
+                  >
+                    Voir tout
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                      <path
+                        d="M1 4H9M9 4L6 1M9 4L6 7"
+                        stroke="currentColor"
+                        strokeWidth="1.1"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </Link>
+                </div>
               )}
             </div>
 

@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 
 const API = process.env.NEXT_PUBLIC_API_URL;
 
-// ─── Constantes ───────────────────────────────────────────────────────────────
+//  Constantes
 
 const statutColors = {
   en_attente: { bg: "bg-amber-100", text: "text-amber-700", dot: "#d97706" },
@@ -22,7 +22,7 @@ const statutLabels = {
 
 const STATUTS = Object.keys(statutLabels);
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+//  Helpers
 
 function formatDate(date) {
   return new Date(date).toLocaleDateString("fr-FR", {
@@ -49,7 +49,7 @@ function buildMailtoHref(inscription) {
   return `mailto:${inscription.email}?subject=${sujet}&body=${corps}`;
 }
 
-// ─── Toast ────────────────────────────────────────────────────────────────────
+//  Toast ──
 
 function Toast({ toasts }) {
   return (
@@ -99,7 +99,7 @@ function useToast() {
   return { toasts, push };
 }
 
-// ─── StatutBadge ──────────────────────────────────────────────────────────────
+//  StatutBadge ──
 
 function StatutBadge({ statut, size = "md" }) {
   const c = statutColors[statut] || statutColors.en_attente;
@@ -118,7 +118,7 @@ function StatutBadge({ statut, size = "md" }) {
   );
 }
 
-// ─── Custom Dropdown ──────────────────────────────────────────────────────────
+//  Custom Dropdown ─
 
 function StatutDropdown({ value, onChange, disabled }) {
   const [open, setOpen] = useState(false);
@@ -201,7 +201,7 @@ function StatutDropdown({ value, onChange, disabled }) {
   );
 }
 
-// ─── Confirmation Modal ───────────────────────────────────────────────────────
+//  Confirmation Modal ─
 
 function ConfirmModal({ pending, onConfirm, onCancel }) {
   if (!pending) return null;
@@ -260,7 +260,7 @@ function ConfirmModal({ pending, onConfirm, onCancel }) {
   );
 }
 
-// ─── Detail Modal ─────────────────────────────────────────────────────────────
+//  Detail Modal ─
 
 function InscriptionModal({
   inscription,
@@ -647,7 +647,7 @@ function InscriptionModal({
   );
 }
 
-// ─── Filtres & tri ────────────────────────────────────────────────────────────
+//  Filtres & tri
 
 function SortIcon({ active, dir }) {
   return (
@@ -676,7 +676,7 @@ function SortIcon({ active, dir }) {
   );
 }
 
-// ─── Card mobile ──────────────────────────────────────────────────────────────
+//  Card mobile ──
 
 function InscriptionCard({ inscription: i, onSelect, onAskConfirm, updating }) {
   return (
@@ -739,7 +739,7 @@ function InscriptionCard({ inscription: i, onSelect, onAskConfirm, updating }) {
   );
 }
 
-// ─── Table principale ─────────────────────────────────────────────────────────
+//  Table principale
 
 export default function InscriptionTable({
   inscriptions: initialInscriptions,

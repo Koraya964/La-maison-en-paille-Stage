@@ -19,7 +19,7 @@ function formatFileSize(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
 }
 
-// ─── UI helpers ───────────────────────────────────────────────────────────────
+//  UI helpers
 
 function SectionBlock({ label, children }) {
   return (
@@ -59,7 +59,7 @@ const inputStyle = { borderColor: "#e2dbd0", color: "#3d1a0e" };
 const focusIn = (e) => (e.target.style.borderColor = "#8b6c47");
 const focusOut = (e) => (e.target.style.borderColor = "#e2dbd0");
 
-// ─── Upload helper ────────────────────────────────────────────────────────────
+//  Upload helper
 
 async function uploadFile(file) {
   const formData = new FormData();
@@ -74,7 +74,7 @@ async function uploadFile(file) {
   return url;
 }
 
-// ─── ImageUploadZone ──────────────────────────────────────────────────────────
+//  ImageUploadZone ─
 
 function ImageUploadZone({ value, onChange, label, hint }) {
   const fileRef = useRef(null);
@@ -265,7 +265,7 @@ function ImageUploadZone({ value, onChange, label, hint }) {
   );
 }
 
-// ─── GalerieEditor ────────────────────────────────────────────────────────────
+//  GalerieEditor
 
 function GalerieEditor({ photos, onChange }) {
   const fileRef = useRef(null);
@@ -453,7 +453,7 @@ function GalerieEditor({ photos, onChange }) {
   );
 }
 
-// ─── DeleteModal ──────────────────────────────────────────────────────────────
+//  DeleteModal ──
 
 function DeleteModal({ open, onConfirm, onCancel, loading, titre }) {
   if (!open) return null;
@@ -531,7 +531,7 @@ function DeleteModal({ open, onConfirm, onCancel, loading, titre }) {
   );
 }
 
-// ─── FormationForm ────────────────────────────────────────────────────────────
+//  FormationForm
 
 export default function FormationForm({ formation = null }) {
   const router = useRouter();

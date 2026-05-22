@@ -6,6 +6,13 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'static.wixstatic.com' },
       { protocol: 'https', hostname: 'www.lamaisonenpaille.com' },
+
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '4000',
+        pathname: '/images/**',
+      },
     ],
   },
   experimental: {
@@ -15,7 +22,6 @@ const nextConfig = {
     config.resolve.alias['@'] = path.resolve(__dirname)
     return config
   },
-
   async rewrites() {
     return [
       {
@@ -25,5 +31,4 @@ const nextConfig = {
     ];
   },
 }
-
 module.exports = nextConfig

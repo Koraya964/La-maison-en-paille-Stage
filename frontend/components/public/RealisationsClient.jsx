@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useCallback } from "react";
 
-// ─── Constantes ───────────────────────────────────────────────────────────────
+//  Constantes
 
 const CATEGORIES = [
   {
@@ -35,7 +35,7 @@ function categorieConfig(value) {
   return CATEGORIES.find((c) => c.value === value) ?? CATEGORIES[2];
 }
 
-// ─── Lightbox ─────────────────────────────────────────────────────────────────
+//  Lightbox ──
 
 function Lightbox({ photos, index, onClose, onNavigate }) {
   const photo = photos[index];
@@ -230,7 +230,7 @@ function Lightbox({ photos, index, onClose, onNavigate }) {
   );
 }
 
-// ─── Card catégorie ───────────────────────────────────────────────────────────
+//  Card catégorie ──
 
 function CategorieCard({ cat, count, active, firstImage, onClick }) {
   return (
@@ -328,7 +328,7 @@ function CategorieCard({ cat, count, active, firstImage, onClick }) {
   );
 }
 
-// ─── Card photo ───────────────────────────────────────────────────────────────
+//  Card photo
 
 function PhotoCard({ r, onClick }) {
   const cat = categorieConfig(r.categorie);
@@ -438,7 +438,7 @@ function PhotoCard({ r, onClick }) {
   );
 }
 
-// ─── Composant principal ──────────────────────────────────────────────────────
+//  Composant principal
 
 export default function RealisationsClient({ realisations }) {
   const [activeCategorie, setActiveCategorie] = useState("poele_de_masse");

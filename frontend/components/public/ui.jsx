@@ -1,6 +1,6 @@
 import { BEIGE, BEIGE_DARK, BRUN } from "./constants";
 
-// ── Étoiles ───────────────────────────────────────────────────────────────────
+//  Étoiles
 export function Stars({ note, accent }) {
   return (
     <div
@@ -28,7 +28,7 @@ export function Stars({ note, accent }) {
   );
 }
 
-// ── Badge satisfaction ────────────────────────────────────────────────────────
+//  Badge satisfaction
 export function SatisfactionBadge() {
   return (
     <div
@@ -65,7 +65,7 @@ export function SatisfactionBadge() {
   );
 }
 
-// ── Badge statut stage ────────────────────────────────────────────────────────
+//  Badge statut stage
 export function StatutBadge({ statut, places }) {
   if (statut === "complet" || places === 0)
     return (
@@ -107,7 +107,7 @@ export function StatutBadge({ statut, places }) {
   );
 }
 
-// ── Barre de places ───────────────────────────────────────────────────────────
+//  Barre de places ─
 export function BarrePlaces({ places, total = 10, statut }) {
   const isComplet = statut === "complet" || places === 0;
   const pct = isComplet ? 100 : Math.round((places / total) * 100);
@@ -125,7 +125,7 @@ export function BarrePlaces({ places, total = 10, statut }) {
   );
 }
 
-// ── Icône calendrier ──────────────────────────────────────────────────────────
+//  Icône calendrier
 export function IconCalendar({ color }) {
   return (
     <svg
@@ -166,7 +166,7 @@ export function IconCalendar({ color }) {
   );
 }
 
-// ── Flèche droite ─────────────────────────────────────────────────────────────
+//  Flèche droite ─
 export function ArrowRight() {
   return (
     <svg

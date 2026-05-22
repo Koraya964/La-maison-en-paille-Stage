@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 const API = process.env.NEXT_PUBLIC_API_URL;
 
-// ─── Constantes ───────────────────────────────────────────────────────────────
+//  Constantes
 
 const STATUTS = [
   {
@@ -50,7 +50,7 @@ const STATUTS = [
   },
 ];
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+//  Helpers
 
 function diffJours(debut, fin) {
   if (!debut || !fin) return null;
@@ -59,7 +59,7 @@ function diffJours(debut, fin) {
   return Math.round(d / (1000 * 60 * 60 * 24)) + 1;
 }
 
-// ─── Sous-composants ──────────────────────────────────────────────────────────
+//  Sous-composants ─
 
 function SectionBlock({ label, children }) {
   return (
@@ -206,7 +206,7 @@ function DeleteModal({ open, onConfirm, onCancel, loading }) {
   );
 }
 
-// ─── Formulaire principal ─────────────────────────────────────────────────────
+//  Formulaire principal ──
 
 export default function StageForm({ stage = null }) {
   const router = useRouter();
@@ -230,7 +230,7 @@ export default function StageForm({ stage = null }) {
   const [showDelete, setShowDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  // ── Fetch formations ───────────────────────────────────────────────────────
+  // ── Fetch formations ─
   useEffect(() => {
     async function fetchFormations() {
       try {
