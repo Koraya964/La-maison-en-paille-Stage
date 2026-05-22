@@ -212,7 +212,7 @@ export default function Hero() {
 
         {/* Stats */}
         <ul
-          className="opacity-0 animate-fade-up flex items-center gap-10 sm:gap-16 list-none p-0 m-0 mb-12"
+          className="opacity-0 animate-fade-up flex items-center gap-10 sm:gap-16 list-none p-0 m-0 mb-24"
           style={{ animationDelay: "650ms" }}
           aria-label="Chiffres clés"
         >
