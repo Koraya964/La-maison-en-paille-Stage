@@ -49,7 +49,7 @@ function buildMailtoHref(inscription) {
   return `mailto:${inscription.email}?subject=${sujet}&body=${corps}`;
 }
 
-//  Toast ──
+//  Toast
 
 function Toast({ toasts }) {
   return (
@@ -99,7 +99,7 @@ function useToast() {
   return { toasts, push };
 }
 
-//  StatutBadge ──
+//  StatutBadge
 
 function StatutBadge({ statut, size = "md" }) {
   const c = statutColors[statut] || statutColors.en_attente;
@@ -118,7 +118,7 @@ function StatutBadge({ statut, size = "md" }) {
   );
 }
 
-//  Custom Dropdown ─
+//  Custom Dropdown
 
 function StatutDropdown({ value, onChange, disabled }) {
   const [open, setOpen] = useState(false);
@@ -201,7 +201,7 @@ function StatutDropdown({ value, onChange, disabled }) {
   );
 }
 
-//  Confirmation Modal ─
+//  Confirmation Modal
 
 function ConfirmModal({ pending, onConfirm, onCancel }) {
   if (!pending) return null;
@@ -260,7 +260,7 @@ function ConfirmModal({ pending, onConfirm, onCancel }) {
   );
 }
 
-//  Detail Modal ─
+//  Detail Modal
 
 function InscriptionModal({
   inscription,
@@ -474,7 +474,7 @@ function InscriptionModal({
             </div>
           )}
 
-          {/* ── Champs admin ── */}
+          {/*  Champs admin  */}
           <div className="border-t border-stone-100 pt-5">
             <p className="text-xs tracking-widest uppercase text-stone-400 mb-4">
               Notes internes
@@ -676,7 +676,7 @@ function SortIcon({ active, dir }) {
   );
 }
 
-//  Card mobile ──
+//  Card mobile
 
 function InscriptionCard({ inscription: i, onSelect, onAskConfirm, updating }) {
   return (
@@ -859,7 +859,7 @@ export default function InscriptionTable({
 
   return (
     <>
-      {/* ── Filtres ── */}
+      {/*  Filtres  */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className="flex items-center gap-2 flex-wrap">
           {["tous", ...STATUTS].map((s) => (
@@ -893,7 +893,7 @@ export default function InscriptionTable({
         </p>
       </div>
 
-      {/* ── Vue mobile ── */}
+      {/*  Vue mobile  */}
       <div className="flex flex-col gap-3 sm:hidden">
         {filtered.length === 0 ? (
           <div className="py-12 text-center text-stone-400 font-serif">
@@ -912,7 +912,7 @@ export default function InscriptionTable({
         )}
       </div>
 
-      {/* ── Vue desktop ── */}
+      {/*  Vue desktop  */}
       <div className="hidden sm:block bg-white border border-stone-200 rounded-xl overflow-hidden">
         {filtered.length === 0 ? (
           <div className="p-16 text-center text-stone-400 font-serif text-lg">

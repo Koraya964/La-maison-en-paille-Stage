@@ -1,4 +1,3 @@
-// backend/src/routes/soumissions.routes.js
 import { Router } from 'express';
 import { requireAuth } from '../middlewares/auth.middleware.js';
 import multer from 'multer';

@@ -39,12 +39,12 @@ app.use(express.static(join(__dirname, 'public')));
 
 app.post('/api/upload', requireAuth, uploadImage);
 app.use('/api/auth', authRoutes);
-app.use('/api/actualites', actualitesRoutes);
+app.use('/api/actualites', requireAuth, actualitesRoutes,);
 app.use('/api/stages', stagesRoutes);
-app.use('/api/inscriptions', inscriptionsRoutes);
-app.use('/api/realisations', realisationsRoutes);
-app.use('/api/soumissions', soumissionsRoutes);
-app.use('/api/formations/admin', formationsAdminRoutes);
+app.use('/api/inscriptions', requireAuth, inscriptionsRoutes);
+app.use('/api/realisations', requireAuth, realisationsRoutes);
+app.use('/api/soumissions', requireAuth, soumissionsRoutes);
+app.use('/api/formations/admin', requireAuth, formationsAdminRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 

@@ -74,7 +74,7 @@ async function uploadFile(file) {
   return url;
 }
 
-//  ImageUploadZone ─
+//  ImageUploadZone
 
 function ImageUploadZone({ value, onChange, label, hint }) {
   const fileRef = useRef(null);
@@ -453,7 +453,7 @@ function GalerieEditor({ photos, onChange }) {
   );
 }
 
-//  DeleteModal ──
+//  DeleteModal
 
 function DeleteModal({ open, onConfirm, onCancel, loading, titre }) {
   if (!open) return null;
@@ -692,7 +692,7 @@ export default function FormationForm({ formation = null }) {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* ── Colonne gauche ── */}
+          {/*  Colonne gauche  */}
           <div className="flex flex-col gap-4">
             <SectionBlock label="Identité">
               <div className="flex flex-col gap-4">
@@ -935,7 +935,7 @@ export default function FormationForm({ formation = null }) {
             </SectionBlock>
           </div>
 
-          {/* ── Colonne droite ── */}
+          {/*  Colonne droite  */}
           <div className="flex flex-col gap-4">
             <SectionBlock label="Infos pratiques">
               <div className="grid grid-cols-2 gap-3 mb-3">
