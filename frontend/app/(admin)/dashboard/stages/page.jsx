@@ -58,7 +58,7 @@ export default async function DashboardStagesPage() {
               { label: "Total", value: total, color: "#3d2b1f" },
               { label: "Ouverts", value: ouverts, color: "#15803d" },
               { label: "Complets", value: complets, color: "#dc2626" },
-              // { label: "Inscrits", value: inscrits, color: "#8b6c47" },
+              // { label: "Inscrits", value: inscrits, color: "#8b6c47" } peut-être pour la v2,
             ].map(({ label, value, color }) => (
               <div
                 key={label}

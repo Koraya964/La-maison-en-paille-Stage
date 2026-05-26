@@ -1,6 +1,4 @@
 "use client";
-// components/public/SoumissionForm.jsx
-
 import { useState, useRef, useId, useEffect } from "react";
 
 const CATEGORIES = [

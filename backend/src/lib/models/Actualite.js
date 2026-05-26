@@ -2,12 +2,12 @@ import { query } from '../db.js';
 
 export const Actualite = {
 
-  // Liste publique — publiées uniquement
+  // Liste publique (publiées uniquement)
   findAllPublished() {
     return query('SELECT * FROM actualites WHERE publie = TRUE ORDER BY created_at DESC');
   },
 
-  // Liste complète — dashboard
+  // Liste complète (dashboard)
   findAll() {
     return query('SELECT * FROM actualites ORDER BY created_at DESC');
   },

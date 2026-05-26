@@ -56,7 +56,7 @@ export const Stage = {
     return query('DELETE FROM stages WHERE id = ?', [id]);
   },
 
-  // ─── Vue agrégée page publique — tous les champs formation inclus ──────────
+  // Vue agrégée page publique — tous les champs formation inclus
   async findFormationsWithUpcomingStages() {
     const rows = await query(`
       SELECT

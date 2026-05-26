@@ -1,4 +1,3 @@
-// lib/api/stages.js
 const API = process.env.NEXT_PUBLIC_API_URL;
 
 export async function fetchStages(formationId = null) {

@@ -10,7 +10,7 @@ import { getAll, create, moderer, remove } from '../controllers/soumissions.cont
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Multer dédié aux soumissions — dossier séparé des réalisations validées
+// Multer dédié aux soumissions  (dossier séparé des réalisations validées)
 const storage = multer.diskStorage({
     destination: join(__dirname, '../public/images/soumissions'),
     filename: (_req, file, cb) => {

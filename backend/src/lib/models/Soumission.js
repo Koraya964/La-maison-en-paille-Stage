@@ -1,4 +1,3 @@
-// backend/src/lib/models/Soumission.js
 import { query } from '../db.js';
 
 export const Soumission = {

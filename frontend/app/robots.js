@@ -3,8 +3,12 @@ export default function robots() {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/dashboard/', '/login/'],
+      disallow: [
+        '/dashboard/',
+        '/login',
+        '/api/',
+      ],
     },
     sitemap: 'https://www.lamaisonenpaille.com/sitemap.xml',
-  }
+  };
 }

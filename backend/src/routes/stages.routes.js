@@ -6,7 +6,7 @@ import {
 
 const router = Router();
 
-router.get('/formations', getFormationsWithStages); // avant /:id !
+router.get('/formations', getFormationsWithStages);
 router.get('/', getAll);
 router.get('/all', requireAuth, getAllAdmin);
 router.get('/:id', getById);

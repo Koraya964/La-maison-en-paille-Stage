@@ -1,4 +1,3 @@
-// app/(admin)/dashboard/soumissions/page.jsx
 import AuthGuard from "@/components/admin/AuthGuard";
 import { cookies } from "next/headers";
 import SoumissionsBoard from "@/components/admin/SoumissionBoard";

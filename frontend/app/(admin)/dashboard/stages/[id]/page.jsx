@@ -35,7 +35,7 @@ function initiales(prenom, nom) {
   return `${prenom?.[0] ?? ""}${nom?.[0] ?? ""}`.toUpperCase();
 }
 
-//  Couleurs statut sur fond sombre ──
+//  Couleurs statut sur fond sombre
 const statutDark = {
   ouvert: {
     bg: "rgba(21,128,61,0.2)",

@@ -5,7 +5,7 @@ export default function StepSucces({ form, formation, selectedStage, statut }) {
 
   return (
     <div className="text-center py-4">
-      {/* Icône — verte si confirmé, violet si liste d'attente */}
+      {/* Icône avec légende de couleurs*/}
       <div
         className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
         style={{ backgroundColor: isListeAttente ? "#f0eaf8" : "#f0fdf4" }}
