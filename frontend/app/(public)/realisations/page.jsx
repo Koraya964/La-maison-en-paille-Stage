@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import RealisationsClient from "@/components/public/RealisationsClient";
 
 export const metadata = {
