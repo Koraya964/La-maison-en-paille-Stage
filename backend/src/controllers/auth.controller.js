@@ -3,7 +3,7 @@ import { signToken } from '../lib/auth.js';
 
 const COOKIE_OPTIONS = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,
     sameSite: 'none',
     path: '/',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours en ms
@@ -39,7 +39,7 @@ export async function login(req, res) {
 export async function logout(_req, res) {
     res.clearCookie('auth_token', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
         sameSite: 'none',
         path: '/',
     });
