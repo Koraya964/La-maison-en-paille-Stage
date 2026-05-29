@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-
+export const dynamic = 'force-dynamic'
 // ── CONSTANTES D'IMAGES ──
 const IMG_GIF =
   "https://static.wixstatic.com/media/f4c673_9e107a544f7a4064a4a68de072001bac~mv2.gif";
