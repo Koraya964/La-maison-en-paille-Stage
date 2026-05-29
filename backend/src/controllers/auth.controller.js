@@ -29,7 +29,7 @@ export async function login(req, res) {
 
         const token = signToken({ id: admin.id, email: admin.email });
         res.cookie('auth_token', token, COOKIE_OPTIONS);
-        return res.json({ success: true });
+        return res.json({ success: true, token});
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Erreur serveur' });
