@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import RealisationsClient from "@/components/public/RealisationsClient";
-
+export const dynamic = 'force-dynamic'
 export const metadata = {
   title: "Réalisations | La Maison en Paille",
   description:
