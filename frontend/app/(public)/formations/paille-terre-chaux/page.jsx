@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { fetchStages } from "@/frontend/lib/api/stages";
-
+export const dynamic = 'force-dynamic'
 export const metadata = {
   title: "Stage Paille, Terre & Chaux — 6 jours | La Maison en Paille",
   description:
