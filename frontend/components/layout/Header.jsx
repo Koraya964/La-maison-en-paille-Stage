@@ -122,17 +122,21 @@ export default function Header() {
         .mobile-submenu { animation: slideDown 0.2s ease; overflow: hidden; }
       `}</style>
 
-      <header className="bg-[#3d1a0e] sticky top-0 z-50 border-b border-white/5">
+      <header className="bg-[#3d1a0e] top-0 z-50 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 flex items-center h-[64px] gap-8">
           {/* Logo — discret et bien proportionné */}
-          <Link href="/" className="flex-shrink-0" style={{ lineHeight: 0 }}>
+          <Link
+            href="/"
+            className="flex-shrink-0 relative z-10"
+            style={{ lineHeight: 0 }}
+          >
             <Image
               src={LOGO}
               alt="La Maison en Paille"
               width={176}
               height={138}
-              className="object-contain"
-              style={{ width: "auto", height: "44px" }}
+              className="object-contain drop-shadow-lg"
+              style={{ width: "auto", height: "72px", marginTop: "20px" }}
               unoptimized
             />
           </Link>

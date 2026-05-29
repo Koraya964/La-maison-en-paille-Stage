@@ -3,8 +3,8 @@ import { Stage } from '../lib/models/Stage.js';
 // GET /api/stages — liste publique des stages non annulés
 export async function getAll(req, res) {
   try {
-    const { formation_id } = req.query;
-    const rows = await Stage.findAll({ formation_id });
+    const { formation_id, formation } = req.query;
+    const rows = await Stage.findAll({ formation_id, formation_slug: formation });
     res.json(rows);
   } catch (err) {
     console.error(err);

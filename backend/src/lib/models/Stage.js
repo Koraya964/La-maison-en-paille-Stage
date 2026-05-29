@@ -1,17 +1,21 @@
 import { query } from '../db.js';
 
 export const Stage = {
-  findAll({ formation_id } = {}) {
+  findAll({ formation_id, formation_slug } = {}) {
     let sql = `
-      SELECT s.*, f.titre AS formation_titre, f.slug AS formation_slug
-      FROM stages s
-      JOIN formations f ON s.formation_id = f.id
-      WHERE s.statut NOT IN ('annule', 'termine')
-    `;
+    SELECT s.*, f.titre AS formation_titre, f.slug AS formation_slug
+    FROM stages s
+    JOIN formations f ON s.formation_id = f.id
+    WHERE s.statut NOT IN ('annule', 'termine')
+  `;
     const params = [];
     if (formation_id) {
       sql += ' AND s.formation_id = ?';
       params.push(formation_id);
+    }
+    if (formation_slug) {
+      sql += ' AND f.slug = ?';
+      params.push(formation_slug);
     }
     sql += ' ORDER BY s.date_debut ASC';
     return query(sql, params);

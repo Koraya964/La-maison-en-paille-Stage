@@ -9,7 +9,6 @@ export const metadata = {
 const API = process.env.NEXT_PUBLIC_API_URL;
 
 async function getRealisations() {
-  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL); // ← terminal
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/realisations`,

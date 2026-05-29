@@ -21,7 +21,6 @@ export async function getAll(_req, res) {
 
 // POST /api/soumissions — envoi public
 export async function create(req, res) {
-    console.log('body:', req.body); // ← que voit Express ?
     try {
 
         if (!req.file) {

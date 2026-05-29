@@ -6,22 +6,18 @@ export const metadata = { title: "Inscriptions" };
 const API = process.env.NEXT_PUBLIC_API_URL;
 
 async function getInscriptions() {
-  console.log("→ getInscriptions appelée, API:", API);
   try {
     const cookieStore = cookies();
     const cookieHeader = cookieStore
       .getAll()
       .map((c) => `${c.name}=${c.value}`)
       .join("; ");
-    console.log("→ cookie:", cookieHeader);
 
     const res = await fetch(`${API}/api/inscriptions`, {
       headers: { Cookie: cookieHeader },
       cache: "no-store",
       // ← pas de credentials: 'include' côté serveur
     });
-
-    console.log("→ status:", res.status);
 
     if (!res.ok) {
       console.error("getInscriptions →", res.status, await res.text());

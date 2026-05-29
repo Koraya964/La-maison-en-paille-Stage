@@ -1,15 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export const metadata = {
-  title: "Stage Poêle de Masse — 3 jours | La Maison en Paille",
-  description:
-    "Construisez votre autonomie énergétique. Stage de 3 jours sur le poêle de masse Oxa-Libre avec André de Bouter.",
-};
-
 // ── CONSTANTES D'IMAGES ──
-const IMG_BG =
-  "https://static.wixstatic.com/media/3e33e8_d95d5a776364461ab0e8f33345cb57f1~mv2.jpg/v1/fill/w_1240,h_1748,al_c,q_90,enc_avif,quality_auto/3e33e8_d95d5a776364461ab0e8f33345cb57f1~mv2.jpg";
 const IMG_GIF =
   "https://static.wixstatic.com/media/f4c673_9e107a544f7a4064a4a68de072001bac~mv2.gif";
 
@@ -22,13 +14,41 @@ const PHOTOS = [
   "https://static.wixstatic.com/media/457787_ceca839650634ae2b5bc8c1aaf5077b1~mv2_d_3264_2176_s_2.jpg/v1/fill/w_980,h_653,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/457787_ceca839650634ae2b5bc8c1aaf5077b1~mv2_d_3264_2176_s_2.jpg",
 ];
 
-export default function PoeleDeMassePage() {
+export const metadata = {
+  title: "Stage Poêle de Masse — 3 jours | La Maison en Paille",
+  description:
+    "Construisez votre autonomie énergétique. Stage de 3 jours sur le poêle de masse Oxa-Libre avec André de Bouter.",
+};
+
+async function getStagesPoele() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/stages?formation=poele-de-masse`,
+      { cache: "no-store" },
+    );
+    if (!res.ok) return [];
+    return res.json();
+  } catch {
+    return [];
+  }
+}
+
+function formatStageDates(dateDebut, dateFin) {
+  const options = { day: "numeric", month: "long", year: "numeric" };
+  const debut = new Date(dateDebut).toLocaleDateString("fr-FR", options);
+  const fin = new Date(dateFin).toLocaleDateString("fr-FR", options);
+  return `${debut} → ${fin}`;
+}
+
+export default async function PoeleDeMassePage() {
+  const stages = await getStagesPoele();
+
   return (
     <div className="bg-[#F9F6F1] text-[#2D2D2D] font-sans selection:bg-[#A35C44] selection:text-white">
       {/* ── HERO SECTION ── */}
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         <Image
-          src={IMG_BG}
+          src={IMG_GIF}
           alt="Poêle de masse en brique"
           fill
           className="object-cover brightness-[0.4]"
@@ -170,27 +190,39 @@ export default function PoeleDeMassePage() {
 
           <div className="md:w-1/2 p-10 lg:p-16 flex flex-col justify-center">
             <div className="space-y-4 mb-10">
-              {[
-                { date: "Mars 2026", status: "terminé" },
-                { date: "Juin 2026", status: "ouvert" },
-                { date: "Octobre 2026", status: "ouvert" },
-              ].map(({ date, status }, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100"
-                >
-                  <span className="font-medium text-gray-700">{date}</span>
-                  <span
-                    className={`text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full ${
-                      status === "terminé"
-                        ? "bg-gray-100 text-gray-400"
-                        : "bg-green-100 text-green-700"
-                    }`}
+              {stages.length === 0 ? (
+                <p className="text-gray-400 text-sm italic">
+                  Aucune date disponible pour le moment.
+                </p>
+              ) : (
+                stages.map((stage) => (
+                  <div
+                    key={stage.id}
+                    className="flex items-center justify-between p-4 rounded-xl transition-colors border border-transparent "
                   >
-                    {status}
-                  </span>
-                </div>
-              ))}
+                    <span className="font-medium text-gray-700">
+                      {formatStageDates(stage.date_debut, stage.date_fin)}
+                    </span>
+                    <span
+                      className={`text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full ${
+                        stage.statut === "annule" || stage.statut === "complet"
+                          ? "bg-gray-100 text-gray-400"
+                          : stage.statut === "liste_attente"
+                            ? "bg-amber-100 text-amber-700"
+                            : "bg-green-100 text-green-700"
+                      }`}
+                    >
+                      {stage.statut === "ouvert"
+                        ? "Ouvert"
+                        : stage.statut === "complet"
+                          ? "Complet"
+                          : stage.statut === "liste_attente"
+                            ? "Liste d'attente"
+                            : "Annulé"}
+                    </span>
+                  </div>
+                ))
+              )}
             </div>
             <Link
               href="/inscription"
