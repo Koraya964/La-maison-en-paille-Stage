@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { fetchActualites } from "@/lib/api/actualites";
-export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: "Actualités | La Maison en Paille",
   description: "Les dernières nouvelles de La Maison en Paille.",
