@@ -24,11 +24,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 mkdirSync(join(__dirname, 'public/images/soumissions'), { recursive: true });
 
 const corsOptions = {
-  origin: [
-    'https://la-maison-en-paille-stage.vercel.app',
-    'https://la-maison-en-paille-stage-nqo67kk89-koraya964s-projects.vercel.app',
-    'http://localhost:3000',
-  ],
+  origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
