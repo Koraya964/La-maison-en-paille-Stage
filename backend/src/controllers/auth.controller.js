@@ -40,7 +40,7 @@ export async function logout(_req, res) {
     res.clearCookie('auth_token', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        sameSite: 'none',
         path: '/',
     });
     return res.json({ success: true });
