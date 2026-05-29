@@ -178,33 +178,6 @@ export default async function DashboardPage() {
               Nouveau stage
             </Link>
             <Link
-              href="/dashboard/actualites/nouvelle"
-              className="flex items-center gap-2 text-[10px] tracking-[0.15em] uppercase font-bold px-4 py-2.5 rounded-full border transition-colors hover:bg-stone-50"
-              style={{ borderColor: "#e2dbd0", color: "#9a8070" }}
-            >
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <line
-                  x1="5"
-                  y1="1"
-                  x2="5"
-                  y2="9"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-                <line
-                  x1="1"
-                  y1="5"
-                  x2="9"
-                  y2="5"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
-              Actualité
-            </Link>
-            <Link
               href="/dashboard/realisations/nouveau"
               className="flex items-center gap-2 text-[10px] tracking-[0.15em] uppercase font-bold px-4 py-2.5 rounded-full border transition-colors hover:bg-stone-50"
               style={{ borderColor: "#e2dbd0", color: "#9a8070" }}

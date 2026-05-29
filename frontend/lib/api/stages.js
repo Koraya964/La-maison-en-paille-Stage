@@ -15,6 +15,14 @@ export async function fetchStageById(id) {
   return res.json();
 }
 
+export async function fetchFormationsWithStages() {
+  const res = await fetch(`${API}/api/stages/formations`, {
+    cache: 'no-store',
+  });
+  if (!res.ok) throw new Error('Erreur fetchFormationsAvecStages');
+  return res.json();
+}
+
 export async function fetchStagesAdmin(cookieHeader) {
   const res = await fetch(`${API}/api/stages/all`, {
     headers: { Cookie: cookieHeader },
@@ -50,13 +58,5 @@ export async function deleteStage(id, cookieHeader) {
     headers: { Cookie: cookieHeader },
   });
   if (!res.ok) throw new Error('Erreur deleteStage');
-  return res.json();
-}
-
-export async function fetchFormationsWithStages() {
-  const res = await fetch(`${API}/api/stages/formations`, {
-    cache: 'no-store',
-  });
-  if (!res.ok) throw new Error('Erreur fetchFormationsAvecStages');
   return res.json();
 }

@@ -1,4 +1,3 @@
-// backend/src/controllers/soumissions.controller.js
 import { unlink } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -8,7 +7,8 @@ import { Realisation } from '../lib/models/Realisation.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// GET /api/soumissions — toutes les soumissions en attente (dashboard)
+
+// GET /api/soumissions
 export async function getAll(_req, res) {
     try {
         const rows = await Soumission.findEnAttente();
@@ -21,19 +21,19 @@ export async function getAll(_req, res) {
 
 // POST /api/soumissions — envoi public
 export async function create(req, res) {
+    console.log('body:', req.body); // ← que voit Express ?
     try {
+
         if (!req.file) {
             return res.status(400).json({ error: 'Aucune photo reçue.' });
         }
 
         const { nom, email, titre, description, categorie } = req.body;
-
         if (!nom?.trim() || !email?.trim()) {
             return res.status(400).json({ error: 'Nom et email sont obligatoires.' });
         }
 
         const image_url = `${process.env.BACKEND_URL}/images/soumissions/${req.file.filename}`;
-
         const id = await Soumission.create({
             nom: nom.trim(),
             email: email.trim(),
@@ -54,18 +54,14 @@ export async function create(req, res) {
 export async function moderer(req, res) {
     try {
         const { action } = req.body;
-
         if (!['approuver', 'rejeter'].includes(action)) {
             return res.status(400).json({ error: 'Action invalide.' });
         }
-
         const soumission = await Soumission.findById(req.params.id);
         if (!soumission) {
             return res.status(404).json({ error: 'Soumission introuvable.' });
         }
-
         if (action === 'approuver') {
-            // 1. Copie dans realisations
             await Realisation.create({
                 titre: soumission.titre || `Photo de ${soumission.nom}`,
                 description: soumission.description,
@@ -73,15 +69,11 @@ export async function moderer(req, res) {
                 categorie: soumission.categorie,
                 ordre: 0,
             });
-            // 2. Supprime la soumission — gérée uniquement dans réalisations désormais
             await Soumission.delete(req.params.id);
-
         } else {
-            // Rejeter — supprime le fichier et la soumission
             await _deleteFile(soumission.image_url);
             await Soumission.delete(req.params.id);
         }
-
         res.json({ success: true });
     } catch (err) {
         console.error(err);
@@ -89,7 +81,7 @@ export async function moderer(req, res) {
     }
 }
 
-// DELETE /api/soumissions/:id — suppression manuelle depuis le dashboard
+// DELETE /api/soumissions/:id
 export async function remove(req, res) {
     try {
         const soumission = await Soumission.findById(req.params.id);

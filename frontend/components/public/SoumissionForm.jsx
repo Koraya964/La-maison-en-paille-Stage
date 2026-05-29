@@ -8,32 +8,6 @@ const CATEGORIES = [
 ];
 
 const API = process.env.NEXT_PUBLIC_API_URL;
-const RECAPTCHA_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-
-function useRecaptcha() {
-  useEffect(() => {
-    if (!RECAPTCHA_KEY) return;
-    if (document.getElementById("recaptcha-script")) return;
-    const script = document.createElement("script");
-    script.id = "recaptcha-script";
-    script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_KEY}`;
-    script.async = true;
-    document.head.appendChild(script);
-  }, []);
-
-  async function getToken(action = "soumission") {
-    if (!RECAPTCHA_KEY || !window.grecaptcha) return null;
-    return new Promise((resolve) => {
-      window.grecaptcha.ready(async () => {
-        const token = await window.grecaptcha.execute(RECAPTCHA_KEY, {
-          action,
-        });
-        resolve(token);
-      });
-    });
-  }
-  return { getToken };
-}
 
 // ── Champ texte accessible ──
 function InputField({ id, label, required, error, hint, children }) {
@@ -93,7 +67,6 @@ export default function SoumissionForm() {
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
   const inputRef = useRef(null);
-  const { getToken } = useRecaptcha();
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -155,7 +128,7 @@ export default function SoumissionForm() {
     setStatus("loading");
     setSubmitError("");
 
-    const recaptchaToken = await getToken("soumission");
+    // ── reCAPTCHA ──
 
     const data = new FormData();
     data.append("nom", form.nom);
@@ -164,7 +137,6 @@ export default function SoumissionForm() {
     data.append("description", form.description);
     data.append("categorie", form.categorie);
     data.append("image", file);
-    if (recaptchaToken) data.append("recaptcha_token", recaptchaToken);
 
     try {
       const res = await fetch(`${API}/api/soumissions`, {
@@ -306,7 +278,6 @@ export default function SoumissionForm() {
             Vos coordonnées
           </h2>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <InputField
             id={`${uid}-nom`}
@@ -326,7 +297,7 @@ export default function SoumissionForm() {
               aria-required="true"
               aria-invalid={!!errors.nom}
               aria-describedby={errors.nom ? `${uid}-nom-error` : undefined}
-              className="w-full rounded-lg px-4 py-3 text-sm transition-all outline-none focus:ring-2"
+              className="w-full rounded-lg px-4 py-3 text-sm transition-all outline-none"
               style={{
                 backgroundColor: "#faf7f3",
                 border: `1.5px solid ${errors.nom ? "#c0392b" : "#e2d8cc"}`,
@@ -344,7 +315,6 @@ export default function SoumissionForm() {
               }}
             />
           </InputField>
-
           <InputField
             id={`${uid}-email`}
             label="Email"
@@ -410,7 +380,6 @@ export default function SoumissionForm() {
           </h2>
         </div>
 
-        {/* Zone upload */}
         {!preview ? (
           <div>
             <label
@@ -618,7 +587,6 @@ export default function SoumissionForm() {
             </span>
           </h2>
         </div>
-
         <div className="space-y-5">
           <InputField id={`${uid}-titre`} label="Titre de la réalisation">
             <input
@@ -646,7 +614,6 @@ export default function SoumissionForm() {
               }}
             />
           </InputField>
-
           <InputField id={`${uid}-description`} label="Quelques mots">
             <textarea
               id={`${uid}-description`}
@@ -691,7 +658,6 @@ export default function SoumissionForm() {
             {submitError}
           </div>
         )}
-
         <button
           type="submit"
           disabled={status === "loading"}
@@ -699,7 +665,6 @@ export default function SoumissionForm() {
           style={{
             backgroundColor: "#3d1a0e",
             boxShadow: "0 4px 16px rgba(61,26,14,0.3)",
-            focusRingColor: "#c8a060",
           }}
           onMouseEnter={(e) => {
             if (status !== "loading")
@@ -739,7 +704,6 @@ export default function SoumissionForm() {
             "Envoyer ma photo"
           )}
         </button>
-
         <p
           className="mt-4 text-center text-[10px] tracking-wide leading-relaxed"
           style={{ color: "#c8bfb0" }}

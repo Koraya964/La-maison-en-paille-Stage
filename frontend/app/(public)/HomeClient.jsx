@@ -83,8 +83,6 @@ export default function HomeClient({ formations = [] }) {
       </section>
 
       <Temoignages />
-      <Newsletter />
-      <PorteOuverte />
       <FooterDivider />
     </div>
   );

@@ -51,21 +51,21 @@ export const FORMATION_CONFIG = {
 //  Témoignages 
 export const TEMOIGNAGES = [
     {
-        texte: "Une semaine extraordinaire. André transmet avec une générosité rare — on repart avec les mains dans la terre et la tête pleine de solutions concrètes.",
-        auteur: "Marie-Claire B.",
-        formation: "Paille, Terre & Chaux",
+        texte: ` Excellent. Autant indispensable pour préparer son projet que pour se lancer si on est intrépide. Studieux et "intense" de 9h à 18h. Qualité / Prix imbattable... pas interdit d'apporter des spécialités à partager. Je recommande sans hésitation`,
+        auteur: "jerome B.",
+        formation: "Poêle de Masse",
         note: 5, accent: "#a07828",
     },
     {
-        texte: "Je suis venu sans aucune base en maçonnerie. Trois jours plus tard, j'avais tous les plans de mon poêle et la confiance pour le construire. Bluffant.",
-        auteur: "Thomas R.",
+        texte: `J’ai suivie une formation très instructive sur les poêles de masse avec André. C’était pratique, complet et très agréable! Merci encore!`,
+        auteur: "Charles-Olivier L.",
         formation: "Poêle de Masse",
         note: 5, accent: "#8f3e18",
     },
     {
-        texte: "Formation très complète, très bien rythmée. Sébastien maîtrise son sujet et sait l'expliquer simplement. Je repars avec une vraie autonomie.",
-        auteur: "Lucie & Paul M.",
-        formation: "Photovoltaïque",
+        texte: "Super formation poêle de masse ! André est convaincue et convaincant.",
+        auteur: "frédéric G.",
+        formation: "Poêle de Masse",
         note: 5, accent: "#2d5f70",
     },
 ];

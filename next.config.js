@@ -1,12 +1,11 @@
 const path = require('path')
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'static.wixstatic.com' },
       { protocol: 'https', hostname: 'www.lamaisonenpaille.com' },
-
+      { protocol: 'https', hostname: 'www.librairie-permaculturelle.fr' },
       {
         protocol: 'http',
         hostname: 'localhost',

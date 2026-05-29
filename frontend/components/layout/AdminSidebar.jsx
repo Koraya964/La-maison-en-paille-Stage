@@ -5,7 +5,6 @@ import { logout } from "@/lib/api/auth";
 
 const navItems = [
   { label: "Vue générale", href: "/dashboard" },
-  { label: "Actualités", href: "/dashboard/actualites" },
   { label: "Stages", href: "/dashboard/stages" },
   { label: "Inscriptions", href: "/dashboard/inscriptions" },
   { label: "Réalisations", href: "/dashboard/realisations" },

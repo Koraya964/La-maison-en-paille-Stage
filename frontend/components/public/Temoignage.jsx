@@ -76,7 +76,7 @@ export default function Temoignages() {
             className="font-raleway text-[9px] tracking-[0.18em] uppercase"
             style={{ color: "#a89070" }}
           >
-            Témoignages placeholder, on remplacera par les vrais plus tard.
+            Témoignages pris depuis les avis Google.
           </p>
         </div>
       </div>
