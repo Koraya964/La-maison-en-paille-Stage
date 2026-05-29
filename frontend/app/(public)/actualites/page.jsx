@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { fetchActualites } from "@/lib/api/actualites";
 
 export const metadata = {
