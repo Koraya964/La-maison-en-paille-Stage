@@ -41,6 +41,7 @@ export async function logout(_req, res) {
     res.clearCookie('auth_token', {
         httpOnly: true,
         secure: true,
+        partitioned: true,
         sameSite: 'none',
         path: '/',
     });
