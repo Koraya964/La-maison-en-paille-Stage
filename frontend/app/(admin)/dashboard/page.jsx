@@ -178,7 +178,7 @@ export default async function DashboardPage() {
               Nouveau stage
             </Link>
             <Link
-              href="/dashboard/realisations/nouveau"
+              href="/dashboard/realisations/nouvelle"
               className="flex items-center gap-2 text-[10px] tracking-[0.15em] uppercase font-bold px-4 py-2.5 rounded-full border transition-colors hover:bg-stone-50"
               style={{ borderColor: "#e2dbd0", color: "#9a8070" }}
             >
