@@ -913,7 +913,7 @@ export default function InscriptionTable({
       </div>
 
       {/*  Vue desktop  */}
-      <div className="hidden sm:block bg-white border border-stone-200 rounded-xl overflow-hidden">
+      <div className="hidden sm:block bg-white border border-stone-200 rounded-xl overflow-visible">
         {filtered.length === 0 ? (
           <div className="p-16 text-center text-stone-400 font-serif text-lg">
             Aucun résultat pour ces filtres.
